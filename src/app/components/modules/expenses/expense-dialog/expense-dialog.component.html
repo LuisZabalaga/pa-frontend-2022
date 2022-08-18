@@ -1,0 +1,75 @@
+<h2 mat-dialog-title>Agregar Gasto</h2>
+<div mat-dialog-content>
+    <form [formGroup]="expenseForm" >
+        <div class="form-content">
+
+            <!-- ID GASTO -->
+            <input matInput formControlName="exp_ID" hidden="true" placeholder="ID" />
+
+            <!-- CANTIDAD -->
+            <mat-form-field>
+                <mat-label>CANTIDAD</mat-label>
+                <input matInput formControlName="exp_cantidad" placeholder="Cantidad" type="number" />
+            </mat-form-field>
+
+            <!-- TIPO GASTO -->
+            <mat-form-field>
+                <mat-label>TIPO GASTO</mat-label>
+                <!-- <input matInput formControlName="exp_typ_ID" placeholder="Tipo de Gasto" type="number" /> -->
+                <mat-select formControlName="exp_typ_ID" placeholder="Tipo de Gasto">
+                    <mat-option *ngFor="let type of listTypeExpenses" value={{type.typ_ID}}>
+                        {{type.typ_gasto}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    
+        <div class="form-content">
+
+            <!-- ENCARGADO -->
+            <mat-form-field>
+                <mat-label>ENCARGADO</mat-label>
+                <mat-select formControlName="exp_emp_ID" placeholder="Usuario">
+                    <mat-option *ngFor="let emp of listEmployees" value={{emp.emp_ID}}>
+                        {{emp.emp_nombres + ' ' + emp.emp_apellidos}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- BENEFICIADO -->
+            <mat-form-field>
+                <mat-label>BENEFICIADO</mat-label>
+                <input matInput formControlName="exp_beneficiado" placeholder="Persona o Entidada" />
+            </mat-form-field>
+
+        </div>
+
+        <div class="form-content">
+
+            <!-- FECHA -->
+            <mat-form-field>
+                <mat-label>FECHA</mat-label>
+                <input matInput formControlName="exp_fecha" [matDatepicker]="picker" />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div class="form-content">
+
+            <!-- DESCRIPCION -->
+            <mat-form-field>
+                <mat-label>DESCRIPCIÓN</mat-label>
+                <input matInput formControlName="exp_descripcion" placeholder="Descripción" />
+            </mat-form-field>
+        </div>
+        
+    </form>
+    
+</div>
+
+<div mat-dialog-actions [align]="'end'">
+    <button mat-raised-button color="primary" matTooltip="Agregar" (click)="addExpense()">{{actionBtn}}</button>
+    <button mat-raised-button color="warn" matTooltip="Cancelar" mat-dialog-close>Cancelar</button>
+</div>
+

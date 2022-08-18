@@ -1,0 +1,100 @@
+<h2 class="dialog-title" mat-dialog-title>
+    <mat-icon>shopping_basket</mat-icon>
+    <h3>Detalle de Compra</h3>
+</h2>
+<div mat-dialog-content>
+    <div class="form-content">
+        <h4>Detalles de la Compra</h4>
+        <table class="table-purchase">
+            <tr *ngFor="let purc of listPurchase">
+                <td class="table-title">Fecha</td>
+                <td class="table-content">{{purc.pu_fecha | date:'fullDate'}}</td>
+            </tr>
+            <tr *ngFor="let purc of listPurchase">
+                <td class="table-title">Boleta</td>
+                <td class="table-content">{{purc.pu_boleta}}</td>
+            </tr>
+            <tr *ngFor="let purc of listPurchase">
+                <td class="table-title">Proveedor</td>
+                <td class="table-content">{{purc.prov_nombres + ' ' +purc.prov_apellidos}}</td>
+            </tr>
+            <tr *ngFor="let purc of listPurchase">
+                <td class="table-title">Encargado</td>
+                <td class="table-content">{{purc.emp_nombres + ' ' +purc.emp_apellidos}}</td>
+            </tr>
+        
+        </table>
+    </div>
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+    <div class="form-content">
+        <h4>Listado de Material</h4>
+        <table class="table-purchase-detail" *ngFor="let purc of listPurchase">
+            <tr class="table-title">
+                <td>Material</td>
+                <td>Peso (Kg)</td>
+                <td>P.U (S/)</td>
+                <td>Importe</td>
+            </tr>
+            <tr *ngFor="let list of listPurchaseDetail"  style="padding: 10px; background-color:#F6F6F6;">
+                <td>{{list.prod_nombre}}</td>
+                <td>{{list.purc_peso}}</td>
+                <td>{{ 'S/ '+list.purc_precio }}</td>
+                <td>{{ 'S/ '+list.purc_subtotal }}</td>
+            </tr>
+            
+            <tr style="padding: 10px; background-color: #F2DEDE;">
+                <td class="total-title" colspan="3" [align]="'end'">Total Importe</td>
+                <td class="total">S/ {{ purc.pu_total_importe | currency:'':'' }}</td>
+            </tr>
+            <tr style="padding: 10px; background-color: #F2DEDE;">
+                <td class="total-title" colspan="3" [align]="'end'">Total Adelanto</td>
+                <td class="total">S/ {{ purc.pu_adelanto | currency:'':'' }}</td>
+            </tr>
+            <tr style="padding: 10px; background-color: #F2DEDE;" >
+                <td class="total-title" colspan="3" [align]="'end'">Flete</td>
+                <td class="total">S/ {{ purc.pu_flete | currency:'':'' }}</td>
+            </tr>
+            <tr style="padding: 10px; background-color: #F2DEDE;" >
+                <td class="total-title" colspan="3" [align]="'end'">Faltante por Saldar</td>
+                <td class="total">S/ {{purc.pu_adelanto-purc.pu_total_importe | currency:'':'' }}</td>
+            </tr>
+            <tr style="padding: 10px; background-color: #F2DEDE;">
+                <td class="total-title" colspan="3" [align]="'end'">Total Pagado</td>
+                <td class="total">S/ {{purc.pu_total | currency:'':'' }}</td>
+            </tr>          
+        
+        </table>
+    </div>
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+    <div mat-dialog-actions [align]="'end'">
+        <button 
+            mat-raised-button 
+            color="warn"
+            matTooltip="Cerrar" 
+            class="botones"
+            (click)="closeDialogShopping()"
+        >
+            Cerrar
+        </button>
+        &nbsp;
+        <button 
+            mat-raised-button 
+            color="accent" 
+            matTooltip="Imprimir" 
+            class="botones" 
+            
+        >
+            Imprimir <mat-icon>local_print_shop</mat-icon>
+        </button>
+    </div>
+
+</div>
+
+<!-- <div mat-dialog-actions [align]="'end'">
+    <button mat-raised-button color="primary" matTooltip="Agregar" (click)="addProduct()">{{actionBtn}}</button>
+    <button mat-raised-button color="warn" matTooltip="Cancelar" mat-dialog-close>Cancelar</button>
+</div> -->

@@ -1,0 +1,84 @@
+<h2 mat-dialog-title>Agregar Cliente</h2>
+<div mat-dialog-content>
+    <form [formGroup]="clientForm" >
+        <div class="form-content">
+            <input matInput formControlName="cus_ID" hidden="true" placeholder="ID" />
+            <mat-form-field>
+                <mat-label>Nombres del Cliente</mat-label>
+                <input matInput formControlName="cus_nombres" placeholder="Nombres" />
+                <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint> -->
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Apellidos del Cliente</mat-label>
+                <input matInput formControlName="cus_apellidos" placeholder="Apellidos" />
+                <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint> -->
+            </mat-form-field>
+        </div>
+    
+        <div class="form-content">
+            <mat-form-field>
+                <mat-label>DNI del Cliente</mat-label>
+                <input matInput formControlName="cus_dni" placeholder="DNI" type="number" />
+                <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint> -->
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>RUC del Cliente</mat-label>
+                <input matInput formControlName="cus_ruc" placeholder="RUC" type="number" />
+                <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint> -->
+            </mat-form-field>
+        </div>
+        <div class="form-content">
+            <mat-form-field>
+                <mat-label>Email del Cliente</mat-label>
+                <input matInput formControlName="cus_email" placeholder="Email" />
+                <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint> -->
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Celular del Cliente</mat-label>
+                <input matInput formControlName="cus_celular" placeholder="Celular" type="number" />
+                <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint> -->
+            </mat-form-field>
+        </div>
+        <div class="form-content">
+            <mat-form-field>
+                <mat-label>Dirección del Cliente</mat-label>
+                <input matInput formControlName="cus_direccion" placeholder="Dirección" />
+            </mat-form-field>
+        </div>
+        <div class="form-content">
+            <mat-form-field>
+                <mat-label>Ciudad del Cliente</mat-label>
+                <input matInput formControlName="cus_ciudad" placeholder="Ciudad" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Estado</mat-label>
+                <mat-select formControlName="cus_estado" >
+                    <mat-option value=1>Activo</mat-option>
+                    <mat-option value=0>Inactivo</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <!-- <div class="form-content">
+            <mat-form-field>
+                <mat-label>Ciudad del Cliente</mat-label>
+                <input matInput formControlName="cus_created_at" value="" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Actualizar</mat-label>
+                <input matInput formControlName="cus_updated_at" hidden="true" />
+            </mat-form-field>
+        </div> -->
+    </form>
+    
+</div>
+
+<div mat-dialog-actions [align]="'end'">
+    <button mat-raised-button color="primary" matTooltip="Agregar" (click)="addClient()">{{actionBtn}}</button>
+    <button mat-raised-button color="warn" matTooltip="Cancelar" mat-dialog-close>Cancelar</button>
+</div>

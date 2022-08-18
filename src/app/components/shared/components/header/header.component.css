@@ -1,0 +1,14 @@
+
+ul li {
+    list-style: none;
+}
+
+/* .content-header {
+    display: flex;
+    align-items: center;
+} */
+
+.company-name {
+    margin-top: 3px;
+    font-size: 14px;
+}

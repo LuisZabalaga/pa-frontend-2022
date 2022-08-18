@@ -1,0 +1,74 @@
+<h2 mat-dialog-title>Agregar Ingreso</h2>
+<div mat-dialog-content>
+    <form [formGroup]="cashRegisterForm" >
+        <div class="form-content">
+
+            <!-- ID GASTO -->
+            <input matInput formControlName="cas_ID" hidden="true" placeholder="ID" />
+
+            <!-- CANTIDAD -->
+            <mat-form-field>
+                <mat-label>MONTO</mat-label>
+                <input matInput formControlName="cas_monto" placeholder="Monto" type="number" />
+            </mat-form-field>
+
+            <!-- ESTADO -->
+            <mat-form-field>
+                <mat-label>ESTADO</mat-label>
+                <mat-select formControlName="cas_estado" placeholder="Estado" (selectionChange)="activateAdvanceCustomer($event)">
+                    <mat-option value="1">Ingreso</mat-option>
+                    <mat-option value="0">Adelanto</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- CLIENTE -->
+            <mat-form-field>
+                <mat-label>CLIENTE</mat-label>
+                <mat-select formControlName="cas_cus_ID" placeholder="Clientes" >
+                    <mat-option *ngFor="let listCust of listCustomers" value={{listCust.cus_ID}}>
+                        {{ listCust.cus_nombres + ' ' + listCust.cus_apellidos }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    
+        <div class="form-content">
+
+            <!-- ENCARGADO -->
+            <mat-form-field>
+                <mat-label>ENCARGADO</mat-label>
+                <mat-select formControlName="cas_emp_ID" placeholder="Usuario">
+                    <mat-option *ngFor="let emp of listEmployees" value={{emp.emp_ID}}>
+                        {{emp.emp_nombres + ' ' + emp.emp_apellidos}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- FECHA -->
+            <mat-form-field>
+                <mat-label>FECHA</mat-label>
+                <input matInput formControlName="cas_fecha" [matDatepicker]="picker" />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            
+        </div>
+
+        <div class="form-content">
+            <!-- DESCRIPCION -->
+            <mat-form-field>
+                <mat-label>CONCEPTO</mat-label>
+                <input matInput formControlName="cas_concepto" placeholder="Concepto" />
+            </mat-form-field>
+        </div>
+        
+    </form>
+    
+</div>
+
+<div mat-dialog-actions [align]="'end'">
+    <button mat-raised-button color="primary" matTooltip="Agregar" (click)="addCashRegister()">{{actionBtn}}</button>
+    <button mat-raised-button color="warn" matTooltip="Cancelar" mat-dialog-close>Cancelar</button>
+</div>
+
+

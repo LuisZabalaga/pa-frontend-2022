@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>Agregar Adelanto</h2>
+<div mat-dialog-content>
+    <form [formGroup]="advanceForm" >
+        <div class="form-content">
+
+            <!-- ID GASTO -->
+            <input matInput formControlName="ad_ID" hidden="true" placeholder="ID" />
+
+            <!-- FECHA -->
+            <mat-form-field>
+                <mat-label>FECHA</mat-label>
+                <input matInput formControlName="ad_fecha" [matDatepicker]="picker" />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <!-- CANTIDAD -->
+            <mat-form-field>
+                <mat-label>CANTIDAD</mat-label>
+                <input matInput formControlName="ad_cantidad" placeholder="Cantidad" type="number" />
+            </mat-form-field>
+
+        </div>
+    
+        <div class="form-content">
+
+            <!-- CLIENTE O PROVEEDOR -->
+            <mat-form-field>
+                <mat-label>SELECCIONE</mat-label>
+                <mat-select formControlName="ad_dest_adv" (selectionChange)="getProvidersOrCustomersForState($event)" >
+                    <mat-option value='0'>PROVEEDOR</mat-option>
+                    <mat-option value='1'>CLIENTE</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- CLIENTE O PROVEEDOR -->
+            <mat-form-field>
+                <mat-label>SELECCIONE</mat-label>
+                <mat-select formControlName="ad_prov_cus_ID" placeholder="">
+                    <mat-option *ngFor="let dat of listDataAdvance" value={{dat.ad_ID}} >
+                        {{dat.ad_nombres + ' ' + dat.ad_apellidos}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- ESTADO -->
+            <mat-form-field>
+                <mat-label>ESTADO</mat-label>
+                <mat-select formControlName="ad_estado" placeholder="Estado Adelanto">
+                    <!-- <mat-option value="1">EN TRANSACCION</mat-option> -->
+                    <!-- <mat-option value="1">CUMPLIO</mat-option> -->
+                    <mat-option value="0">PENDIENTE</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+        
+    </form>
+    
+</div>
+
+<div mat-dialog-actions [align]="'end'">
+    <button mat-raised-button color="primary" matTooltip="Agregar" (click)="addAdvance()">{{actionBtn}}</button>
+    <button mat-raised-button color="warn" matTooltip="Cancelar" mat-dialog-close>Cancelar</button>
+</div>
+
+

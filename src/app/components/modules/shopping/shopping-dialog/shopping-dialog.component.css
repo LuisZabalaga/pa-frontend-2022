@@ -1,0 +1,89 @@
+mat-form-field {
+    width: 100%;
+    padding: 10px;
+}
+
+mat-raised-button {
+    padding: 5px;
+}
+
+.form-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.dialog-title {
+    display: flex;
+    align-items: center;
+}
+  
+.dialog-title h3 {
+    text-transform: uppercase;
+    padding-left: 10px;
+    margin: 0;
+}
+
+.dialog-title mat-icon {
+    color: #1A93DC;
+}
+
+.table-purchase-detail {
+    width: 100%;
+}
+
+.table-purchase-detail tr td {
+    padding: 10px 30px;
+}
+
+.table-purchase-detail .table-title {
+    background-color: #A3D4F1;
+    text-transform: uppercase;
+    /* color: #E6E6E6; */
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.table-purchase-detail .total-title {
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.table-purchase-detail .total {
+    font-size: 15px;
+    font-weight: 500;
+    color: red;
+}
+
+.table-purchase {
+    width: 100%;
+}
+
+.table-purchase tr td {
+    padding: 10px 30px;
+}
+
+.table-purchase .table-title {
+    width: 30%;
+    background-color: #F2DEDE;
+    text-transform: uppercase;
+    text-align: right;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.table-purchase .table-content {
+    background-color: #F6F6F6;
+}
+
+.content-date {
+    /* background-color: #01A2FD; */
+    width: 305px;
+  }
+
+  .content-date mat-label {
+    /* font-weight: bold; */
+    text-shadow: none;
+    font-size: 16px;
+    text-transform: uppercase;
+  }

@@ -1,0 +1,118 @@
+<mat-card>
+    <div class="title">
+        <mat-icon>store</mat-icon>
+        <h3>PRODUCTOS</h3>
+    </div>
+</mat-card>
+<br>
+<!-- <div *ngIf="listUsuarios.length > 0"> -->
+<a class="icon-content" color="primary" matTooltip="Agregar Producto" (click)="openDialogAddProduct()">
+    <mat-icon class="icon-option">queue</mat-icon>
+</a>
+<a class="icon-content" color="warn" matTooltip="Productos Eliminados">
+    <mat-icon class="icon-option">delete_sweep</mat-icon>
+</a>
+<a class="icon-content" color="primary" matTooltip="Imprimir Lista">
+    <mat-icon class="icon-option">local_print_shop</mat-icon>
+</a>
+<a class="icon-content" color="primary" matTooltip="Descargar PDF">
+    <mat-icon class="icon-option">picture_as_pdf</mat-icon>
+</a>
+<a class="icon-content" color="primary" matTooltip="Descargar Excel">
+    <mat-icon class="icon-option">explicit</mat-icon>
+</a><!-- &nbsp; -->
+<a class="icon-content" color="primary" matTooltip="Enviar Email">
+    <mat-icon class="icon-option">mail</mat-icon>
+</a>
+<!-- <button mat-raised-button color="primary" matTooltip="Agregar Cliente" (click)="openDialog()"><mat-icon>add_box</mat-icon></button> -->
+<br><br>
+<div class="mat-elevation-z8">
+
+    <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input autocomplete="off">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="posicion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> N°</th>
+            <td mat-cell *matCellDef="let element"> {{ element.prod_ID }} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="nombres">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>PRODUCTO</th>
+            <td mat-cell *matCellDef="let element"> {{element.prod_nombre}} </td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>DESCRIPCIÓN</th>
+            <td mat-cell *matCellDef="let element"> {{element.prod_descripcion}} </td>
+        </ng-container>
+
+        <!-- Estado -->
+        <ng-container matColumnDef="categoria_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CATEGORIA </th>
+            <td mat-cell *matCellDef="let element"><span class="resaltar"> {{element.cat_nombre}} </span></td>
+        </ng-container>
+
+        <!-- Ciudad -->
+        <ng-container matColumnDef="peso_total">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>PESO REFERENCIAL </th>
+            <td mat-cell *matCellDef="let element"> {{element.prod_peso_total + ' Kg'}} </td>
+        </ng-container>
+
+        <!-- Ciudad -->
+        <ng-container matColumnDef="peso_aqp">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>PESO AREQUIPA </th>
+            <td mat-cell *matCellDef="let element"> {{element.prod_peso_aqp + ' Kg'}} </td>
+        </ng-container>
+
+        <!-- Ciudad -->
+        <ng-container matColumnDef="peso_local">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>PESO LOCAL </th>
+            <td mat-cell *matCellDef="let element"> {{element.prod_peso_local + ' Kg'}} </td>
+        </ng-container>
+
+        <!-- Estado -->
+        <!-- <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
+                <td mat-cell *matCellDef="let element"><span class='{{element.prov_estado == 1 ? "ac" : "in" }}'> {{element.prov_estado == 1 ? "ACTIVO" : "INACTIVO" }} </span></td>
+            </ng-container> -->
+
+        <!-- Ciudad -->
+        <ng-container matColumnDef="imagen">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> IMAGEN </th>
+            <td mat-cell *matCellDef="let element"> {{element.prod_imagen}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <a class="pointer" matTooltip="Ver Producto">
+                    <mat-icon>remove_red_eye</mat-icon>
+                </a>
+                <a class="pointer" (click)="openDialogEditProduct(element)" matTooltip="Editar Producto">
+                    <mat-icon>edit</mat-icon>
+                </a>
+                <a class="pointer" (click)="deleteOneProduct(element.prod_ID)" matTooltip="Eliminar Producto">
+                    <mat-icon>delete</mat-icon>
+                </a>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
+<br>
+<br>
+<!-- </div> -->
+
+<!-- <h2 *ngIf="listUsuarios.length == 0">No hay Usuarios para mostrar</h2>  -->

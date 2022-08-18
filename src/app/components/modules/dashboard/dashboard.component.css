@@ -1,0 +1,30 @@
+.stats-cards .mat-card {
+  overflow: hidden;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.title h3 {
+  padding-left: 10px;
+  margin: 0;
+}
+
+.title mat-icon {
+  color: #1A93DC;
+}
+
+table {
+    width: 100%;
+  }
+
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  td, th {
+    width: 25%;
+  }

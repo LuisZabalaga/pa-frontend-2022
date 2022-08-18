@@ -1,0 +1,410 @@
+<mat-card>
+    <div class="title">
+        <mat-icon>point_of_sale</mat-icon>
+        <h3>CAJA</h3>
+    </div>
+</mat-card>
+<br>
+
+<mat-card>
+    <mat-form-field class="content-date" style="margin: 0; padding-bottom: 0;">
+        <mat-label>Seleccione el Rango de Fechas</mat-label>
+        <mat-date-range-input [formGroup]="ranges" [rangePicker]="pickere">
+            <input matStartDate formControlName="start" placeholder="Fecha Inicial" (dateChange)="getAllDataForDate()">
+            <input matEndDate formControlName="end" placeholder="Fecha Final" (dateChange)="getAllDataForDate()">
+        </mat-date-range-input>
+        <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
+        <mat-datepicker-toggle matSuffix [for]="pickere"></mat-datepicker-toggle>
+        <mat-date-range-picker #pickere></mat-date-range-picker>
+    </mat-form-field>
+</mat-card>
+<br />
+<div class="table-content">
+
+    <mat-card class="content-cash-register">
+        <div class="title">
+            <h4>INGRESOS</h4>
+        </div>
+        <mat-divider></mat-divider>
+        <table class="table-detail">
+            <tr class="table-title">
+                <td>N°</td>
+                <td>Fecha</td>
+                <td>Concepto</td>
+                <td>Encargado</td>
+                <td>Monto</td>
+            </tr>
+            <tr *ngFor="let listCas of listCashRegister" class="table-content-list"
+                style="padding: 10px; background-color:#F6F6F6;">
+                <td>{{ listCas.cas_ID }}</td>
+                <td>{{ listCas.cas_fecha | date: 'fullDate' }}</td>
+                <td>{{ listCas.cas_concepto }}</td>
+                <td>{{ listCas.emp_nombres + ' ' +listCas.emp_apellidos }}</td>
+                <td>S/ {{ listCas.cas_monto }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="total-title">Total:</td>
+                <td class="total">S/ {{ totalCashRegister | currency:'':'' }}</td>
+            </tr>
+
+        </table>
+    </mat-card>
+    &nbsp;&nbsp;
+    <mat-card class="content-advances-customers">
+        <div class="title">
+            <h4>INGRESOS POR ADELANTOS DE CLIENTES</h4>
+        </div>
+        <mat-divider></mat-divider>
+        <table class="table-detail">
+            <tr class="table-title">
+                <td>N°</td>
+                <td>Estado</td>
+                <td>Cliente</td>
+                <td>Monto</td>
+            </tr>
+            <tr *ngFor="let listCustom of listAdvancesCustomers" class="table-content-list" style="padding: 10px; background-color:#F6F6F6;">
+                <td>{{ listCustom.ad_prov_cus_ID }}</td>
+                <td><span class='{{listCustom.ad_estado == 1 ? "ac" : "in" }}'>
+                        {{ listCustom.ad_estado == 1 ? "SALDADO" : "PENDIENTE" }}
+                    </span>
+                </td>
+                <td>{{ listCustom.cus_nombres + ' ' +listCustom.cus_apellidos }}</td>
+                <td>S/ {{ listCustom.ad_total }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="total-title">Total: </td>
+                <td class="total">S/ {{ totalAdvancesCustomers | currency:'':'' }}</td>
+            </tr>
+
+
+        </table>
+    </mat-card>
+
+</div>
+
+<br>
+<mat-divider></mat-divider>
+<br>
+
+<div class="table-content">
+
+    <mat-card class="content-expenses">
+        <div class="title">
+            <h4>GASTOS</h4>
+        </div>
+        <mat-divider></mat-divider>
+        <table class="table-detail">
+            <tr class="table-title">
+                <td>N°</td>
+                <td>Fecha</td>
+                <td>Concepto</td>
+                <!-- <td>Beneficiado</td> -->
+                <td>Encargado</td>
+                <td>Monto</td>
+            </tr>
+            <tr *ngFor="let listExp of listExpenses" class="table-content-list" style="padding: 10px; background-color:#F6F6F6;">
+                <td>{{ listExp.exp_ID }}</td>
+                <td>{{ listExp.exp_fecha | date: 'fullDate' }}</td>
+                <td>{{ listExp.exp_descripcion }}</td>
+                <!-- <td>{{ listExp.exp_beneficiado }}</td> -->
+                <td>{{ listExp.emp_nombres + ' ' +listExp.emp_apellidos }}</td>
+                <td>S/ {{ listExp.exp_cantidad }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="total-title">Total: </td>
+                <td class="total">S/ {{ totalExpensesForDate | currency:'':'' }}</td>
+            </tr>
+
+
+        </table>
+    </mat-card>
+    &nbsp;&nbsp;
+    <mat-card class="content-advances">
+        <div class="title">
+            <h4>ADELANTOS PROVEEDORES</h4>
+        </div>
+        <mat-divider></mat-divider>
+        <table class="table-detail">
+            <tr class="table-title">
+                <td>N°</td>
+                <td>Fecha</td>
+                <td>Estado</td>
+                <td>Proveedor</td>
+                <td>Monto</td>
+            </tr>
+            <tr *ngFor="let listAdv of listAdvances" class="table-content-list" style="padding: 10px; background-color:#F6F6F6;">
+                <td>{{ listAdv.ad_ID }}</td>
+                <td>{{ listAdv.ad_fecha | date:'fullDate' }}</td>
+                <!-- <td>{{ listAdv.ad_estado }}</td> -->
+                <td><span class='{{listAdv.ad_estado == 1 ? "ac" : "in" }}'> {{ listAdv.ad_estado == 1 ? "SALDADO" :
+                        "PENDIENTE" }} </span></td>
+                <td>{{ listAdv.prov_nombres + ' ' +listAdv.prov_apellidos }}</td>
+                <td>S/ {{ listAdv.ad_cantidad }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="total-title">Total: </td>
+                <td class="total">S/ {{ totalAdvances | currency:'':'' }}</td>
+            </tr>
+
+        </table>
+    </mat-card>
+
+</div>
+
+<br>
+<mat-divider></mat-divider>
+<br>
+
+<div class="table-content">
+
+    <mat-card class="content-purchases">
+        <div class="title">
+            <h4>COMPRAS</h4>
+        </div>
+        <mat-divider></mat-divider>
+        <table class="table-detail">
+            <tr class="table-title">
+                <td>N°</td>
+                <td>Fecha</td>
+                <td>Boleta</td>
+                <td>Proveedor</td>
+                <td>Encargado</td>
+                <td>Monto</td>
+            </tr>
+            <tr *ngFor="let listPur of listPurchases" class="table-content-list" style="padding: 10px; background-color:#F6F6F6;">
+                <td>{{ listPur.pu_ID }}</td>
+                <td>{{ listPur.pu_fecha | date:'fullDate' }}</td>
+                <td>{{ listPur.pu_boleta }}</td>
+                <td>{{ listPur.prov_nombres + ' ' +listPur.prov_apellidos }}</td>
+                <td>{{ listPur.emp_nombres + ' ' +listPur.emp_apellidos }}</td>
+                <td>S/ {{ listPur.pu_total }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="total-title">Total: </td>
+                <td class="total">S/ {{ totalPurchasesForDate | currency:'':'' }}</td>
+            </tr>
+
+        </table>
+    </mat-card>
+    &nbsp;&nbsp;
+    <mat-card class="content-sales">
+        <div class="title">
+            <h4>VENTAS</h4>
+        </div>
+        <mat-divider></mat-divider>
+        <table class="table-detail">
+            <tr class="table-title">
+                <td>N°</td>
+                <td>Fecha</td>
+                <td>Boleta</td>
+                <td>Cliente</td>
+                <td>Encargado</td>
+                <td>Monto</td>
+            </tr>
+            <tr *ngFor="let listSal of listSales" class="table-content-list" style="padding: 10px; background-color:#F6F6F6;">
+                <td>{{ listSal.sa_ID }}</td>
+                <td>{{ listSal.sa_fecha | date:'fullDate' }}</td>
+                <td>{{ listSal.sa_boleta }} </td>
+                <td>{{ listSal.cus_nombres + ' ' +listSal.cus_apellidos }}</td>
+                <td>{{ listSal.emp_nombres + ' ' +listSal.emp_apellidos }}</td>
+                <td>{{ listSal.sa_total }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="total-title">Total: </td>
+                <td class="total">S/ {{ totalSalesForDate | currency:'':'' }}</td>
+            </tr>
+
+        </table>
+    </mat-card>
+
+</div>
+
+<div class="content-cash">
+    <!-- <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" class="stats-cards">
+        <mat-card fxFlex="25">
+            <app-widget-card label="Ingresos" total="" percentage="" *ngFor="let inc of incomes">{{inc.ingresos}}
+            </app-widget-card>
+        </mat-card>
+        <mat-card fxFlex="25">
+            <app-widget-card label="Egresos" total="" percentage="" *ngFor="let exp of expenses">{{exp.egresos}}
+            </app-widget-card>
+        </mat-card>
+        <mat-card fxFlex="25">
+              <app-widget-card label="Users Engagement" total="8K" percentage="30"></app-widget-card>
+            </mat-card>
+            <mat-card fxFlex="25">
+              <app-widget-card label="Referral" total="6K" percentage="20"></app-widget-card>
+            </mat-card>
+    </div> -->
+
+
+    <!-- <mat-card class="ingresos">
+        <h3>Ingresos:</h3>
+        <mat-card>
+            {{incomesTotal+salesTotal | currency}}
+        </mat-card>
+    </mat-card>
+    &nbsp;&nbsp;
+    <mat-card class="egresos">
+        <h3>Egresos:</h3>
+        <mat-card>
+            {{purchasesTotal-expensesTotal2-expensesTotal | currency}}
+        </mat-card>
+    </mat-card>
+    &nbsp;&nbsp;
+    <mat-card class="diferencia">
+        <h3>Diferencia:</h3>
+        <mat-card>
+            {{(incomesTotal+salesTotal)-(purchasesTotal-expensesTotal2-expensesTotal) | currency}}
+        </mat-card>
+    </mat-card> -->
+
+
+</div>
+
+<br>
+<mat-divider></mat-divider>
+<br>
+<!-- <div *ngIf="listUsuarios.length > 0"> -->
+<a class="icon-content" color="primary" matTooltip="Agregar Deposito" (click)="openDialogAddCashRegister ()">
+    <mat-icon class="icon-option">queue</mat-icon>
+</a>
+<a class="icon-content" color="primary" matTooltip="Agregar Retiro" (click)="openDialogAddCashRegister ()">
+    <mat-icon class="icon-option">remove_circle</mat-icon>
+</a>
+<a class="icon-content" color="primary" matTooltip="Imprimir Lista">
+    <mat-icon class="icon-option">local_print_shop</mat-icon>
+</a>
+<a class="icon-content" color="primary" matTooltip="Descargar PDF">
+    <mat-icon class="icon-option">picture_as_pdf</mat-icon>
+</a>
+<a class="icon-content" color="primary" matTooltip="Descargar Excel">
+    <mat-icon class="icon-option">explicit</mat-icon>
+</a><!-- &nbsp; -->
+<a class="icon-content" color="primary" matTooltip="Enviar Email">
+    <mat-icon class="icon-option">mail</mat-icon>
+</a>
+
+<br><br>
+<div class="mat-elevation-z8">
+    <h3 style="
+        text-align :center; 
+        padding-top: 15px; 
+        padding-bottom: 10px; 
+        margin: auto;
+        font-weight: 400;
+        color: #1A93DC;
+        ">
+        LISTADO DE INGRESOS A CAJA
+    </h3>
+    <mat-divider></mat-divider>
+
+    <!-- <mat-card> -->
+    <mat-form-field class="content-date" style="margin-top: 15px; padding-bottom: 0;">
+        <mat-label>Seleccione el Rango de Fechas</mat-label>
+        <mat-date-range-input [formGroup]="rangesIncomes" [rangePicker]="pickeres">
+            <input matStartDate formControlName="start" placeholder="Fecha Inicial"
+                (dateChange)="getAllCashRegisterMaintenanceForDate()">
+            <input matEndDate formControlName="end" placeholder="Fecha Final"
+                (dateChange)="getAllCashRegisterMaintenanceForDate()">
+        </mat-date-range-input>
+        <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
+        <mat-datepicker-toggle matSuffix [for]="pickeres"></mat-datepicker-toggle>
+        <mat-date-range-picker #pickeres></mat-date-range-picker>
+    </mat-form-field>
+    <!-- </mat-card> -->
+    <br />
+
+    <mat-form-field style="margin-top: 0; padding-top: 0;">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input autocomplete="off">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="posicion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> N°</th>
+            <td mat-cell *matCellDef="let element"> {{ element.cas_ID }} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="monto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>MONTO</th>
+            <td mat-cell *matCellDef="let element"> {{element.cas_monto | currency }} </td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA</th>
+            <td mat-cell *matCellDef="let element"> {{element.cas_fecha | date:'fullDate' }} </td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="concepto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>CONCEPTO</th>
+            <td mat-cell *matCellDef="let element"> {{element.cas_concepto}} </td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>INGRESO</th>
+            <td mat-cell *matCellDef="let element"><span class='{{element.cas_estado == 1 ? "ingreso" : "retiro" }}'>
+                    {{element.cas_estado == 1 ? "INGRESO" : "EGRESO" }} </span></td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="encargado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ENCARGADO</th>
+            <td mat-cell *matCellDef="let element"> {{element.emp_nombres + ' ' +element.emp_apellidos}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <a class="pointer" matTooltip="Ver Caja">
+                    <mat-icon>remove_red_eye</mat-icon>
+                </a>
+                <a class="pointer" (click)="openDialogEditCashRegister (element)" matTooltip="Editar Caja">
+                    <mat-icon>edit</mat-icon>
+                </a>
+                <a class="pointer" (click)="deleteOneCashRegister(element.cas_ID)" matTooltip="Eliminar Caja">
+                    <mat-icon>delete</mat-icon>
+                </a>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
+<br>
+<br>
+<!-- </div> -->
+
+<!-- <h2 *ngIf="listUsuarios.length == 0">No hay Usuarios para mostrar</h2>  -->
+
+
+<br>

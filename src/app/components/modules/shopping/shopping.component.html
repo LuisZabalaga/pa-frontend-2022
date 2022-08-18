@@ -1,0 +1,413 @@
+<mat-card>
+    <div class="title">
+        <mat-icon>shopping_basket</mat-icon>
+        <h3>COMPRAS</h3>
+    </div>
+</mat-card>
+<br>
+
+<mat-card class="content-form">
+
+    <mat-card-header>
+        <h3 style="
+        text-align :center; 
+        padding-top: 5px; 
+        padding-bottom: 10px; 
+        margin: auto;
+        font-weight: 400;
+        color: #1A93DC;
+        ">
+            AGREGAR MATERIAL
+        </h3>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <form [formGroup]="temporaryPurchaseDetailForm">
+
+            <div class="content-input">
+
+                <!-- PRODUCTO -->
+                <mat-form-field>
+                    <mat-label>MATERIAL</mat-label>
+                    <mat-select formControlName="pur_prod_ID" placeholder="Material">
+                        <mat-option *ngFor="let prod of listProducts" value={{prod.prod_ID}}>
+                            {{prod.prod_nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- COMPRA ID -->
+                <input formControlName="pur_pu_ID" hidden="true" />
+
+            </div>
+
+            <div class="content-input">
+
+                <!-- PESO -->
+                <mat-form-field>
+                    <mat-label>PESO TOTAL</mat-label>
+                    <input matInput formControlName="pur_peso" placeholder="Peso Total" type="number" />
+                </mat-form-field>
+
+                <!-- PRECIO -->
+                <mat-form-field>
+                    <mat-label>PRECIO COMPRA</mat-label>
+                    <input matInput formControlName="pur_precio" placeholder="Precio Compra" type="number" />
+                </mat-form-field>
+
+            </div>
+
+            <div mat-dialog-actions [align]="'end'" style="padding-right: 9px">
+                <button mat-raised-button color="primary" matTooltip="Agregar Material" class="botones"
+                    (click)="addTemporaryPurchaseDetail()">
+                    <mat-icon>shopping_basket</mat-icon>
+                </button>
+            </div>
+
+        </form>
+    </mat-card-content>
+
+</mat-card>
+
+<br />
+
+<div class="content-form-compras">
+
+    <h3 style="
+        text-align :center; 
+        padding-top: 5px; 
+        padding-bottom: 10px; 
+        margin: auto;
+        font-weight: 400;
+        color: #757575;
+        ">
+        DETALLES DE LA COMPRA
+    </h3>
+    <mat-divider></mat-divider>
+    <br />
+    <form [formGroup]="listPurchasesForm">
+
+        <div class="content-input">
+            <section class="example-section">
+                <mat-checkbox 
+                    class="example-margin" 
+                    (change)="activateShippingFreight($event)" 
+                    [checked]="isChecked" 
+                >
+                    Agregar Flete
+                </mat-checkbox>
+            </section>
+        </div>
+
+        <div class="content-input">
+
+            <!-- ID -->
+            <input matInput formControlName="pu_ID" hidden="true" placeholder="ID" />
+
+            <!-- FECHA -->
+            <mat-form-field>
+                <mat-label>FECHA</mat-label>
+                <input matInput formControlName="pu_fecha" [matDatepicker]="picker" />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <!-- NUMERO BOLETA -->
+            <mat-form-field>
+                <mat-label>N° BOLETA</mat-label>
+                <input matInput formControlName="pu_boleta" placeholder="Numero Boleta" />
+            </mat-form-field>
+
+            <!-- PROVEEDOR -->
+            <mat-form-field>
+                <mat-label>PROVEEDOR</mat-label>
+                <mat-select formControlName="pu_prov_ID" placeholder="Proveedor"
+                    (ngModelChange)="getAdvanceForProvider()">
+                    <mat-option *ngFor="let prov of listProviders" value={{prov.prov_ID}}>
+                        {{prov.prov_nombres + ' ' + prov.prov_apellidos}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- FLETE -->
+            <mat-form-field style=" width: 250px;">
+                <mat-label>FLETE</mat-label>
+                <input matInput formControlName="pu_flete" placeholder="Costo Flete"
+                    (ngModelChange)="addTotalFreight()" />
+            </mat-form-field>
+
+        </div>
+
+        <div class="content-input">
+
+            <!-- CODIGO COMPRA -->
+            <!-- <input formControlName="pu_emp_ID" hidden="true" /> -->
+            <input formControlName="pu_emp_ID" hidden="true" />
+
+            <!-- TOTAL IMPORTE -->
+            <input formControlName="pu_total_importe" hidden="true" />
+
+            <!-- TOTAL ADELANTO -->
+            <input formControlName="pu_adelanto" hidden="true" />
+
+            <!-- MONTO TOTAL -->
+            <!-- <input formControlName="pu_total" hidden="" /> -->
+
+        </div>
+
+        <!-- <table *ngFor="let prod of listProducts" style="">
+            <td>
+                {{prod.prod_nombre}}
+                {{prod.prod_peso_total}}
+            </td>
+        </table> -->
+
+
+        <table mat-table [dataSource]="dataSource2" matSort class="tabla1">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="posicion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> N°</th>
+                <td mat-cell *matCellDef="let i = index"> {{ i+1 }} </td>
+            </ng-container>
+
+            <!-- Producto Column -->
+            <ng-container matColumnDef="producto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>MATERIAL</th>
+                <td mat-cell *matCellDef="let element"> {{ element.prod_nombre }} </td>
+            </ng-container>
+
+            <!-- Peso Column -->
+            <ng-container matColumnDef="peso">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>PESO (kg)</th>
+                <td mat-cell *matCellDef="let element"> {{ element.pur_peso+ ' Kg' }} </td>
+            </ng-container>
+
+            <!-- Precio Column -->
+            <ng-container matColumnDef="precio">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>P.U.(S/)</th>
+                <td mat-cell *matCellDef="let element"> {{ 'S/ '+element.pur_precio }} </td>
+            </ng-container>
+
+            <!-- Subtotal Column -->
+            <ng-container matColumnDef="subtotal">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> IMPORTE </th>
+                <td mat-cell *matCellDef="let element"> {{ 'S/ '+ element.pur_subtotal }} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef style="text-align: right;">
+                    <mat-icon class="pointere">delete</mat-icon>
+                </th>
+                <td mat-cell *matCellDef="let element; let i = index" style="text-align: right;">
+                    <a class="pointere" (click)="deleteOneTemporaryPurchaseDetail(element.pur_ID, element.pur_peso, element.pur_prod_ID)"
+                        matTooltip="Quitar Material">
+                        <mat-icon>delete</mat-icon>
+                    </a>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2;" class="example"></tr>
+        </table>
+
+        <!-- Tabla de Calculos Totales -->
+        <table style="padding: 0; margin: 0; border-spacing: 0;">
+            <tr class="content-totales">
+                <td class="four" colspan="4" style="background-color: #F39C12; ">Importe a Pagar:</td>
+                <td class="five" style="border: 5px solid #F39C12">
+                    <label class="total-numero">
+                        {{ totalPurchaseDetail === '0.00' ? 'S/ 0' : 'S/ '+totalPurchaseDetail }}
+                    </label>
+                </td>
+            </tr>
+            <tr class="content-totales">
+                <td class="two" colspan="2" style="background-color: #DD4B39;">Fecha: </td>
+                <td class="three" style="border-left: 1px solid #AAC7D6; background-color: #DD4B39;">
+                    {{ dateAdvance === 0 ? 'NO HAY ADELANTO' : dateAdvance | date:'fullDate' }}
+                </td>
+                <td class="four" style="background-color: #DD4B39;">Adelanto Pendiente:</td>
+                <td class="five" style="border: 5px solid #DD4B39">
+                    <label class="total-numero">
+                        {{ amountProvider === 0 ? 'S/ 0' : 'S/ '+amountProvider }}
+                    </label>
+                </td>
+            </tr>
+            <tr class="content-totales">
+                <td class="four" colspan="4" style="background-color: #00A65A;">Flete:</td>
+                <td class="five" style="border: 5px solid #00A65A">
+                    <label class="total-numero">
+                        {{ fleteMonto === undefined ? 'S/ 0' : 'S/ '+fleteMonto }}
+                    </label>
+                </td>
+            </tr>
+            <tr class="content-totales">
+                <td class="four" colspan="4" style="background-color: #0073B7;">Monto de Pago:</td>
+                <td class="five" style="border: 5px solid #0073B7">
+                    <label class="total-numero">
+                        {{ fleteMonto === undefined ? 'S/ '+(totalPurchaseDetail-amountProvider) : 'S/ '+(totalPurchaseDetail-fleteMonto-amountProvider) }}
+                    </label>
+                </td>
+            </tr>
+
+        </table>
+
+        <!-- <div class="total">
+            <label for="">Monto Total: </label>
+            <label class="total-numero" for="" *ngFor="let tot of listTotalPurchaseDetail">{{ tot.pur_total ===
+                null ? '$0.00' :  'S/ '+tot.pur_total }}</label>
+        </div> -->
+
+        <div mat-dialog-actions [align]="'end'" class="boton-procesar">
+            <button mat-raised-button color="accent" matTooltip="Procesar" class="botones" (click)="addPurchases()"
+                [disabled]="listPurchasesForm.invalid">
+                Procesar Compra
+            </button>
+
+        </div>
+
+    </form>
+
+    <!-- <form [formGroup]="advanceForm">
+        CODIGO COMPRA
+        <input formControlName="pu_emp_ID" hidden="true" />
+
+        TOTAL IMPORTE
+        <input formControlName="pu_total_importe" hidden="true" />
+
+        TOTAL ADELANTO
+        <input formControlName="pu_adelanto" hidden="true" />
+
+        TOTAL ADELANTO
+        <input formControlName="pu_adelanto" hidden="true" />
+
+        TOTAL ADELANTO
+        <input formControlName="pu_adelanto" hidden="true" />
+    </form> -->
+
+</div>
+
+<br />
+
+<br />
+<mat-divider></mat-divider>
+<br /><br />
+
+<!-- <div *ngIf="listPurchases.length > 0"> -->
+<div class="mat-elevation-z8">
+    <h3 style="
+        text-align :center; 
+        padding-top: 15px; 
+        padding-bottom: 10px; 
+        margin: auto;
+        font-weight: 400;
+        color: #1A93DC;
+        ">
+        LISTADO DE COMPRAS
+    </h3>
+    <mat-divider></mat-divider>
+
+    <mat-form-field class="content-date" style="margin: 0; padding-top: 20px; padding-bottom: 0;">
+        <mat-label>Seleccione el Rango de Fechas</mat-label>
+        <mat-date-range-input [formGroup]="ranges" [rangePicker]="pickerr">
+          <input 
+            matStartDate 
+            formControlName="start"
+            placeholder="Fecha Inicial"
+            (dateChange)="getAllPurchasesForDate()"
+          >
+          <input 
+            matEndDate 
+            formControlName="end" 
+            placeholder="Fecha Final"
+            (dateChange)="getAllPurchasesForDate()"
+          >
+        </mat-date-range-input>
+        <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
+        <mat-datepicker-toggle matSuffix [for]="pickerr"></mat-datepicker-toggle>
+        <mat-date-range-picker #pickerr></mat-date-range-picker>
+    </mat-form-field>
+
+    <mat-form-field style="margin: 0; padding-top: 0;">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input autocomplete="off">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" matSort class="tabla2">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="posicion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> N°</th>
+            <td mat-cell *matCellDef="let element"> {{ element.pu_ID }} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="fecha_pu">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA</th>
+            <td mat-cell *matCellDef="let element"> {{ element.pu_fecha | date:'fullDate' }} </td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="boleta">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>BOLETA</th>
+            <td mat-cell *matCellDef="let element"><span class="boleta"> {{ element.pu_boleta }} </span></td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="proveedor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>PROVEEDOR</th>
+            <td mat-cell *matCellDef="let element"><span class="proveedor"> {{element.prov_nombres + ' '
+                    +element.prov_apellidos}} </span></td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="encargado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ENCARGADO</th>
+            <td mat-cell *matCellDef="let element"><span class="encargado"> {{element.emp_nombres + ' '
+                    +element.emp_apellidos}} </span></td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TOTAL</th>
+            <td mat-cell *matCellDef="let element"><span class="total-compra"> {{element.pu_total | currency }} </span>
+            </td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <!-- <ng-container matColumnDef="total">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>INGRESO/EGRESO</th>
+                <td mat-cell *matCellDef="let element"><span class='{{element.cas_estado == 1 ? "ingreso" : "retiro" }}'>
+                        {{element.cas_estado == 1 ? "INGRESO" : "EGRESO" }} </span></td>
+            </ng-container>         -->
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <a class="pointer" matTooltip="Ver Compra" (click)="openDialogViewPurchaseDetail(element)">
+                    <mat-icon>remove_red_eye</mat-icon>
+                </a>
+                <!-- <a class="pointer" (click)="openDialogEditPurchase (element)" matTooltip="Editar Compra">
+                    <mat-icon>edit</mat-icon>
+                </a> -->
+                <a class="pointer" (click)="deleteOnePurchase(element.pu_ID)" matTooltip="Eliminar Compra">
+                    <mat-icon>delete</mat-icon>
+                </a>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
+<br>
+<br>
+
+<!-- </div> -->
+<!-- <h2 *ngIf="listPurchases.length == 0">No hay Compras para mostrar</h2>  -->
+
+<br>

@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Agregar Categoria</h2>
+<div mat-dialog-content>
+    <form [formGroup]="categorieForm" >
+        <div class="form-content">
+            <input matInput formControlName="cat_ID" hidden="true" placeholder="ID" />
+            <mat-form-field>
+                <mat-label>Categoria</mat-label>
+                <input matInput formControlName="cat_nombre" placeholder="Categoria" />
+                <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint> -->
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Descripción</mat-label>
+                <input matInput formControlName="cat_descripcion" placeholder="Descripcion" />
+                <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint> -->
+            </mat-form-field>
+        </div>
+    
+        <!-- <div class="form-content">
+            <mat-form-field>
+                <mat-label>Ciudad del Cliente</mat-label>
+                <input matInput formControlName="cus_created_at" value="" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Ciudad del Cliente</mat-label>
+                <input matInput formControlName="cus_updated_at" value="" />
+            </mat-form-field>
+        </div> -->
+    </form>
+    
+</div>
+
+<div mat-dialog-actions [align]="'end'">
+    <button mat-raised-button color="primary" matTooltip="Agregar" (click)="addCategorie()">{{actionBtn}}</button>
+    <button mat-raised-button color="warn" matTooltip="Cancelar" mat-dialog-close>Cancelar</button>
+</div>

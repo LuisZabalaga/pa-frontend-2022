@@ -1,0 +1,18 @@
+footer {
+    display: flex;
+    width: 100%;
+    /* flex-direction: column; */
+    justify-content: center;
+    padding: 15px;
+    margin-bottom: 0px;
+    font-size: 11px;
+    box-sizing: border-box;
+    /* position: absolute;
+    bottom: 7px !important;
+    text-align: center; */
+}
+
+.company {
+    /* font-weight: bold; */
+    color: #1A93DC;
+}

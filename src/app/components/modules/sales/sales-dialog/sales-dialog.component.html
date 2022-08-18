@@ -1,0 +1,94 @@
+<h2 class="dialog-title" mat-dialog-title>
+    <mat-icon>shopping_cart</mat-icon>
+    <h3>Detalle de Venta</h3>
+</h2>
+<div mat-dialog-content>
+    <div class="form-content">
+        <h4>Detalles de la Venta</h4>
+        <table class="table-purchase">
+            <tr *ngFor="let sa of listSales">
+                <td class="table-title">Fecha</td>
+                <td class="table-content">{{sa.sa_fecha | date:'fullDate'}}</td>
+            </tr>
+            <tr *ngFor="let sa of listSales">
+                <td class="table-title">Boleta</td>
+                <td class="table-content">{{sa.sa_boleta}}</td>
+            </tr>
+            <tr *ngFor="let sa of listSales">
+                <td class="table-title">Cliente</td>
+                <td class="table-content">{{sa.cus_nombres + ' ' +sa.cus_apellidos}}</td>
+            </tr>
+
+            <tr *ngFor="let sa of listSales">
+                <td class="table-title">Encargado</td>
+                <td class="table-content">{{sa.emp_nombres + ' ' +sa.emp_apellidos}}</td>
+            </tr>
+        
+        </table>
+    </div>
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+    <div class="form-content">
+        <h4>Listado de Material</h4>
+        <table class="table-purchase-detail"  *ngFor="let sa of listSales">
+            <tr class="table-title">
+                <td>Material</td>
+                <td>Peso (Kg)</td>
+                <td>P.U (S/)</td>
+                <td>Importe</td>
+            </tr>
+            <tr *ngFor="let list of listSalesDetail"  style="padding: 10px; background-color:#F6F6F6;">
+                <td>{{list.prod_nombre}}</td>
+                <td>{{list.sale_peso}}</td>
+                <td>{{ 'S/ '+list.sale_precio }}</td>
+                <td>{{ 'S/ '+list.sale_subtotal }}</td>
+            </tr>
+
+            <tr style="padding: 10px; background-color: #F2DEDE;">
+                <td class="total-title" colspan="3" [align]="'end'">Total Importe</td>
+                <td class="total">S/ {{ sa.sa_total_importe | currency:'':'' }}</td>
+            </tr>
+            <tr style="padding: 10px; background-color: #F2DEDE;">
+                <td class="total-title" colspan="3" [align]="'end'">Total Adelanto</td>
+                <td class="total">S/ {{ sa.sa_adelanto | currency:'':'' }}</td>
+            </tr>
+            <tr style="padding: 10px; background-color: #F2DEDE;">
+                <td class="total-title" colspan="3" [align]="'end'">Total Pagado</td>
+                <td class="total">S/ {{sa.sa_total | currency:'':'' }}</td>
+            </tr>
+        
+        </table>
+    </div>
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+    <div mat-dialog-actions [align]="'end'">
+        <button 
+            mat-raised-button 
+            color="warn"
+            matTooltip="Cerrar" 
+            class="botones"
+            (click)="closeDialogSales()"
+        >
+            Cerrar
+        </button>
+        &nbsp;
+        <button 
+            mat-raised-button 
+            color="accent" 
+            matTooltip="Imprimir" 
+            class="botones" 
+            
+        >
+            Imprimir <mat-icon>local_print_shop</mat-icon>
+        </button>
+    </div>
+
+</div>
+
+<!-- <div mat-dialog-actions [align]="'end'">
+    <button mat-raised-button color="primary" matTooltip="Agregar" (click)="addProduct()">{{actionBtn}}</button>
+    <button mat-raised-button color="warn" matTooltip="Cancelar" mat-dialog-close>Cancelar</button>
+</div> -->
+
