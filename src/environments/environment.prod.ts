@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: 'http://localhost:3001/'
+  url: 'https://pa-backend-2022.herokuapp.com/'
 };
