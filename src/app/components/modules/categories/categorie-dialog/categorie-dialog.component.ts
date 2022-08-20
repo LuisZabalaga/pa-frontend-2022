@@ -29,7 +29,7 @@ export class CategorieDialogComponent implements OnInit {
     this.categorieForm = this.formBuilder.group({
       cat_ID: [''],
       cat_nombre: ['', Validators.required],
-      cat_descripcion: ['', Validators.required],
+      cat_descripcion: [''],
       cat_created_at: date,
       cat_updated_at: date
     });
