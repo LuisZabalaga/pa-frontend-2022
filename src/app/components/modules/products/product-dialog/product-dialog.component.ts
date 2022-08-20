@@ -34,7 +34,7 @@ export class ProductDialogComponent implements OnInit {
     this.productForm = this.formBuilder.group({
       prod_ID: [''],
       prod_nombre: ['', Validators.required],
-      prod_descripcion: ['', Validators.required],
+      prod_descripcion: [''],
       prod_peso_total: [{value: '0', disabled: true}],
       prod_peso_aqp: [{value: '0', disabled: true}],
       prod_peso_local: [{value: '0', disabled: true}],
@@ -45,9 +45,7 @@ export class ProductDialogComponent implements OnInit {
     });
 
     if(this.editProduct) {
-      // this.productForm.get('prod_peso_aqp').enable();
-      // this.productForm.get('prod_peso_aqp').setValue('');
-      // console.log(this.editProduct);
+
       this.actionBtn = "Actualizar";
       this.productForm.controls['prod_ID'].setValue(this.editProduct.prod_ID);
       this.productForm.controls['prod_nombre'].setValue(this.editProduct.prod_nombre);
@@ -80,13 +78,13 @@ export class ProductDialogComponent implements OnInit {
         this.productsService.createData(this.productForm.value)
         .subscribe({
           next: (res) => {
-            this._toastService.success('Producto Agregado Satisfactoriamente!!!');
+            this._toastService.success('Material Agregado Satisfactoriamente!!!');
             this.productForm.reset();
             this.dialogRef.close('save');
           },
           error: () => {
             // alert("Error")
-            this._toastService.error('Error al Agregar Producto!!!');
+            this._toastService.error('Error al Agregar Material!!!');
           }
         })
       }
@@ -101,13 +99,13 @@ export class ProductDialogComponent implements OnInit {
       this.productsService.updateData(this.productForm.value, this.editProduct.prov_ID)
       .subscribe({
         next: (res) => {
-          this._toastService.success('Producto Modificado Satisfactoriamente!!!');
+          this._toastService.success('Material Modificado Satisfactoriamente!!!');
           this.productForm.reset();
           this.dialogRef.close('update');
         },
         error: () => {
           // alert("Error")
-          this._toastService.error('Error al Modificar Producto!!!');
+          this._toastService.error('Error al Modificar Material!!!');
         }
       })
     }

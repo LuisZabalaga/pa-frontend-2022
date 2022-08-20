@@ -1,16 +1,16 @@
-<h2 mat-dialog-title>Agregar Producto</h2>
+<h2 mat-dialog-title>Agregar Material</h2>
 <div mat-dialog-content>
     <form [formGroup]="productForm">
         <div class="form-content">
             <input matInput formControlName="prod_ID" hidden="true" placeholder="ID" />
             <mat-form-field>
-                <mat-label>Producto</mat-label>
-                <input matInput formControlName="prod_nombre" placeholder="Producto" />
+                <mat-label>Material<span class="requerido"> *</span></mat-label>
+                <input matInput formControlName="prod_nombre" placeholder="Material" />
                 <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Categoria</mat-label>
+                <mat-label>Categoria<span class="requerido"> *</span></mat-label>
                 <mat-select formControlName="prod_cat_ID" placeholder="Categoria">
                     <mat-option *ngFor="let categ of listCategories" value={{categ.cat_ID}}>
                         {{categ.cat_nombre}}
@@ -39,10 +39,6 @@
         </div>
 
         <div class="form-content">
-            <!-- <mat-form-field>
-                <mat-label>Peso Bruto</mat-label>
-                <input matInput formControlName="prod_peso_total" placeholder="Peso Total" type="number" />
-            </mat-form-field> -->
 
             <mat-form-field>
                 <mat-label>Descripción</mat-label>

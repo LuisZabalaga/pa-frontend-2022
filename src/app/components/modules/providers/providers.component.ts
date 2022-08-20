@@ -16,7 +16,7 @@ export class ProvidersComponent implements OnInit {
 
   listProviders: any;
 
-  displayedColumns: string[] = ['posicion', 'nombres', 'razonsocial', 'ruc', 'email', 'celular', 'ciudad', 'estado', 'acciones'];
+  displayedColumns: string[] = ['posicion', 'nombres', 'razonsocial', 'ruc', 'email', 'celular', 'direccion', 'ciudad', 'estado', 'acciones'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

@@ -4,13 +4,13 @@
         <div class="form-content">
             <input matInput formControlName="prov_ID" hidden="true" placeholder="ID" />
             <mat-form-field>
-                <mat-label>Nombres</mat-label>
+                <mat-label>Nombres<span class="requerido"> *</span></mat-label>
                 <input matInput formControlName="prov_nombres" placeholder="Nombres" />
                 <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Apellidos</mat-label>
+                <mat-label>Apellidos<span class="requerido"> *</span></mat-label>
                 <input matInput formControlName="prov_apellidos" placeholder="Apellidos" />
                 <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint> -->
@@ -53,11 +53,11 @@
         </div>
         <div class="form-content">
             <mat-form-field>
-                <mat-label>Ciudad</mat-label>
+                <mat-label>Ciudad<span class="requerido"> *</span></mat-label>
                 <input matInput formControlName="prov_ciudad" placeholder="Ciudad" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Estado</mat-label>
+                <mat-label>Estado<span class="requerido"> *</span></mat-label>
                 <mat-select formControlName="prov_estado" >
                     <mat-option value=1>Activo</mat-option>
                     <mat-option value=0>Inactivo</mat-option>

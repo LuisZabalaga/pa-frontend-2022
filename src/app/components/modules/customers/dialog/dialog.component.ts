@@ -33,11 +33,11 @@ export class DialogComponent implements OnInit {
       cus_ID: [''],
       cus_nombres: ['', Validators.required],
       cus_apellidos: ['', Validators.required],
-      cus_dni: ['', Validators.required],
-      cus_ruc: ['', Validators.required],
-      cus_email: ['', Validators.required],
-      cus_celular: ['', Validators.required],
-      cus_direccion: ['', Validators.required],
+      cus_dni: [''],
+      cus_ruc: [''],
+      cus_email: [''],
+      cus_celular: [''],
+      cus_direccion: [''],
       cus_ciudad: ['', Validators.required],
       cus_estado: ['', Validators.required],
       cus_created_at: date,
@@ -99,21 +99,6 @@ export class DialogComponent implements OnInit {
       })
     }
   }
-
-  // this.customerService.createData(this.clientForm.value).subscribe((res) => {
-  //   console.log(res, 'res==>');
-  //   this.clientForm.reset();
-  
-  // })
-
-  // console.log(this.userForm.value);
-  //     this.apiService.createData(this.userForm.value).subscribe((res) => {
-  //       console.log(res, 'res==>');
-  //       this.userForm.reset();
-  //     })
-  //     this._toastService.success('Usuario añadido con exicto!!!');
-  //   // } else {
-  //     console.log("All field is required");
 
 
 }

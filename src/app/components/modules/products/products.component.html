@@ -1,15 +1,15 @@
 <mat-card>
     <div class="title">
         <mat-icon>store</mat-icon>
-        <h3>PRODUCTOS</h3>
+        <h3>MATERIALES</h3>
     </div>
 </mat-card>
 <br>
 <!-- <div *ngIf="listUsuarios.length > 0"> -->
-<a class="icon-content" color="primary" matTooltip="Agregar Producto" (click)="openDialogAddProduct()">
+<a class="icon-content" color="primary" matTooltip="Agregar Material" (click)="openDialogAddProduct()">
     <mat-icon class="icon-option">queue</mat-icon>
 </a>
-<a class="icon-content" color="warn" matTooltip="Productos Eliminados">
+<a class="icon-content" color="warn" matTooltip="Materiales Eliminados">
     <mat-icon class="icon-option">delete_sweep</mat-icon>
 </a>
 <a class="icon-content" color="primary" matTooltip="Imprimir Lista">
@@ -43,7 +43,7 @@
 
         <!-- Name Column -->
         <ng-container matColumnDef="nombres">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>PRODUCTO</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>MATERIAL</th>
             <td mat-cell *matCellDef="let element"> {{element.prod_nombre}} </td>
         </ng-container>
 
@@ -77,12 +77,6 @@
             <td mat-cell *matCellDef="let element"> {{element.prod_peso_local + ' Kg'}} </td>
         </ng-container>
 
-        <!-- Estado -->
-        <!-- <ng-container matColumnDef="estado">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> ESTADO </th>
-                <td mat-cell *matCellDef="let element"><span class='{{element.prov_estado == 1 ? "ac" : "in" }}'> {{element.prov_estado == 1 ? "ACTIVO" : "INACTIVO" }} </span></td>
-            </ng-container> -->
-
         <!-- Ciudad -->
         <ng-container matColumnDef="imagen">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> IMAGEN </th>
@@ -96,10 +90,10 @@
                 <a class="pointer" matTooltip="Ver Producto">
                     <mat-icon>remove_red_eye</mat-icon>
                 </a>
-                <a class="pointer" (click)="openDialogEditProduct(element)" matTooltip="Editar Producto">
+                <a class="pointer" (click)="openDialogEditProduct(element)" matTooltip="Editar Material">
                     <mat-icon>edit</mat-icon>
                 </a>
-                <a class="pointer" (click)="deleteOneProduct(element.prod_ID)" matTooltip="Eliminar Producto">
+                <a class="pointer" (click)="deleteOneProduct(element.prod_ID)" matTooltip="Eliminar Material">
                     <mat-icon>delete</mat-icon>
                 </a>
             </td>
