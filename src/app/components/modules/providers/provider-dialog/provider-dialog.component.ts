@@ -4,6 +4,9 @@ import { ToastService } from 'angular-toastify';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
+
 @Component({
   selector: 'app-provider-dialog',
   templateUrl: './provider-dialog.component.html',
@@ -37,8 +40,8 @@ export class ProviderDialogComponent implements OnInit {
       prov_direccion: [''],
       prov_ciudad: ['', Validators.required],
       prov_estado: ['', Validators.required],
-      prov_created_at: date,
-      prov_updated_at: date
+      prov_created_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+      prov_updated_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss")
     });
 
     if(this.editProvider) {

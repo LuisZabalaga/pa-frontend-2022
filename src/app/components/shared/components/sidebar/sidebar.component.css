@@ -12,7 +12,8 @@
     /* font-weight: bold; */
     font-size: 13px;
     /* background-color: #DAE6FF; */
-    color: #4680FF;
+    /* color: #4680FF; */
+    color: #00498D;
     /* padding: 2px 4px; */
     border-radius: 5px;
     /* font-weight: bolder; */
@@ -25,6 +26,10 @@
     object-fit: cover;
     border-radius: 50%;
     /* border: 2px solid #4680FF; */
+}
+
+mat-nav-list {
+    /* background-color: #00498D; */
 }
 
 mat-nav-list a {
@@ -41,6 +46,7 @@ mat-nav-list a mat-icon {
 
 mat-nav-list a:hover {
     background-color: #F0F0F0;
+    
     color: #1A93DC;
 }
 

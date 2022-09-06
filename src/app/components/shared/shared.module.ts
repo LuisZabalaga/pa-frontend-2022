@@ -25,6 +25,8 @@ import { EmployeesDialogComponent } from '../modules/employees/employees-dialog/
 import { SalesDialogComponent } from '../modules/sales/sales-dialog/sales-dialog.component';
 import { ShoppingDialogComponent } from '../modules/shopping/shopping-dialog/shopping-dialog.component';
 
+import { LoginComponent } from '../modules/login/login.component';
+
 //Angular Material
 import { MatSliderModule } from '@angular/material/slider';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -53,6 +55,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 
+
 // import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 
 
@@ -72,7 +75,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     CashRegisterDialogComponent,
     EmployeesDialogComponent,
     SalesDialogComponent,
-    ShoppingDialogComponent
+    ShoppingDialogComponent,
+
+    LoginComponent
   ],
   imports: [
     CommonModule,

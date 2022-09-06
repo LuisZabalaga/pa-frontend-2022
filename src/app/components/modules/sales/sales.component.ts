@@ -15,6 +15,7 @@ import { TicketSaleService } from 'src/app/services/ticket-sale.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SalesDialogComponent } from './sales-dialog/sales-dialog.component';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
 
@@ -73,16 +74,6 @@ export class SalesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-
-  // boleta_numero: string = '000003';
-  // id_boleta: number = parseInt(this.boleta_numero);
-  // total_monto: string;
-  // monto: string;  
-
-  // total: number;
-
-  // sumall: number;
-
   //GENERANDO BOLETA
   numeroBoleta: String;
   ticketData: any;
@@ -130,8 +121,8 @@ export class SalesComponent implements OnInit {
           sal_sa_ID: [this.numBoletaInicial, Validators.required],
           sal_peso: ['', Validators.required],
           sal_precio: ['', Validators.required],
-          sal_created_at: this.date,
-          sal_updated_at: this.date
+          sal_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+          sal_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
         });
 
       },
@@ -158,8 +149,6 @@ export class SalesComponent implements OnInit {
     private _toastService: ToastService,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
-    // @Inject(MAT_DIALOG_DATA) public addPurchase: any,
-    // private dialogRef: MatDialogRef<ShoppingComponent> 
   ) { }
 
   ngOnInit(): void {
@@ -179,8 +168,8 @@ export class SalesComponent implements OnInit {
       sal_sa_ID: [this.numBoletaInicial, Validators.required],
       sal_peso: ['', Validators.required],
       sal_precio: ['', Validators.required],
-      sal_created_at: this.date,
-      sal_updated_at: this.date
+      sal_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+      sal_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
     });
 
     this.listSalesForm = this.formBuilder.group({
@@ -191,8 +180,8 @@ export class SalesComponent implements OnInit {
       sa_emp_ID: ['1', Validators.required],
       sa_total_importe: ['', Validators.required],
       sa_adelanto: ['', Validators.required],
-      sa_created_at: this.date,
-      sa_updated_at: this.date
+      sa_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+      sa_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
     });
 
 
@@ -222,8 +211,8 @@ export class SalesComponent implements OnInit {
         sa_emp_ID: ['1', Validators.required],
         sa_total_importe: [this.getTotalSales, Validators.required],
         sa_adelanto: ['', Validators.required],
-        sa_created_at: this.date,
-        sa_updated_at: this.date
+        sa_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+        sa_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
       });
     })
   }
@@ -287,8 +276,8 @@ export class SalesComponent implements OnInit {
               sal_sa_ID: [this.numBoletaInicial, Validators.required],
               sal_peso: ['', Validators.required],
               sal_precio: ['', Validators.required],
-              sal_created_at: this.date,
-              sal_updated_at: this.date
+              sal_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+              sal_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
             });
 
 
@@ -424,8 +413,8 @@ export class SalesComponent implements OnInit {
           ad_dest_adv: [1, Validators.required],
           ad_prov_cus_ID: [this.stateCustomerId, Validators.required],
           ad_estado: [0, Validators.required],
-          ad_created_at: this.date,
-          ad_updated_at:this. date
+          ad_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+          ad_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
         });
 
         console.log("Ingreso monto negativo");
@@ -497,8 +486,8 @@ export class SalesComponent implements OnInit {
               sal_sa_ID: [this.numBoletaInicial, Validators.required],
               sal_peso: ['', Validators.required],
               sal_precio: ['', Validators.required],
-              sal_created_at: this.date,
-              sal_updated_at: this.date
+              sal_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+              sal_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
             });
 
             this.listSalesForm.reset();

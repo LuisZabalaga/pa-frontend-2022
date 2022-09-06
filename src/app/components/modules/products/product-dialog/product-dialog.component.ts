@@ -5,6 +5,9 @@ import { ToastService } from 'angular-toastify';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
+
 @Component({
   selector: 'app-product-dialog',
   templateUrl: './product-dialog.component.html',
@@ -40,8 +43,8 @@ export class ProductDialogComponent implements OnInit {
       prod_peso_local: [{value: '0', disabled: true}],
       prod_imagen: [''],
       prod_cat_ID: ['', Validators.required],
-      prod_created_at: date,
-      prod_updated_at: date
+      prod_created_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+      prod_updated_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss")
     });
 
     if(this.editProduct) {

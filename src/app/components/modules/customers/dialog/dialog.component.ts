@@ -7,6 +7,9 @@ import { ToastService } from 'angular-toastify';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
+
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
@@ -40,8 +43,8 @@ export class DialogComponent implements OnInit {
       cus_direccion: [''],
       cus_ciudad: ['', Validators.required],
       cus_estado: ['', Validators.required],
-      cus_created_at: date,
-      cus_updated_at: date
+      cus_created_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+      cus_updated_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss")
     });
 
     if(this.editClient) {

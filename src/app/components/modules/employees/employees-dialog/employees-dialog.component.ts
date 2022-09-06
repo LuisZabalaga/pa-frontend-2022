@@ -5,6 +5,9 @@ import { ToastService } from 'angular-toastify';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
+
 @Component({
   selector: 'app-employees-dialog',
   templateUrl: './employees-dialog.component.html',
@@ -45,8 +48,8 @@ export class EmployeesDialogComponent implements OnInit {
       emp_rol_ID: ['', Validators.required],
       emp_usuario: [''],
       emp_contraseña: [''],
-      emp_created_at: date,
-      emp_updated_at: date
+      emp_created_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+      emp_updated_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss")
     });
 
     if(this.editEmployee) {

@@ -8,6 +8,12 @@ export const environment = {
   urlWs: 'ws://localhost:3001/'
 };
 
+// export const environment = {
+//   production: true,
+//   url: 'https://pa-backend-2022.herokuapp.com/',
+//   urlWs: 'wss://pa-backend-2022.herokuapp.com/'
+// };
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

@@ -3,10 +3,9 @@ ul li {
     list-style: none;
 }
 
-/* .content-header {
-    display: flex;
-    align-items: center;
-} */
+.content-header {
+   background-color: #00498D !important;
+}
 
 .company-name {
     margin-top: 3px;

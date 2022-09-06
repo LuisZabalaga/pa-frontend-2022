@@ -14,8 +14,10 @@ import { PurchaseDetailService } from 'src/app/services/purchase-detail.service'
 import { AdvancesService } from 'src/app/services/advances.service';
 import { AdvancesStateService } from 'src/app/services/advances-state.service';
 import { TicketService } from 'src/app/services/ticket.service';
+import { PurchaseIdService } from 'src/app/services/purchase-id.service';
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
+
 
 
 @Component({
@@ -63,6 +65,9 @@ export class ShoppingComponent implements OnInit {
   totalAcumulado: number;
   listPurchases: any;
 
+  purchaseId: any;
+  purchaseIdNumber: any;
+
   displayedColumns: string[] = ['posicion', 'fecha_pu', 'boleta', 'proveedor', 'encargado', 'total', 'acciones'];
   dataSource!: MatTableDataSource<any>;
 
@@ -85,6 +90,16 @@ export class ShoppingComponent implements OnInit {
   numeroBoleta: String;
   ticketData: any;
   numBoletaInicial: any;
+
+  getLastPurchaseId () {
+    this.purchaseIdService.getLastPurchaseId().subscribe({
+      next: (res) => {
+        this.purchaseId = res;
+        this.purchaseIdNumber = this.purchaseId.pu_ID+1;
+        console.log("ID", this.purchaseIdNumber);
+      }
+    })
+  }
 
   async generarNumeroBoleta () {
     await this.ticketService.getAllData().subscribe({
@@ -126,9 +141,9 @@ export class ShoppingComponent implements OnInit {
           pur_prod_ID: [''],
           pur_peso: ['', Validators.required],
           pur_precio: ['', Validators.required],
-          pur_pu_ID: [this.numBoletaInicial, Validators.required],
-          pur_created_at: this.date,
-          pur_updated_at: this.date
+          pur_pu_ID: [this.purchaseIdNumber, Validators.required],
+          pur_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+          pur_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
         });
 
 
@@ -154,6 +169,7 @@ export class ShoppingComponent implements OnInit {
     private advancesService: AdvancesService,
     private advancesStateService: AdvancesStateService,
     private ticketService: TicketService,
+    private purchaseIdService: PurchaseIdService,
     private _toastService: ToastService,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -163,7 +179,9 @@ export class ShoppingComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.generarNumeroBoleta ()
+    this.getLastPurchaseId ();
+
+    this.generarNumeroBoleta ();
 
     this.getAllTemporaryPurchaseDetail();
     this.getTotalPurchaseDetail();
@@ -180,14 +198,14 @@ export class ShoppingComponent implements OnInit {
       pur_prod_ID: [''],
       pur_peso: ['', Validators.required],
       pur_precio: ['', Validators.required],
-      pur_pu_ID: [this.numBoletaInicial, Validators.required],
-      pur_created_at: this.date,
-      pur_updated_at: this.date
+      pur_pu_ID: [this.purchaseIdNumber, Validators.required],
+      pur_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+      pur_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
     });
 
     this.listPurchasesForm = this.formBuilder.group({
       pu_ID: '',
-      pu_fecha: [this.date],
+      pu_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
       pu_boleta: [this.numeroBoleta, Validators.required],
       pu_prov_ID: ['', Validators.required],
       pu_emp_ID: [1, Validators.required],
@@ -195,8 +213,8 @@ export class ShoppingComponent implements OnInit {
       pu_adelanto: ['', Validators.required],
       pu_flete: [{value: '', disabled: true}],
       // pu_total: [Validators.required],
-      pu_created_at: this.date,
-      pu_updated_at: this.date
+      pu_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+      pu_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
     });
 
 
@@ -236,7 +254,7 @@ export class ShoppingComponent implements OnInit {
 
       this.listPurchasesForm = this.formBuilder.group({
         pu_ID: '',
-        pu_fecha: [this.date],
+        pu_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
         pu_boleta: [this.numeroBoleta],
         pu_prov_ID: [''],
         pu_emp_ID: [1, Validators.required],
@@ -244,8 +262,8 @@ export class ShoppingComponent implements OnInit {
         pu_adelanto: ['', Validators.required],
         pu_flete: [{value: '', disabled: true}],
         // pu_total: [this.totalPurchaseDetail, Validators.required],
-        pu_created_at: this.date,
-        pu_updated_at: this.date
+        pu_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+        pu_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
       });
 
 
@@ -318,12 +336,12 @@ export class ShoppingComponent implements OnInit {
             
             this.temporaryPurchaseDetailForm = this.formBuilder.group({
               pur_prod_ID: ['', Validators.required],
-              pur_pu_ID: [this.numBoletaInicial, Validators.required],
+              pur_pu_ID: [this.purchaseIdNumber, Validators.required],
               pur_peso: ['', Validators.required],
               pur_precio: ['', Validators.required],
               
-              pur_created_at: this.date,
-              pur_updated_at: this.date
+              pur_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+              pur_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
             });
 
             this.listPurchasesForm.get('pu_flete').setValue(0);
@@ -387,8 +405,6 @@ export class ShoppingComponent implements OnInit {
 
     this.purchasesService.getAllData(forDateStart, forDateEnd).subscribe(res => {
       this.listPurchases = res;
-      // console.log("hello");
-      // console.log(res);
       this.dataSource = new MatTableDataSource(this.listPurchases);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -445,13 +461,13 @@ export class ShoppingComponent implements OnInit {
                       let montoAdelanto = montoCobrar*(-1);
                       this.advanceForm = this.formBuilder.group({
                         ad_ID: [''],
-                        ad_fecha: [this.date, Validators.required],
+                        ad_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"), Validators.required],
                         ad_cantidad: [montoAdelanto, Validators.required],
                         ad_dest_adv: [0, Validators.required],
                         ad_prov_cus_ID: [this.stateProviderId, Validators.required],
                         ad_estado: [0, Validators.required],
-                        ad_created_at: this.date,
-                        ad_updated_at:this. date
+                        ad_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+                        ad_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
                       });
             
                       console.log("Ingreso monto negativo");
@@ -537,9 +553,9 @@ export class ShoppingComponent implements OnInit {
               pur_prod_ID: [''],
               pur_peso: ['', Validators.required],
               pur_precio: ['', Validators.required],
-              pur_pu_ID: [this.numBoletaInicial, Validators.required],
-              pur_created_at: this.date,
-              pur_updated_at: this.date
+              pur_pu_ID: [this.purchaseIdNumber, Validators.required],
+              pur_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+              pur_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
             });
 
             this.listPurchasesForm.reset();

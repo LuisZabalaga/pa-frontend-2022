@@ -4,6 +4,9 @@ import { ToastService } from 'angular-toastify';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
+
 @Component({
   selector: 'app-categorie-dialog',
   templateUrl: './categorie-dialog.component.html',
@@ -30,8 +33,8 @@ export class CategorieDialogComponent implements OnInit {
       cat_ID: [''],
       cat_nombre: ['', Validators.required],
       cat_descripcion: [''],
-      cat_created_at: date,
-      cat_updated_at: date
+      cat_created_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+      cat_updated_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss")
     });
 
     if(this.editCategorie) {

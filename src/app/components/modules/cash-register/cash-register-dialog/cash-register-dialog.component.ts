@@ -8,6 +8,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
+
 
 @Component({
   selector: 'app-cash-register-dialog',
@@ -48,11 +51,10 @@ export class CashRegisterDialogComponent implements OnInit {
       cas_fecha: ['', Validators.required],
       cas_estado: ['', Validators.required],
       cas_cus_ID: [{value: '', disabled: true}],
-      // cas_cus_ID: [''],
       cas_concepto: ['', Validators.required],
       cas_emp_ID: ['', Validators.required],
-      cas_created_at: date,
-      cas_updated_at: date
+      cas_created_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+      cas_updated_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss")
     });
 
     // [{value: '', disabled: true}]

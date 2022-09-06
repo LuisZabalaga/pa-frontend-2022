@@ -6,13 +6,8 @@ import { ToastService } from 'angular-toastify';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-export interface Usuario {
-  posicion: number,
-  usuario: string,
-  nombres: string,
-  apellidos: string,
-  sexo: string
-}
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
 
 @Component({
   selector: 'app-advances-dialog',
@@ -27,29 +22,6 @@ export class AdvancesDialogComponent implements OnInit {
   listProviders: any;
   listCustomers: any;
   activateState: any;
-
-  Advances: {
-    ad_ID: Number;
-    ad_nombres: String;
-    ad_apellidos: String;
-  }
-
-  // listAdvance: any;
-  
-  // listAdvance: Advances[] = [
-  //   {ad_ID: '1', cols: 3, rows: 1, color: 'lightblue'},
-  //   {text: 'Two', cols: 1, rows: 2, color: 'lightgreen'},
-  //   {text: 'Three', cols: 1, rows: 1, color: 'lightpink'},
-  //   {text: 'Four', cols: 2, rows: 1, color: '#DDBDF1'},
-  // ];
-
-  // listDataAdvance = [
-  //   {
-  //     ad_ID: Number,
-  //     ad_nombres: String,
-  //     ad_apellidos: String
-  //   }
-  // ]
 
   listDataAdvance: any;
 
@@ -72,13 +44,13 @@ export class AdvancesDialogComponent implements OnInit {
 
     this.advanceForm = this.formBuilder.group({
       ad_ID: [''],
-      ad_fecha: [date, Validators.required],
+      ad_fecha: [moment(date).format("YYYY-MM-DDTHH:mm:ss.sss"), Validators.required],
       ad_cantidad: ['', Validators.required],
       ad_dest_adv: ['', Validators.required],
       ad_prov_cus_ID: ['', Validators.required],
       ad_estado: ['', Validators.required],
-      ad_created_at: date,
-      ad_updated_at: date
+      ad_created_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+      ad_updated_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss")
     });
 
     if(this.editAdvance) {

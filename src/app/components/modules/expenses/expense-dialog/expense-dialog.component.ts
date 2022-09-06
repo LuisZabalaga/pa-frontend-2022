@@ -7,6 +7,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
+
 @Component({
   selector: 'app-expense-dialog',
   templateUrl: './expense-dialog.component.html',
@@ -44,8 +47,8 @@ export class ExpenseDialogComponent implements OnInit {
       exp_beneficiado: ['', Validators.required],
       exp_emp_ID: ['', Validators.required],
       exp_fecha: ['', Validators.required],
-      exp_created_at: date,
-      exp_updated_at: date
+      exp_created_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+      exp_updated_at: moment(date).format("YYYY-MM-DDTHH:mm:ss.sss")
     });
 
     if(this.editExpense) {

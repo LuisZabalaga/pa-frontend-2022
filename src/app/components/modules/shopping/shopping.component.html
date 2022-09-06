@@ -142,26 +142,15 @@
 
             <!-- CODIGO COMPRA -->
             <!-- <input formControlName="pu_emp_ID" hidden="true" /> -->
-            <input formControlName="pu_emp_ID" hidden="true" />
+            <input formControlName="pu_emp_ID"  />
 
             <!-- TOTAL IMPORTE -->
-            <input formControlName="pu_total_importe" hidden="true" />
+            <input formControlName="pu_total_importe"  />
 
             <!-- TOTAL ADELANTO -->
-            <input formControlName="pu_adelanto" hidden="true" />
-
-            <!-- MONTO TOTAL -->
-            <!-- <input formControlName="pu_total" hidden="" /> -->
+            <input formControlName="pu_adelanto" />
 
         </div>
-
-        <!-- <table *ngFor="let prod of listProducts" style="">
-            <td>
-                {{prod.prod_nombre}}
-                {{prod.prod_peso_total}}
-            </td>
-        </table> -->
-
 
         <table mat-table [dataSource]="dataSource2" matSort class="tabla1">
 
@@ -269,23 +258,6 @@
 
     </form>
 
-    <!-- <form [formGroup]="advanceForm">
-        CODIGO COMPRA
-        <input formControlName="pu_emp_ID" hidden="true" />
-
-        TOTAL IMPORTE
-        <input formControlName="pu_total_importe" hidden="true" />
-
-        TOTAL ADELANTO
-        <input formControlName="pu_adelanto" hidden="true" />
-
-        TOTAL ADELANTO
-        <input formControlName="pu_adelanto" hidden="true" />
-
-        TOTAL ADELANTO
-        <input formControlName="pu_adelanto" hidden="true" />
-    </form> -->
-
 </div>
 
 <br />
@@ -374,13 +346,6 @@
             <td mat-cell *matCellDef="let element"><span class="total-compra"> {{element.pu_total | currency }} </span>
             </td>
         </ng-container>
-
-        <!-- Dni Column -->
-        <!-- <ng-container matColumnDef="total">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>INGRESO/EGRESO</th>
-                <td mat-cell *matCellDef="let element"><span class='{{element.cas_estado == 1 ? "ingreso" : "retiro" }}'>
-                        {{element.cas_estado == 1 ? "INGRESO" : "EGRESO" }} </span></td>
-            </ng-container>         -->
 
         <!-- Symbol Column -->
         <ng-container matColumnDef="acciones">

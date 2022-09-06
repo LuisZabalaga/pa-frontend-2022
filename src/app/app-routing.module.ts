@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DefaultComponent } from './components/layout/default/default.component';
+import { LoginComponent } from './components/modules/login/login.component';
 import { AdvancesComponent } from './components/modules/advances/advances.component';
 import { CashRegisterComponent } from './components/modules/cash-register/cash-register.component';
 import { CategoriesComponent } from './components/modules/categories/categories.component';
@@ -15,52 +16,57 @@ import { SalesComponent } from './components/modules/sales/sales.component';
 import { ShoppingComponent } from './components/modules/shopping/shopping.component';
 
 
-const routes: Routes = [{ 
-  path: '', 
-  component: DefaultComponent, 
-  children: [{ 
+const routes: Routes = [
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
     path: '', 
-    component: DashboardComponent
-  }, {
-    path: 'customers',
-    component: CustomersComponent
-  }, {
-    path: 'providers',
-    component: ProvidersComponent
-  }, {
-    path: 'products',
-    component: ProductsComponent
-  }, {
-    path: 'categories',
-    component: CategoriesComponent
-  }, {
-    path: 'expenses',
-    component: ExpensesComponent
-  }, {
-    path: 'employees',
-    component: EmployeesComponent
-  }, {
-    path: 'cash-register',
-    component: CashRegisterComponent
-  }, {
-    path: 'sales',
-    component: SalesComponent
-  }, {
-    path: 'shopping',
-    component: ShoppingComponent
-  }, {
-    path: 'advances',
-    component: AdvancesComponent
-  }, {
-    path: 'reports',
-    component: ReportsComponent
-  }]
-  
-  // { path: 'create', component: CreateComponent },
-  // { path: 'create/:id', component: CreateComponent },
-  // { path: 'read', component: ReadComponent }
-  
-}];
+    component: DefaultComponent, 
+    children: [
+      { 
+        path: '',
+        component: DashboardComponent
+      }, {
+        path: 'customers',
+        component: CustomersComponent
+      }, {
+        path: 'providers',
+        component: ProvidersComponent
+      }, {
+        path: 'products',
+        component: ProductsComponent
+      }, {
+        path: 'categories',
+        component: CategoriesComponent
+      }, {
+        path: 'expenses',
+        component: ExpensesComponent
+      }, {
+        path: 'employees',
+        component: EmployeesComponent
+      }, {
+        path: 'cash-register',
+        component: CashRegisterComponent
+      }, {
+        path: 'sales',
+        component: SalesComponent
+      }, {
+        path: 'shopping',
+        component: ShoppingComponent
+      }, {
+        path: 'advances',
+        component: AdvancesComponent
+      }, {
+        path: 'reports',
+        component: ReportsComponent
+      },
+    ]
+    
+  }
+
+];
 
 
 @NgModule({
