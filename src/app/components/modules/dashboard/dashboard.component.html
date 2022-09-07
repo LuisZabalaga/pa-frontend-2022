@@ -5,17 +5,17 @@
   </div>
 </mat-card>
 <br>
-<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" class="stats-cards">
-  <mat-card fxFlex="25">
+<div class="stats-cards">
+  <mat-card>
     <app-widget-card label="New Users" total="18K" percentage="50" [data]="cards"></app-widget-card>
   </mat-card>
-  <mat-card fxFlex="25">
+  <mat-card>
     <app-widget-card label="Users Retention" total="10K" percentage="40" [data]="cards"></app-widget-card>
   </mat-card>
-  <mat-card fxFlex="25">
+  <mat-card>
     <app-widget-card label="Users Engagement" total="8K" percentage="30" [data]="cards"></app-widget-card>
   </mat-card>
-  <mat-card fxFlex="25">
+  <mat-card>
     <app-widget-card label="Referral" total="6K" percentage="20" [data]="cards"></app-widget-card>
   </mat-card>
 </div>
@@ -29,9 +29,9 @@
 <br>
 <mat-divider></mat-divider>
 <br>
-<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+<div class="stats-pie">
 
-  <mat-card fxFlex="60">
+  <mat-card >
     <!-- <mat-card> -->
     <!-- <mat-form-field appearance="standard">
             <mat-label>Filter</mat-label>
@@ -40,7 +40,7 @@
 
     <!-- <div class="mat-elevation-z8"> -->
 
-    <h3 matSubheader>ULTIMAS VENTAS</h3>
+    <h3 matSubheader class="table-title">ULTIMAS VENTAS</h3>
     <table mat-table [dataSource]="dataSource">
 
       <!-- Position Column -->
@@ -77,7 +77,7 @@
   <!-- </mat-card> -->
   <!-- </div> -->
 
-  <mat-card fxFlex="40">
+  <mat-card >
     <app-widget-pie [data]="pieChart"></app-widget-pie>
   </mat-card>
 

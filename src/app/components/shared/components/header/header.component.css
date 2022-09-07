@@ -4,10 +4,14 @@ ul li {
 }
 
 .content-header {
-   background-color: #00498D !important;
+   /* background-color: #00498D !important; */
+   background-color: #411BAB !important;
 }
 
 .company-name {
+    margin-left: 20px;
     margin-top: 3px;
     font-size: 14px;
+    color: #38BAD8;
+    font-weight: 600;
 }

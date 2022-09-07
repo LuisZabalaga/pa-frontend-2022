@@ -160,19 +160,6 @@ table td, table th {
   margin: 12px 0;
 }
 
-
-
-/* .total {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  box-sizing: border-box;
-  font-size: 16px;
-  margin-top: 10px;
-  background-color:#212121;
-} */
-
 /* .tabla1 mat-header-cell {
   text-align: center;
   background-color: red;
@@ -199,7 +186,6 @@ table th .pointere {
 .pointere:nth-child(1) :hover{
   color: #F44336;
 }
-
 
 .pointer{
   cursor: pointer;
@@ -318,4 +304,44 @@ mat-dialog-actions .botones {
   text-shadow: none;
   font-size: 16px;
   text-transform: uppercase;
+}
+
+
+@media all and (max-width: 768px) {
+  .content-form {
+    width: 93% !important;
+    overflow: hidden;
+  }
+
+  .content-input {
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+
+}
+
+@media all and (max-width: 992px) {
+  .content-form {
+    width: 70%;
+    overflow: hidden;
+  }
+
+  .content-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* flex-wrap: wrap !important; */
+  }
+
+}
+
+@media all and (max-width: 1200px) {
+  .content-form {
+    overflow: hidden;
+  }
+
+  .content-input {
+    display: flex;
+    flex-wrap: none !important;
+  }
+
 }

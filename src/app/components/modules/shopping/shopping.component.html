@@ -15,7 +15,7 @@
         padding-bottom: 10px; 
         margin: auto;
         font-weight: 400;
-        color: #1A93DC;
+        color: #411BAB;
         ">
             AGREGAR MATERIAL
         </h3>
@@ -58,7 +58,7 @@
             </div>
 
             <div mat-dialog-actions [align]="'end'" style="padding-right: 9px">
-                <button mat-raised-button color="primary" matTooltip="Agregar Material" class="botones"
+                <button mat-raised-button color="primary" style="background-color: #411BAB;" matTooltip="Agregar Material" class="botones"
                     (click)="addTemporaryPurchaseDetail()">
                     <mat-icon>shopping_basket</mat-icon>
                 </button>
@@ -79,7 +79,7 @@
         padding-bottom: 10px; 
         margin: auto;
         font-weight: 400;
-        color: #757575;
+        color: #411BAB;
         ">
         DETALLES DE LA COMPRA
     </h3>
@@ -130,7 +130,7 @@
             </mat-form-field>
 
             <!-- FLETE -->
-            <mat-form-field style=" width: 250px;">
+            <mat-form-field >
                 <mat-label>FLETE</mat-label>
                 <input matInput formControlName="pu_flete" placeholder="Costo Flete"
                     (ngModelChange)="addTotalFreight()" />
@@ -142,13 +142,13 @@
 
             <!-- CODIGO COMPRA -->
             <!-- <input formControlName="pu_emp_ID" hidden="true" /> -->
-            <input formControlName="pu_emp_ID"  />
+            <input formControlName="pu_emp_ID"  hidden="true"/>
 
             <!-- TOTAL IMPORTE -->
-            <input formControlName="pu_total_importe"  />
+            <input formControlName="pu_total_importe"  hidden="true"/>
 
             <!-- TOTAL ADELANTO -->
-            <input formControlName="pu_adelanto" />
+            <input formControlName="pu_adelanto" hidden="true"/>
 
         </div>
 
@@ -274,7 +274,7 @@
         padding-bottom: 10px; 
         margin: auto;
         font-weight: 400;
-        color: #1A93DC;
+        color: #411BAB;
         ">
         LISTADO DE COMPRAS
     </h3>

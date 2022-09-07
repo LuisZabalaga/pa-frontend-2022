@@ -5,31 +5,27 @@
 
 :host .profile-card {
     text-align: center;
-    /* padding: 0 20px 10px 20px; */
+    padding: 0 20px 10px 20px;
 }
 
 :host .profile-card .header h4 {
-    /* font-weight: bold; */
+    font-weight: 500;
     font-size: 13px;
-    /* background-color: #DAE6FF; */
-    /* color: #4680FF; */
-    color: #00498D;
-    /* padding: 2px 4px; */
+    color: #1A93DC;
     border-radius: 5px;
-    /* font-weight: bolder; */
     text-transform: uppercase;
 }
 
 :host .profile-card img {
-    width: 55px;
-    height: 55px;
+    width: 65px;
+    height: 65px;
     object-fit: cover;
     border-radius: 50%;
     /* border: 2px solid #4680FF; */
 }
 
 mat-nav-list {
-    /* background-color: #00498D; */
+    background-color: white;
 }
 
 mat-nav-list a {
@@ -37,17 +33,21 @@ mat-nav-list a {
     display: flex;
     align-items: center;
     padding: 5px 20px 5px 20px;
-    /* color: #A8A8A8; */
+    color: #1A93DC;
 }
 
 mat-nav-list a mat-icon {
-    /* color: #9DC8F1; */
+    color: #1A93DC;
+}
+
+mat-nav-list a:hover mat-icon {
+    color: #411BAB;
 }
 
 mat-nav-list a:hover {
-    background-color: #F0F0F0;
-    
-    color: #1A93DC;
+    /* background-color: #F0F0F0; */
+    background-color: #E0F3FF;
+    color: #411BAB;
 }
 
 /* list-item-active {
@@ -58,6 +58,7 @@ mat-nav-list a:active {
     background-color: #F0F0F0;
     color: #1A93DC;
 }
+
 
 /* div.mat-list-item-content {
     padding: 5px important!;
