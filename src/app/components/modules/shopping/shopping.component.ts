@@ -19,7 +19,6 @@ import * as moment from 'moment';
 import 'moment/locale/pt-br';
 
 
-
 @Component({
   selector: 'app-shopping',
   templateUrl: './shopping.component.html',
@@ -28,7 +27,6 @@ import 'moment/locale/pt-br';
 export class ShoppingComponent implements OnInit {
 
   advanceForm !: FormGroup;
-
   ticketForm !: FormGroup;
 
   purchase: any;
@@ -48,8 +46,6 @@ export class ShoppingComponent implements OnInit {
   // date: new Date().toISOString();
 
   dates: any;
-
-
 
   totalCompras: number;
   actionBtn: string = "Agregar";
@@ -77,84 +73,69 @@ export class ShoppingComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-
-  // date: Date = new Date();
-
   ranges = new FormGroup({
     start: new FormControl(this.date),
     end: new FormControl(this.date),
   });
-
   
   //GENERANDO BOLETA
-  numeroBoleta: String;
+  numberTicket: String;
   ticketData: any;
-  numBoletaInicial: any;
+  lastTicketNumber: any;
+  numLastTicket2: any;
+  numLastTicket3: any;
 
   getLastPurchaseId () {
     this.purchaseIdService.getLastPurchaseId().subscribe({
       next: (res) => {
         this.purchaseId = res;
-        this.purchaseIdNumber = this.purchaseId.pu_ID+1;
-        console.log("ID", this.purchaseIdNumber);
-      }
-    })
-  }
 
-  async generarNumeroBoleta () {
-    await this.ticketService.getAllData().subscribe({
-      next: (res) => {
-        this.ticketData = res[0];
-        console.log("AQUI: ", this.ticketData);
-        this.numBoletaInicial = this.ticketData.tick_numero;
-
-        let boleta = [];
-        console.log("BoletaInicial", this.numBoletaInicial)
-    
-        for (let i=1; i<=this.numBoletaInicial; i++) {
-          let numBoleta = boleta[i-1] = i;
-          // const element = boleta[i];
-          if (numBoleta<10) {
-            //6 digitos 000001
-            this.numeroBoleta = `00000${numBoleta}`;
-          }
-          if (numBoleta>=10 && numBoleta<100) {
-            this.numeroBoleta = `0000${numBoleta}`;
-          }
-          if (numBoleta>=100 && numBoleta<1000) {
-            this.numeroBoleta = `000${numBoleta}`;
-          }
-          if (numBoleta>=1000 && numBoleta<10000) {
-            this.numeroBoleta = `00${numBoleta}`;
-          }
-          if (numBoleta>=10000 && numBoleta<100000) {
-            this.numeroBoleta = `0${numBoleta}`;
-          }
-          if (numBoleta>=100000 && numBoleta<100001) {
-            this.numeroBoleta = `${numBoleta}`;
-          }
-
-          // console.log("BOLETA ",this.numeroBoleta);
+        if (this.purchaseId == null) {
+          this.purchaseIdNumber = 1;
+        } else {
+          this.purchaseIdNumber = this.purchaseId.pu_ID+1;
         }
 
         this.temporaryPurchaseDetailForm = this.formBuilder.group({
-          pur_prod_ID: [''],
+          pur_ID: [''],
+          pur_prod_ID: ['', Validators.required],
           pur_peso: ['', Validators.required],
           pur_precio: ['', Validators.required],
           pur_pu_ID: [this.purchaseIdNumber, Validators.required],
           pur_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
           pur_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
         });
+        
+      }
+    })
+  }
 
+  getGenerateTicketNumber () {
+    this.ticketService.getAllData().subscribe({
+      next: (res) => {
+        this.ticketData = res[0];
+        this.lastTicketNumber = this.ticketData.tick_boleta;
+        this.numLastTicket2 = this.ticketData.tick_numero;
+
+        this.listPurchasesForm = this.formBuilder.group({
+          pu_ID: '',
+          pu_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+          pu_boleta: [this.lastTicketNumber, Validators.required],
+          pu_prov_ID: ['', Validators.required],
+          pu_emp_ID: [1, Validators.required],
+          pu_total_importe: ['', Validators.required],
+          pu_adelanto: ['', Validators.required],
+          pu_flete: [{value: '', disabled: true}],
+          // pu_total: [Validators.required],
+          pu_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+          pu_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
+        }); 
 
       },
       error: (e) => {
-        // alert("Error")
         console.log(e);
-        // this._toastService.error('Error al Agregar Gasto!!!');
       }
     })
-      
     
   }
 
@@ -173,15 +154,13 @@ export class ShoppingComponent implements OnInit {
     private _toastService: ToastService,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
-    // @Inject(MAT_DIALOG_DATA) public addPurchase: any,
-    // private dialogRef: MatDialogRef<ShoppingComponent> 
   ) { }
 
   ngOnInit(): void {
 
     this.getLastPurchaseId ();
 
-    this.generarNumeroBoleta ();
+    this.getGenerateTicketNumber ();
 
     this.getAllTemporaryPurchaseDetail();
     this.getTotalPurchaseDetail();
@@ -190,12 +169,9 @@ export class ShoppingComponent implements OnInit {
     this.getAllProviders();
     this.getAllProducts();
 
-    // this.changeStateOFAdvanceProvider();
-
-    // this.getPurchasesValues();
-
     this.temporaryPurchaseDetailForm = this.formBuilder.group({
-      pur_prod_ID: [''],
+      pur_ID: [''],
+      pur_prod_ID: ['', Validators.required],
       pur_peso: ['', Validators.required],
       pur_precio: ['', Validators.required],
       pur_pu_ID: [this.purchaseIdNumber, Validators.required],
@@ -206,7 +182,7 @@ export class ShoppingComponent implements OnInit {
     this.listPurchasesForm = this.formBuilder.group({
       pu_ID: '',
       pu_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
-      pu_boleta: [this.numeroBoleta, Validators.required],
+      pu_boleta: [this.lastTicketNumber, Validators.required],
       pu_prov_ID: ['', Validators.required],
       pu_emp_ID: [1, Validators.required],
       pu_total_importe: ['', Validators.required],
@@ -217,30 +193,11 @@ export class ShoppingComponent implements OnInit {
       pu_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
     });
 
-
-    console.log("Boletaaaa", this.numeroBoleta);
-
-    // this.listPurchasesForm.get('pu_flete').disable();
-
   }
-
-  // getFormSetValue() {
-  //   this.producto = this.temporaryPurchaseDetailForm.value;
-  //   this.listShoppingForm.controls['list_producto'].setValue(this.producto.sho_prod_ID);
-  //   this.listShoppingForm.controls['list_producto'].disable();
-  //   this.listShoppingForm.controls['list_proveedor'].setValue(this.producto.sho_prov_ID);
-  //   this.listShoppingForm.controls['list_proveedor'].disable();
-  //   this.listShoppingForm.controls['list_peso'].setValue(this.producto.sho_peso);
-  //   this.listShoppingForm.controls['list_precio'].setValue(this.producto.sho_precio);
-  //   this.listShoppingForm.controls['list_total'].setValue(this.producto.sho_precio * this.producto.sho_peso);
-  //   this.listShoppingForm.controls['list_total'].disable();
-  // }
-
 
   getAllTemporaryPurchaseDetail() {
     this.temporaryPurchaseDetailService.getAllData().subscribe(res => {
       this.listTemporaryPurchaseDetail = res;
-      // console.log(this.listTemporaryPurchaseDetail);
       this.dataSource2 = new MatTableDataSource(this.listTemporaryPurchaseDetail);     
 
     })
@@ -250,13 +207,12 @@ export class ShoppingComponent implements OnInit {
     this.temporaryPurchaseDetailService.getTotalData().subscribe(res => {
       this.listTotalPurchaseDetail = res;
       this.totalPurchaseDetail = this.listTotalPurchaseDetail[0].pur_total;
-      // console.log(this.totalPurchaseDetail);
 
       this.listPurchasesForm = this.formBuilder.group({
         pu_ID: '',
         pu_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
-        pu_boleta: [this.numeroBoleta],
-        pu_prov_ID: [''],
+        pu_boleta: [this.lastTicketNumber, Validators.required],
+        pu_prov_ID: ['', Validators.required],
         pu_emp_ID: [1, Validators.required],
         pu_total_importe: [this.totalPurchaseDetail, Validators.required],
         pu_adelanto: ['', Validators.required],
@@ -265,7 +221,6 @@ export class ShoppingComponent implements OnInit {
         pu_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
         pu_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
       });
-
 
     })
   }
@@ -317,9 +272,7 @@ export class ShoppingComponent implements OnInit {
        // alert("Agregado Correctamente")
       },
       error: (e) => {
-        // alert("Error")
         console.log(e);
-        // this._toastService.error('Error al Agregar Gasto!!!');
       }
     })
   }
@@ -329,17 +282,17 @@ export class ShoppingComponent implements OnInit {
       this.temporaryPurchaseDetailService.createData(this.temporaryPurchaseDetailForm.value)
         .subscribe({
           next: (res) => {
-            // this._toastService.success('Deposito Agregado Satisfactoriamente!!!');
+
             this.getTotalPurchaseDetail();
             this.getAllTemporaryPurchaseDetail();
             this.addWeightPurchase();
             
             this.temporaryPurchaseDetailForm = this.formBuilder.group({
+              pur_ID: [''],
               pur_prod_ID: ['', Validators.required],
               pur_pu_ID: [this.purchaseIdNumber, Validators.required],
               pur_peso: ['', Validators.required],
-              pur_precio: ['', Validators.required],
-              
+              pur_precio: ['', Validators.required],              
               pur_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
               pur_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
             });
@@ -347,38 +300,34 @@ export class ShoppingComponent implements OnInit {
             this.listPurchasesForm.get('pu_flete').setValue(0);
 
           },
-          error: () => {
-            // alert("Error")
-            // this._toastService.error('Error al Agregar Gasto!!!');
+          error: (e) => {
+            console.log(e);
           }
         })
     }
   }
 
   diminishWeightPurchase(peso: any, producto: any){
-    // this.weightProductPurchase = this.temporaryPurchaseDetailForm.value;
     this.temporaryPurchaseDetailService.diminishWeightPurchase(peso, producto)
     .subscribe({
       next: (res) => {
-       // alert("Agregado Correctamente")
+
       },
       error: (e) => {
-        // alert("Error")
         console.log(e);
-        // this._toastService.error('Error al Agregar Gasto!!!');
       }
-    })
+    });
   }
 
   deleteOneTemporaryPurchaseDetail(id: any, peso: any, producto: any) {
-    // console.log(id, peso, producto, 'deleteid ==>');
     this.temporaryPurchaseDetailService.deleteData(id).subscribe({
       next: (res) => {
         this.getAllTemporaryPurchaseDetail();
         this.getTotalPurchaseDetail();
         this.diminishWeightPurchase(peso, producto);
       },
-      error: () => {
+      error: (e) => {
+        console.log(e);
       }
 
     });
@@ -416,8 +365,8 @@ export class ShoppingComponent implements OnInit {
     .subscribe({
       next: (res) => {
       },
-      error: () => {
-        // alert("Error")
+      error: (e) => {
+        console.log(e);
       }
     })
   }
@@ -428,21 +377,19 @@ export class ShoppingComponent implements OnInit {
         this.getAllTemporaryPurchaseDetail();
         this.getTotalPurchaseDetail();
       },
-      error: () => {
+      error: (e) => {
+        console.log(e);
       }
     });
   }
 
   changeStateOFAdvanceProvider () {
-
-    // this.providerId = this.listPurchasesForm.value;
-    // console.log('proveedor ', this.stateProviderId);
     if (this.fleteMonto === undefined) {
       this.fleteMonto = 0;
     }
     let montoCobrar = this.totalPurchaseDetail-this.fleteMonto-this.amountProvider;
-    console.log("OTROS CALCULOS ", this.totalPurchaseDetail, this.fleteMonto, this.amountProvider);
-    console.log("TOTAL ", montoCobrar);
+    // console.log("OTROS CALCULOS ", this.totalPurchaseDetail, this.fleteMonto, this.amountProvider);
+    // console.log("TOTAL ", montoCobrar);
     
     if (montoCobrar < this.amountProvider) {
 
@@ -483,9 +430,7 @@ export class ShoppingComponent implements OnInit {
                               console.log(e)
                             }
                       });
-            
                     }     
-
 
                    },
                    error: (e) => {
@@ -497,9 +442,7 @@ export class ShoppingComponent implements OnInit {
 
         }
 
-           
-  
-      })
+      });
 
       //VALORES NEGATIVOS ESTAN INGRESANDO AQUI
     } else {
@@ -538,6 +481,7 @@ export class ShoppingComponent implements OnInit {
       this.purchasesService.createData(this.listPurchasesForm.value)
         .subscribe({
           next: (res) => {
+            
             this._toastService.success('Compra Agregada Satisfactoriamente!!!');
             
             this.addPurchasesDetail();
@@ -550,7 +494,8 @@ export class ShoppingComponent implements OnInit {
             this.changeStateOFAdvanceProvider();
 
             this.temporaryPurchaseDetailForm = this.formBuilder.group({
-              pur_prod_ID: [''],
+              pur_ID: [''],
+              pur_prod_ID: ['', Validators.required],
               pur_peso: ['', Validators.required],
               pur_precio: ['', Validators.required],
               pur_pu_ID: [this.purchaseIdNumber, Validators.required],
@@ -561,34 +506,31 @@ export class ShoppingComponent implements OnInit {
             this.listPurchasesForm.reset();
 
             let boleta = [];
-            // console.log("BoletaInicial", this.numBoletaInicial)
-        
-            let numBoletaFinal = this.numBoletaInicial+1;
 
-            for (let i=1; i<=numBoletaFinal; i++) {
+            this.numLastTicket3 = this.numLastTicket2+1;
+
+            for (let i=1; i<=this.numLastTicket3; i++) {
               let numBoleta = boleta[i-1] = i;
-              // const element = boleta[i];
               if (numBoleta<10) {
                 //6 digitos 000001
-                this.numeroBoleta = `00000${numBoleta}`;
+                this.numberTicket = `00000${numBoleta}`;
               }
               if (numBoleta>=10 && numBoleta<100) {
-                this.numeroBoleta = `0000${numBoleta}`;
+                this.numberTicket = `0000${numBoleta}`;
               }
               if (numBoleta>=100 && numBoleta<1000) {
-                this.numeroBoleta = `000${numBoleta}`;
+                this.numberTicket = `000${numBoleta}`;
               }
               if (numBoleta>=1000 && numBoleta<10000) {
-                this.numeroBoleta = `00${numBoleta}`;
+                this.numberTicket = `00${numBoleta}`;
               }
               if (numBoleta>=10000 && numBoleta<100000) {
-                this.numeroBoleta = `0${numBoleta}`;
+                this.numberTicket = `0${numBoleta}`;
               }
               if (numBoleta>=100000 && numBoleta<100001) {
-                this.numeroBoleta = `${numBoleta}`;
+                this.numberTicket = `${numBoleta}`;
               }
 
-              // console.log("BOLETA ",this.numeroBoleta);
             }
 
             this.ticketForm = this.formBuilder.group({
@@ -596,31 +538,28 @@ export class ShoppingComponent implements OnInit {
               tick_ruc: [10471206170, Validators.required],
               tick_serie: ['00', Validators.required],
               tick_serie_numero: [1, Validators.required],
-              tick_numero: [numBoletaFinal, Validators.required],
-              tick_boleta: [this.numeroBoleta, Validators.required],
+              tick_numero: [this.numLastTicket3, Validators.required],
+              tick_boleta: [this.numberTicket, Validators.required],
               tick_boleta_final: [100000]
-
             });
 
             this.ticketService.createData(this.ticketForm.value).subscribe({
               next: (res) => {
-                console.log("Numero de Ticker agregado");
+                console.log("Boleta Agregada");
+                this.getLastPurchaseId();
+                this.getGenerateTicketNumber();
               },
-              error: () => {
-                console.log("Error al agregar numero boleta")
+              error: (e) => {
+                console.log("Error", e)
               }
             })
 
-            
-
             // Reseteando las sumas de totales
-            this.fleteMonto = 0;
-            
+            this.fleteMonto = 0;            
             this.ticketForm.reset();
 
           },
-          error: () => {
-            // alert("Error")
+          error: (e) => {
             this._toastService.error('Error al Agregar Compra!!!');
           }
         })
