@@ -14,6 +14,7 @@ import { AdvancesStateService } from 'src/app/services/advances-state.service';
 import { TicketSaleService } from 'src/app/services/ticket-sale.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SalesDialogComponent } from './sales-dialog/sales-dialog.component';
+import { SaleIdService } from 'src/app/services/sale-id.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import * as moment from 'moment';
@@ -28,7 +29,6 @@ import 'moment/locale/pt-br';
 export class SalesComponent implements OnInit {
 
   advanceForm !: FormGroup;
-
   ticketSaleForm !: FormGroup;
 
   date: Date = new Date();
@@ -75,64 +75,66 @@ export class SalesComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   //GENERANDO BOLETA
-  numeroBoleta: String;
+  saleId: any;
+  saleIdNumber: any;
+
+  numberTicket: String;
   ticketData: any;
-  numBoletaInicial: any;
+  lastTicketNumber: any;
+  numLastTicket2: any;
+  numLastTicket3: any;
 
-  async generarNumeroBoleta () {
-    await this.ticketSaleService.getAllData().subscribe({
+  getLastSaleId () {
+    this.saleIdService.getLastSaleId().subscribe({
       next: (res) => {
-        this.ticketData = res[0];
-        console.log("AQUI: ", this.ticketData);
-        this.numBoletaInicial = this.ticketData.tick_sal_numero;
+        this.saleId = res;
 
-        let boleta = [];
-        // console.log("BoletaInicial", this.numBoletaInicial)
-    
-        for (let i=1; i<=this.numBoletaInicial; i++) {
-          let numBoleta = boleta[i-1] = i;
-          // const element = boleta[i];
-          if (numBoleta<10) {
-            //6 digitos 000001
-            this.numeroBoleta = `00000${numBoleta}`;
-          }
-          if (numBoleta>=10 && numBoleta<100) {
-            this.numeroBoleta = `0000${numBoleta}`;
-          }
-          if (numBoleta>=100 && numBoleta<1000) {
-            this.numeroBoleta = `000${numBoleta}`;
-          }
-          if (numBoleta>=1000 && numBoleta<10000) {
-            this.numeroBoleta = `00${numBoleta}`;
-          }
-          if (numBoleta>=10000 && numBoleta<100000) {
-            this.numeroBoleta = `0${numBoleta}`;
-          }
-          if (numBoleta>=100000 && numBoleta<100001) {
-            this.numeroBoleta = `${numBoleta}`;
-          }
-
-          // console.log("BOLETA ",this.numeroBoleta);
+        if (this.saleId == null) {
+          this.saleIdNumber = 1;
+        } else {
+          this.saleIdNumber = this.saleId.sa_ID+1;
         }
 
         this.temporarySalesDetailForm = this.formBuilder.group({
           sal_ID: [''],
           sal_prod_ID: ['', Validators.required],
-          sal_sa_ID: [this.numBoletaInicial, Validators.required],
+          sal_sa_ID: [this.saleIdNumber, Validators.required],
           sal_peso: ['', Validators.required],
           sal_precio: ['', Validators.required],
           sal_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
           sal_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
         });
+        
+      }
+    })
+  }
+
+  getGenerateTicketNumber () {
+    this.ticketSaleService.getAllData().subscribe({
+      next: (res) => {
+        this.ticketData = res[0];
+        this.lastTicketNumber = this.ticketData.tick_sal_boleta;
+        this.numLastTicket2 = this.ticketData.tick_sal_numero;
+
+        console.log(this.ticketData)
+
+        this.listSalesForm = this.formBuilder.group({
+          sa_ID: '',
+          sa_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+          sa_boleta: [this.lastTicketNumber, Validators.required],
+          sa_cus_ID: ['', Validators.required],
+          sa_emp_ID: ['1', Validators.required],
+          sa_total_importe: ['', Validators.required],
+          sa_adelanto: ['', Validators.required],
+          sa_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+          sa_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+        });
 
       },
       error: (e) => {
-        // alert("Error")
         console.log(e);
-        // this._toastService.error('Error al Agregar Gasto!!!');
       }
     })
-      
     
   }
 
@@ -146,6 +148,7 @@ export class SalesComponent implements OnInit {
     private advancesCustomerService: AdvancesCustomerService,
     private advancesStateService: AdvancesStateService,
     private ticketSaleService: TicketSaleService,
+    private saleIdService: SaleIdService,
     private _toastService: ToastService,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -153,7 +156,8 @@ export class SalesComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.generarNumeroBoleta();
+    this.getLastSaleId();
+    this.getGenerateTicketNumber();
 
     this.getAllTemporarySalesDetail();
     this.getTotalSalesDetail();
@@ -165,7 +169,7 @@ export class SalesComponent implements OnInit {
     this.temporarySalesDetailForm = this.formBuilder.group({
       sal_ID: [''],
       sal_prod_ID: ['', Validators.required],
-      sal_sa_ID: [this.numBoletaInicial, Validators.required],
+      sal_sa_ID: [this.saleIdNumber, Validators.required],
       sal_peso: ['', Validators.required],
       sal_precio: ['', Validators.required],
       sal_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
@@ -174,8 +178,8 @@ export class SalesComponent implements OnInit {
 
     this.listSalesForm = this.formBuilder.group({
       sa_ID: '',
-      sa_fecha: [this.date, Validators.required],
-      sa_boleta: [this.numeroBoleta, Validators.required],
+      sa_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+      sa_boleta: [this.lastTicketNumber, Validators.required],
       sa_cus_ID: ['', Validators.required],
       sa_emp_ID: ['1', Validators.required],
       sa_total_importe: ['', Validators.required],
@@ -183,7 +187,6 @@ export class SalesComponent implements OnInit {
       sa_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
       sa_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
     });
-
 
   }
 
@@ -205,16 +208,18 @@ export class SalesComponent implements OnInit {
 
       this.listSalesForm = this.formBuilder.group({
         sa_ID: '',
-        sa_fecha: [this.date, Validators.required],
-        sa_boleta: [this.numeroBoleta, Validators.required],
-        sa_cus_ID: [''],
+        sa_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+        sa_boleta: [this.lastTicketNumber, Validators.required],
+        sa_cus_ID: ['', Validators.required],
         sa_emp_ID: ['1', Validators.required],
         sa_total_importe: [this.getTotalSales, Validators.required],
         sa_adelanto: ['', Validators.required],
         sa_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
         sa_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
       });
+
     })
+
   }
 
   getAdvanceForCustomer() {
@@ -232,8 +237,6 @@ export class SalesComponent implements OnInit {
           }
           this.amountCustomer = 0;
         }
-        // this.dateAdvance = this.listAvancesForCustomer[0].ad_fecha;
-          //  this.dateAdvance = 1;
       } else {
         this.amountCustomer = 0;
         this.dateAdvance = 0;
@@ -250,12 +253,10 @@ export class SalesComponent implements OnInit {
     this.temporarySalesDetailService.addWeightSale(this.weightProductSales.sal_peso, this.weightProductSales.sal_prod_ID)
     .subscribe({
       next: (res) => {
-       // alert("Agregado Correctamente")
+
       },
       error: (e) => {
-        // alert("Error")
         console.log(e);
-        // this._toastService.error('Error al Agregar Gasto!!!');
       }
     })
   }
@@ -273,47 +274,43 @@ export class SalesComponent implements OnInit {
             this.temporarySalesDetailForm = this.formBuilder.group({
               sal_ID: [''],
               sal_prod_ID: ['', Validators.required],
-              sal_sa_ID: [this.numBoletaInicial, Validators.required],
+              sal_sa_ID: [this.saleIdNumber, Validators.required],
               sal_peso: ['', Validators.required],
               sal_precio: ['', Validators.required],
               sal_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
               sal_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
             });
 
-
           },
-          error: () => {
-            // alert("Error")
-            // this._toastService.error('Error al Agregar Gasto!!!');
+          error: (e) => {
+            console.log(e);
           }
         })
     }
   }
 
   diminishWeightSale(peso: any, producto: any){
-    // this.weightProductPurchase = this.temporaryPurchaseDetailForm.value;
     this.temporarySalesDetailService.diminishWeightSale(peso, producto)
     .subscribe({
       next: (res) => {
-       // alert("Agregado Correctamente")
+
       },
       error: (e) => {
-        // alert("Error")
         console.log(e);
-        // this._toastService.error('Error al Agregar Gasto!!!');
       }
     })
+
   }
 
   deleteOneTemporarySaleDetail(id: any, peso: any, producto: any) {
-    console.log(id, 'deleteid ==>');
     this.temporarySalesDetailService.deleteData(id).subscribe({
       next: (res) => {
         this.getAllTemporarySalesDetail();
         this.getTotalSalesDetail();
         this.diminishWeightSale(peso, producto);
       },
-      error: () => {
+      error: (e) => {
+        console.log(e);
       }
 
     });
@@ -341,8 +338,6 @@ export class SalesComponent implements OnInit {
 
     this.salesService.getAllData(forDateStart, forDateEnd).subscribe(res => {
       this.listSales = res;
-      console.log("Sales");
-      console.log(res);
       this.dataSource = new MatTableDataSource(this.listSales);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -354,8 +349,8 @@ export class SalesComponent implements OnInit {
     .subscribe({
       next: (res) => {
       },
-      error: () => {
-        // alert("Error")
+      error: (e) => {
+        console.log(e);
       }
     })
   }
@@ -366,15 +361,14 @@ export class SalesComponent implements OnInit {
         this.getAllTemporarySalesDetail();
         this.getTotalSalesDetail();
       },
-      error: () => {
+      error: (e) => {
+        console.log(e);
       }
     });
   }
 
   changeStateOFAdvanceCustomer () {
 
-    // this.providerId = this.listPurchasesForm.value;
-    // console.log('proveedor ', this.stateCustomerId);
     let montoCobrar = this.getTotalSales-this.amountCustomer;
     console.log("OTROS CALCULOS ", this.getTotalSales, this.amountCustomer);
     console.log("TOTAL ", montoCobrar);
@@ -394,7 +388,6 @@ export class SalesComponent implements OnInit {
           .subscribe({
                   next: (res) => {
                     console.log("Estado de Cliente Modificado__ ", this.stateCustomerId);
-                    // this._toastService.info('Todos los estados modificados');
                   },
                   error: (e) => {
                     console.log(e);
@@ -478,49 +471,45 @@ export class SalesComponent implements OnInit {
             this.deleteAllTemporarySalesDetail();
             this.getAdvanceForCustomer();
             this.changeStateOFAdvanceCustomer();
-            // this.dialogRef.close('save');
 
             this.temporarySalesDetailForm = this.formBuilder.group({
               sal_ID: [''],
               sal_prod_ID: ['', Validators.required],
-              sal_sa_ID: [this.numBoletaInicial, Validators.required],
+              sal_sa_ID: [this.saleIdNumber, Validators.required],
               sal_peso: ['', Validators.required],
               sal_precio: ['', Validators.required],
               sal_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
-              sal_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
+              sal_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
             });
 
             this.listSalesForm.reset();
 
             let boleta = [];
-            // console.log("BoletaInicial", this.numBoletaInicial)
         
-            let numBoletaFinal = this.numBoletaInicial+1;
+            this.numLastTicket3 = this.numLastTicket2+1;
 
-            for (let i=1; i<=numBoletaFinal; i++) {
+            for (let i=1; i<=this.numLastTicket3; i++) {
               let numBoleta = boleta[i-1] = i;
-              // const element = boleta[i];
               if (numBoleta<10) {
                 //6 digitos 000001
-                this.numeroBoleta = `00000${numBoleta}`;
+                this.numberTicket = `00000${numBoleta}`;
               }
               if (numBoleta>=10 && numBoleta<100) {
-                this.numeroBoleta = `0000${numBoleta}`;
+                this.numberTicket = `0000${numBoleta}`;
               }
               if (numBoleta>=100 && numBoleta<1000) {
-                this.numeroBoleta = `000${numBoleta}`;
+                this.numberTicket = `000${numBoleta}`;
               }
               if (numBoleta>=1000 && numBoleta<10000) {
-                this.numeroBoleta = `00${numBoleta}`;
+                this.numberTicket = `00${numBoleta}`;
               }
               if (numBoleta>=10000 && numBoleta<100000) {
-                this.numeroBoleta = `0${numBoleta}`;
+                this.numberTicket = `0${numBoleta}`;
               }
               if (numBoleta>=100000 && numBoleta<100001) {
-                this.numeroBoleta = `${numBoleta}`;
+                this.numberTicket = `${numBoleta}`;
               }
 
-              // console.log("BOLETA ",this.numeroBoleta);
             }
 
             this.ticketSaleForm = this.formBuilder.group({
@@ -528,18 +517,19 @@ export class SalesComponent implements OnInit {
               tick_sal_ruc: [10471206170, Validators.required],
               tick_sal_serie: ['00', Validators.required],
               tick_sal_serie_numero: [1, Validators.required],
-              tick_sal_numero: [numBoletaFinal, Validators.required],
-              tick_sal_boleta: [this.numeroBoleta, Validators.required],
+              tick_sal_numero: [this.numLastTicket3, Validators.required],
+              tick_sal_boleta: [this.numberTicket, Validators.required],
               tick_sal_boleta_final: [100000]
-
             });
 
             this.ticketSaleService.createData(this.ticketSaleForm.value).subscribe({
               next: (res) => {
-                console.log("Numero de Ticker agregado");
+                console.log("Boleta Agregada");
+                this.getLastSaleId();
+                this.getGenerateTicketNumber();
               },
-              error: () => {
-                console.log("Error al agregar numero boleta")
+              error: (e) => {
+                console.log("Error", e)
               }
             })
 
@@ -547,7 +537,6 @@ export class SalesComponent implements OnInit {
 
           },
           error: () => {
-            // alert("Error")
             this._toastService.error('Error al Agregar Venta!!!');
           }
         })

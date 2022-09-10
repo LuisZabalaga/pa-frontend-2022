@@ -159,7 +159,6 @@ export class ShoppingComponent implements OnInit {
   ngOnInit(): void {
 
     this.getLastPurchaseId ();
-
     this.getGenerateTicketNumber ();
 
     this.getAllTemporaryPurchaseDetail();
@@ -477,7 +476,6 @@ export class ShoppingComponent implements OnInit {
   addPurchases() {
     
     if (this.listPurchasesForm.valid) {
-
       this.purchasesService.createData(this.listPurchasesForm.value)
         .subscribe({
           next: (res) => {
@@ -489,7 +487,6 @@ export class ShoppingComponent implements OnInit {
             this.getTotalPurchaseDetail();
             this.getAllPurchasesForDate();
             this.deleteAllTemporaryPurchasesDetail();            
-            // this.dialogRef.close('save');
             this.getAdvanceForProvider();
             this.changeStateOFAdvanceProvider();
 

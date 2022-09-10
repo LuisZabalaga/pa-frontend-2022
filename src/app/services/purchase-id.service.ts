@@ -13,7 +13,7 @@ export class PurchaseIdService {
   // connect frontend to backend
   private apiUrl = environment.url+'purchase-id';
 
-  //Get all purchases
+  //Get last id purchase
   getLastPurchaseId():Observable<any> {
     return this._httpClient.get(`${this.apiUrl}`);
   }

@@ -19,15 +19,13 @@ export class SalesDetailService {
     return this._httpClient.get(`${this.apiUrl}/${ids}`);
   }
 
-  //Add all sales detail
+  //Add new sale detail
   createData(data:any):Observable<any> {
-    console.log(data, 'venta creada =>');
-    return this._httpClient.put(`${this.apiUrl}`, data);
+    return this._httpClient.post(`${this.apiUrl}`, data);
   }
 
-  //Delete all sales detail
+  //Delete all sales detail temporary
   deleteData():Observable<any> {
-    // let ids = id;
     return this._httpClient.delete(`${this.apiUrl}`);
   }
 
