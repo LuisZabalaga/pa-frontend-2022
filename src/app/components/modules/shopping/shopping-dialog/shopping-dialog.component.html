@@ -37,30 +37,30 @@
                 <td>P.U (S/)</td>
                 <td>Importe</td>
             </tr>
-            <tr *ngFor="let list of listPurchaseDetail"  style="padding: 10px; background-color:#F6F6F6;">
+            <tr *ngFor="let list of listPurchaseDetail"  style="background-color:#F6F6F6;">
                 <td>{{list.prod_nombre}}</td>
                 <td>{{list.purc_peso}}</td>
                 <td>{{ 'S/ '+list.purc_precio }}</td>
                 <td>{{ 'S/ '+list.purc_subtotal }}</td>
             </tr>
             
-            <tr style="padding: 10px; background-color: #F2DEDE;">
+            <tr style="background-color: #F2DEDE;">
                 <td class="total-title" colspan="3" [align]="'end'">Total Importe</td>
                 <td class="total">S/ {{ purc.pu_total_importe | currency:'':'' }}</td>
             </tr>
-            <tr style="padding: 10px; background-color: #F2DEDE;">
+            <tr style="background-color: #F2DEDE;">
                 <td class="total-title" colspan="3" [align]="'end'">Total Adelanto</td>
                 <td class="total">S/ {{ purc.pu_adelanto | currency:'':'' }}</td>
             </tr>
-            <tr style="padding: 10px; background-color: #F2DEDE;" >
+            <tr *ngIf="displayElement" style="background-color: #F2DEDE;" >
                 <td class="total-title" colspan="3" [align]="'end'">Flete</td>
                 <td class="total">S/ {{ purc.pu_flete | currency:'':'' }}</td>
             </tr>
-            <tr style="padding: 10px; background-color: #F2DEDE;" >
+            <tr *ngIf="displayElementAdelanto" style="background-color: #F2DEDE;" >
                 <td class="total-title" colspan="3" [align]="'end'">Faltante por Saldar</td>
                 <td class="total">S/ {{purc.pu_adelanto-purc.pu_total_importe | currency:'':'' }}</td>
             </tr>
-            <tr style="padding: 10px; background-color: #F2DEDE;">
+            <tr style="background-color: #F2DEDE;">
                 <td class="total-title" colspan="3" [align]="'end'">Total Pagado</td>
                 <td class="total">S/ {{purc.pu_total | currency:'':'' }}</td>
             </tr>          
@@ -83,10 +83,10 @@
         &nbsp;
         <button 
             mat-raised-button 
-            color="accent" 
-            matTooltip="Imprimir" 
+            color="accent"
+            matTooltip="Imprimir"
             class="botones" 
-            
+            (click)="printPurchase2()"
         >
             Imprimir <mat-icon>local_print_shop</mat-icon>
         </button>

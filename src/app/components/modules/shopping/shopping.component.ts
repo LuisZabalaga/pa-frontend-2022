@@ -268,7 +268,7 @@ export class ShoppingComponent implements OnInit {
     this.temporaryPurchaseDetailService.addWeightPurchase(this.weightProductPurchase.pur_peso, this.weightProductPurchase.pur_prod_ID)
     .subscribe({
       next: (res) => {
-       // alert("Agregado Correctamente")
+       
       },
       error: (e) => {
         console.log(e);

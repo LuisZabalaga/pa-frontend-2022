@@ -4,6 +4,7 @@ import { PurchasesService } from 'src/app/services/purchases.service';
 import { PrintingService } from 'src/app/services/printing.service';
 import { ToastService } from 'angular-toastify';  
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import * as printJS from 'print-js';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -16,9 +17,9 @@ export class ShoppingDialogComponent implements OnInit {
 
   // @ViewChild('printEl') printEl: ElementRef;
 
-  // productForm !: FormGroup;
   listPurchaseDetail: any;
   listPurchase: any;
+  dataJSON: JSON;
   estado: any;
   // actionBtn: string = "Agregar";
 
@@ -26,6 +27,9 @@ export class ShoppingDialogComponent implements OnInit {
   adelanto: any;
   flete: any;
   valorResultante: any;
+
+  displayElement: boolean = true;
+  displayElementAdelanto: boolean = true;
 
   // isFlete: boolean = true;
   // isSaldo: boolean; 
@@ -43,66 +47,30 @@ export class ShoppingDialogComponent implements OnInit {
 
     this.getPurchaseDetailsForId();
     this.getPurchaseForId();
-    this.changevisibilityOfFreightAndBalance();
+    this.changeVisibilityOfFreightAndBalance();
 
     const date: Date = new Date();
-    console.log("Date = " + date);
-
-    // if (this.monto === 0) {
-    //   this.isSaldo = true;
-    // }
-    // if (this.flete =! 0) {
-    //   this.isFlete = false;
-    // } 
-
-    // this.productForm = this.formBuilder.group({
-    //   prod_ID: [''],
-    //   prod_nombre: ['', Validators.required],
-    //   prod_descripcion: ['', Validators.required],
-    //   prod_precio_compra: ['', Validators.required],
-    //   prod_precio_venta: ['', Validators.required],
-    //   prod_peso_bruto: ['', Validators.required],
-    //   prod_peso_puro: ['', Validators.required],
-    //   prod_imagen: [''],
-    //   prod_cat_ID: ['', Validators.required],
-    //   prod_created_at: date,
-    //   prod_updated_at: date
-    // });
-
-    // if(this.editProduct) {
-    //   console.log(this.editProduct);
-    //   this.actionBtn = "Actualizar";
-    //   this.productForm.controls['prod_ID'].setValue(this.editProduct.prod_ID);
-    //   this.productForm.controls['prod_nombre'].setValue(this.editProduct.prod_nombre);
-    //   this.productForm.controls['prod_descripcion'].setValue(this.editProduct.prod_descripcion);
-    //   this.productForm.controls['prod_precio_compra'].setValue(this.editProduct.prod_precio_compra);
-    //   this.productForm.controls['prod_precio_venta'].setValue(this.editProduct.prod_precio_venta);
-    //   this.productForm.controls['prod_peso_bruto'].setValue(this.editProduct.prod_peso_bruto);
-    //   this.productForm.controls['prod_peso_puro'].setValue(this.editProduct.prod_peso_puro);
-    //   this.productForm.controls['prod_imagen'].setValue(this.editProduct.prod_imagen);
-    //   this.productForm.controls['prod_cat_ID'].setValue(this.editProduct.prod_cat_ID);
-    //   // this.productForm.controls['cat_nombre'].setValue(this.editProduct.cat_nombre);
-    // }
-
-    // console.log(this.purchaseDetailData);
 
   }
 
   getPurchaseDetailsForId() {
     this.purchaseDetailService.getAllData(this.purchaseDetailData.pu_ID).subscribe(res => {
       this.listPurchaseDetail = res;
-      // console.log(this.listPurchaseDetail);
+      console.log(this.listPurchaseDetail);
     });
   }
 
   getPurchaseForId () {
     this.purchaseService.getPurchaseForId(this.purchaseDetailData.pu_ID).subscribe(res => {
       this.listPurchase = res;
-      // console.log("compra: ",this.listPurchase);
+      // this.dataJSON = res;
+      console.log(this.listPurchase);
       this.monto = this.listPurchase[0].pu_total;
       this.adelanto = this.listPurchase[0].pu_adelanto;
       this.flete = this.listPurchase[0].pu_flete;
       console.log(this.monto, this.adelanto, this.flete);
+
+      this.changeVisibilityOfFreightAndBalance()
     });
   }
 
@@ -110,52 +78,24 @@ export class ShoppingDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  changevisibilityOfFreightAndBalance() {
+  changeVisibilityOfFreightAndBalance() {
+    if (this.flete == 0){
+      this.displayElement = false;
+    }
 
+    if (this.adelanto == 0){
+      this.displayElementAdelanto = false;
+    }
     
-  } 
+  }
 
-  // public print(): void { 
-  //   this.printingService.print(this.printEl.nativeElement); 
-  // }
+  printPurchase() {
+    printJS({printable: this.listPurchaseDetail, properties: ['prod_ID', 'prod_nombre', 'purc_ID', 'purc_peso', 'purc_precio', 'purc_prod_ID', 'purc_pu_ID', 'purc_subtotal'], type: 'json' }); 
+  }
 
-  // addProduct() {
-  //   if (!this.editProduct) {
-  //     if(this.productForm.valid) {
-  //       this.productsService.createData(this.productForm.value)
-  //       .subscribe({
-  //         next: (res) => {
-  //           this._toastService.success('Producto Agregado Satisfactoriamente!!!');
-  //           this.productForm.reset();
-  //           this.dialogRef.close('save');
-  //         },
-  //         error: () => {
-  //           // alert("Error")
-  //           this._toastService.error('Error al Agregar Producto!!!');
-  //         }
-  //       })
-  //     }
-  //   } else {
-  //     this.updateProduct()
-  //   }
-   
-  // }
+  printPurchase2() {
+    printJS("test", "html")
+  }
 
-  // updateProduct() {
-  //   if(this.productForm.valid) {
-  //     this.productsService.updateData(this.productForm.value, this.editProduct.prov_ID)
-  //     .subscribe({
-  //       next: (res) => {
-  //         this._toastService.success('Producto Modificado Satisfactoriamente!!!');
-  //         this.productForm.reset();
-  //         this.dialogRef.close('update');
-  //       },
-  //       error: () => {
-  //         // alert("Error")
-  //         this._toastService.error('Error al Modificar Producto!!!');
-  //       }
-  //     })
-  //   }
-  // }
 
 }

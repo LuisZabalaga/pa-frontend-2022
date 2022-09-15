@@ -11,11 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastService, AngularToastifyModule } from 'angular-toastify'; 
 
-//Components
-// import { CreateComponent } from './create/create.component';
-// import { ReadComponent } from './read/read.component';
-
-
 //Services
 import { ApiserviceService } from './services/apiservice.service';
 import { ProductsService } from './services/products.service';
@@ -28,6 +23,9 @@ import { ExpensesService } from './services/expenses.service';
 import { SalesService } from './services/sales.service';
 import { PurchasesService } from './services/purchases.service';
 
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { PdfMakeWrapper } from 'pdfmake-wrapper';
+
 //Modules
 import { DefaultModule } from './components/layout/default.module';
 import { SharedModule } from './components/shared/shared.module';
@@ -37,12 +35,11 @@ import { ReportsComponent } from './components/modules/reports/reports.component
 import { AdvancesCustomersDialogComponent } from './components/modules/advances/advances-customers-dialog/advances-customers-dialog.component';
 
 registerLocaleData(localeEs, 'Es');
+PdfMakeWrapper.setFonts(pdfFonts);
 
 @NgModule({
   declarations: [
     AppComponent,
-    // CreateComponent,
-    // ReadComponent,
     AdvancesComponent,
     AdvancesDialogComponent,
     ReportsComponent,

@@ -32,25 +32,26 @@ mat-raised-button {
 }
 
 .table-purchase-detail tr td {
-    padding: 10px 30px;
+    padding: 7px 30px;
+    font-size: 12px;
 }
 
 .table-purchase-detail .table-title {
     background-color: #A3D4F1;
     text-transform: uppercase;
     /* color: #E6E6E6; */
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
 }
 
 .table-purchase-detail .total-title {
     text-transform: uppercase;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 500;
 }
 
 .table-purchase-detail .total {
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 500;
     color: red;
 }
@@ -60,7 +61,8 @@ mat-raised-button {
 }
 
 .table-purchase tr td {
-    padding: 10px 30px;
+    padding: 7px 30px;
+    font-size: 12px;
 }
 
 .table-purchase .table-title {
@@ -68,7 +70,7 @@ mat-raised-button {
     background-color: #F2DEDE;
     text-transform: uppercase;
     text-align: right;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
 }
 

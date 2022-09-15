@@ -60,8 +60,8 @@
                 </mat-form-field>
             </div>
     
-            <div mat-dialog-actions [align]="'end'">
-                <button mat-raised-button matTooltip="Agregar Venta" class="botones" (click)="addTemporarySalesDetail()">
+            <div mat-dialog-actions [align]="'end'" style="padding-right: 9px">
+                <button mat-raised-button color="primary" matTooltip="Agregar Material" style="background-color: #411BAB;" class="botones" (click)="addTemporarySalesDetail()">
                     <mat-icon>shopping_cart</mat-icon>
                 </button>
             </div>
@@ -204,7 +204,7 @@
             <tr class="content-totales">
                 <td class="two" colspan="2" style="background-color: #DD4B39;">Fecha: </td>
                 <td class="three" style="border-left: 1px solid #AAC7D6; background-color: #DD4B39;">
-                    {{ dateAdvance === 0 ? 'NO HAY ADELANTO' : dateAdvance | date:'fullDate' }}
+                    {{ dateAdvance === 0 ? 'No hay Adelanto' : dateAdvance | date:'fullDate' }}
                 </td>
                 <td class="four" style="background-color: #DD4B39;">Adelanto Pendiente:</td>
                 <td class="five" style="border: 5px solid #DD4B39">

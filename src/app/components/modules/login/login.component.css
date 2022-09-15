@@ -1,24 +1,71 @@
-.content-login {
+.content__login {
     display: flex;
-    justify-content: center;
+    position: relative;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     min-height: 100vh;
     background: url('../../../../assets/img/layer.jpg');
 }
 
+.content__login-description {
+    width: 460px;
+    margin-left: 70px;
+}
+
+.content__login-description_h2 {
+    color: white;
+    font-size: 18px !important;
+    text-transform: uppercase;
+    font-weight: bolder;
+    width: 112px;
+    border-bottom: 4px solid #FF4081;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.content__login-description_h22 {
+    color: white;
+    font-size: 17px !important;
+    text-transform: uppercase;
+    font-weight: bolder;
+    width: 210px;
+    display: flex;
+    align-items: center;
+    /* border-bottom: 3px solid #FF4081; */
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.content__login-description_h22:hover {
+    color: #FF4081;
+    cursor: pointer;
+}
+
+.content__login-description_h1 {
+    color: white;
+    font-size: 60px !important;
+    font-weight: bold;
+    line-height: 60px;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.content__login-description_h3 {
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 mat-card {
     display: flex;
     flex-direction: column;
-    width: 320px;
+    width: 300px;
     padding: 30px;
     box-sizing: content-box;
-    /* margin: 60px 0; */
+    margin-right: 70px;
 }
 
 mat-card-header {
     display: flex;
-    justify-content: center;
 }
 
 mat-card-content {
@@ -31,15 +78,14 @@ mat-card-footer {
     flex-direction: column;
 }
 
-.content-img {
+.content__login-img {
     display: flex;
     justify-content: center;
-    /* background-color: red; */
 }
 
-.content-img img {
-    width: 140px;
-    border-radius: 50%;
+.content__login-img img {
+    width: 230px;
+    /* border-radius: 50%; */
     margin: auto;
 }
 
@@ -49,11 +95,28 @@ mat-card-footer {
     padding: 5px 16px;
 }
 
-button {
-
-}
-
 mat-icon {
-    /* background-color: red; */
     font-size: 25px !important;
 }
+
+.content__login-footer {
+    position: absolute;
+    height: 30px;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+    .content__login-footer p {
+        color: white;
+        font-size: 14px;
+    }
+
+    .content__login-footer p span {
+        color: #FF4081;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+

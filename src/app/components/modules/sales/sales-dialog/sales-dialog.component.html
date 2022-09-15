@@ -38,24 +38,28 @@
                 <td>P.U (S/)</td>
                 <td>Importe</td>
             </tr>
-            <tr *ngFor="let list of listSalesDetail"  style="padding: 10px; background-color:#F6F6F6;">
+            <tr *ngFor="let list of listSalesDetail"  style="background-color:#F6F6F6;">
                 <td>{{list.prod_nombre}}</td>
                 <td>{{list.sale_peso}}</td>
                 <td>{{ 'S/ '+list.sale_precio }}</td>
                 <td>{{ 'S/ '+list.sale_subtotal }}</td>
             </tr>
 
-            <tr style="padding: 10px; background-color: #F2DEDE;">
+            <tr style="background-color: #F2DEDE;">
                 <td class="total-title" colspan="3" [align]="'end'">Total Importe</td>
-                <td class="total">S/ {{ sa.sa_total_importe | currency:'':'' }}</td>
+                <td class="total">S/ {{ importe | currency:'':'' }}</td>
             </tr>
-            <tr style="padding: 10px; background-color: #F2DEDE;">
+            <tr style="background-color: #F2DEDE;">
                 <td class="total-title" colspan="3" [align]="'end'">Total Adelanto</td>
-                <td class="total">S/ {{ sa.sa_adelanto | currency:'':'' }}</td>
+                <td class="total">S/ {{ adelanto | currency:'':'' }}</td>
             </tr>
-            <tr style="padding: 10px; background-color: #F2DEDE;">
+            <tr *ngIf="displayAdelanto" style="background-color: #F2DEDE;" >
+                <td class="total-title" colspan="3" [align]="'end'">Faltante por Saldar</td>
+                <td class="total">S/ {{ saldo | currency:'':'' }}</td>
+            </tr>
+            <tr style="background-color: #F2DEDE;">
                 <td class="total-title" colspan="3" [align]="'end'">Total Pagado</td>
-                <td class="total">S/ {{sa.sa_total | currency:'':'' }}</td>
+                <td class="total">S/ {{ total | currency:'':'' }}</td>
             </tr>
         
         </table>

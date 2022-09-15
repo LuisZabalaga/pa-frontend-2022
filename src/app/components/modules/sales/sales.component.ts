@@ -230,12 +230,14 @@ export class SalesComponent implements OnInit {
       if (this.listAvancesForCustomer?.length) {
         this.amountCustomer = this.listAvancesForCustomer[0].ad_total;
         this.dateAdvance = this.listAvancesForCustomer[0].ad_final_fecha;
+
         if (this.amountCustomer === null) {
           if (this.amountCustomer === undefined) {
             this.amountCustomer = 0;
             this.dateAdvance = 0
           }
           this.amountCustomer = 0;
+          this.dateAdvance = 0
         }
       } else {
         this.amountCustomer = 0;

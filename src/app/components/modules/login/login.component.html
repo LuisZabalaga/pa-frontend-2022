@@ -1,10 +1,18 @@
-<div class="content-login">
-    <mat-card>
+<div class="content__login">
+    <div class="content__login-description">
+        <h2 class="content__login-description_h2">Bienvenido</h2>
+        <h1 class="content__login-description_h1">Web de Mantenimiento Preventivo</h1>
+        <h3 class="content__login-description_h3">Sistema de Gestión y Control de Inventario</h3>
+        <h2 class="content__login-description_h22">Mas Información <i class="material-icons">forward</i></h2>
+    </div>
 
+    <mat-card>
         <mat-card-header>
-            <div class="content-img">
-                <img src="https://w7.pngwing.com/pngs/247/564/png-transparent-computer-icons-user-profile-user-avatar-blue-heroes-electric-blue-thumbnail.png"
-                    alt="Soufiane FADIL">
+            <div class="content__login-img">
+                <!-- <img src="https://w7.pngwing.com/pngs/247/564/png-transparent-computer-icons-user-profile-user-avatar-blue-heroes-electric-blue-thumbnail.png"
+                    alt="Soufiane FADIL"> -->
+                    <img src="../../../../assets/img/pa-logo3.png"
+                    alt="PA-LOGO">
             </div>
         </mat-card-header>
         <br/><br/>
@@ -24,19 +32,18 @@
                     <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
             </mat-form-field>
-
-            <!-- <mat-form-field>
-                <mat-label>Contraseña</mat-label>
-                <input matInput formControlName="" placeholder="Usuario" />
-            </mat-form-field> -->
         </mat-card-content>
-        <br/>
+        <!-- <br/> -->
         <mat-card-footer>
             <div mat-dialog-actions [align]="'center'">
                 <button mat-raised-button color="accent" matTooltip="">Iniciar Sesión</button>
                 <!-- <button mat-raised-button color="warn" matTooltip="Cancelar" mat-dialog-close>Cancelar</button> -->
             </div>
         </mat-card-footer>
-
     </mat-card>
+    
+    <div class="content__login-footer">
+        <p>Copyright © 2022 <span>PROYECTOS AMBIENTALES C&C</span> Todos los derechos reservados (Arequipa-Perú)</p>
+    </div>
+
 </div>

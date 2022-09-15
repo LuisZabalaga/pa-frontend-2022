@@ -41,13 +41,13 @@ mat-nav-list a mat-icon {
 }
 
 mat-nav-list a:hover mat-icon {
-    color: #411BAB;
+    color: #263A6E;
 }
 
 mat-nav-list a:hover {
     /* background-color: #F0F0F0; */
     background-color: #E0F3FF;
-    color: #411BAB;
+    color: #411BAB;    
 }
 
 /* list-item-active {
