@@ -301,3 +301,136 @@ table {
     font-size: 16px;
     text-transform: uppercase;
   }
+
+  mat-card {
+    box-sizing: border-box !important;
+  }
+  
+@media screen and (min-width: 0px) {
+  .content-form {
+    width: 100% !important;
+    overflow: hidden;
+  }
+
+  .content-input {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    overflow: hidden;
+  }
+
+  .content-input1,
+  .content-input2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .content-date {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .form__btn-add,
+  .form__btn-process {
+    width: 100% !important;
+  }
+
+}
+
+@media screen and (min-width: 576px) {
+  .content-form {
+    width: 100% !important;
+    overflow: hidden;
+  }
+
+  .content-input1 {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+  .content-input2 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .content-input {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .content-date {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .form__btn-add {
+    width: 80px !important;
+  }
+  .form__btn-process {
+    width: 150px !important;
+  }
+
+}
+
+@media screen and (min-width: 768px) {
+  .content-form {
+    width: 80% !important;
+    overflow: hidden;
+  }
+
+  .content-input {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+  }
+
+  .content-date {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+  }
+
+  .form__btn-add {
+    width: 80px !important;
+  }
+  .form__btn-process {
+    width: 150px !important;
+  }
+
+}
+
+@media screen and (min-width: 992px) {
+  .content-form {
+    width: 60% !important;
+    overflow: hidden;
+  }
+
+  .content-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+  }
+
+  .content-date {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+  }
+
+}
+
+@media screen and (min-width: 1200px) {
+  .content-form {
+    width: 50% !important;
+    overflow: hidden;
+  }
+
+  .content-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+  }
+
+  .content-date {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+  }
+
+}

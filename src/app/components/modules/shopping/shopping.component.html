@@ -57,7 +57,7 @@
             </div>
 
             <div mat-dialog-actions [align]="'end'" style="padding-right: 9px">
-                <button mat-raised-button color="primary" style="background-color: #411BAB;" matTooltip="Agregar Material" class="botones"
+                <button mat-raised-button color="primary" style="background-color: #411BAB;" matTooltip="Agregar Material" class="form__btn-add"
                     (click)="addTemporaryPurchaseDetail()">
                     <mat-icon>shopping_basket</mat-icon>
                 </button>
@@ -251,7 +251,7 @@
         </div> -->
 
         <div mat-dialog-actions [align]="'end'" class="boton-procesar">
-            <button mat-raised-button color="accent" matTooltip="Procesar" class="botones" (click)="addPurchases()"
+            <button mat-raised-button color="accent" matTooltip="Procesar" class="form__btn-process" (click)="addPurchases()"
                 [disabled]="listPurchasesForm.invalid">
                 Procesar Compra
             </button>
@@ -371,6 +371,6 @@
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 </div>
-
+<br>
 <!-- </div> -->
 <!-- <h2 *ngIf="listPurchases.length == 0">No hay Compras para mostrar</h2>  -->

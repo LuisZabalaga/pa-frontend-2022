@@ -6,26 +6,27 @@
 </mat-card>
 <br>
 <!-- <div *ngIf="listUsuarios.length > 0"> -->
-    <a class="icon-content" color="primary" matTooltip="Agregar Proveedor" (click)="openDialogAddProvider()">
-        <mat-icon class="icon-option">queue</mat-icon>
-    </a>
-    <a class="icon-content" color="warn" matTooltip="Proveedores Eliminados">
-        <mat-icon class="icon-option">delete_sweep</mat-icon>
-    </a>
-    <a class="icon-content" color="primary" matTooltip="Imprimir Lista">
-        <mat-icon class="icon-option">local_print_shop</mat-icon>
-    </a>
-    <a class="icon-content" color="primary" matTooltip="Descargar PDF">
-        <mat-icon class="icon-option">picture_as_pdf</mat-icon>
-    </a>
-    <a class="icon-content" color="primary" matTooltip="Descargar Excel">
-        <mat-icon class="icon-option">explicit</mat-icon>
-    </a><!-- &nbsp; -->
-    <a class="icon-content" color="primary" matTooltip="Enviar Email">
-        <mat-icon class="icon-option">mail</mat-icon>
-    </a>
-    <!-- <button mat-raised-button color="primary" matTooltip="Agregar Cliente" (click)="openDialog()"><mat-icon>add_box</mat-icon></button> -->
-    <br><br>
+    <div class="btn__contents">
+        <a class="icon-content" color="primary" matTooltip="Agregar Proveedor" (click)="openDialogAddProvider()">
+            <mat-icon class="icon-option">queue</mat-icon>
+        </a>
+        <a class="icon-content" color="primary" matTooltip="Proveedores Eliminados">
+            <mat-icon class="icon-option">delete_sweep</mat-icon>
+        </a>
+        <a class="icon-content" color="primary" matTooltip="Imprimir Lista">
+            <mat-icon class="icon-option">local_print_shop</mat-icon>
+        </a>
+        <a class="icon-content" color="primary" matTooltip="Descargar PDF">
+            <mat-icon class="icon-option">picture_as_pdf</mat-icon>
+        </a>
+        <a class="icon-content" color="primary" matTooltip="Descargar Excel">
+            <mat-icon class="icon-option">explicit</mat-icon>
+        </a><!-- &nbsp; -->
+        <a class="icon-content" color="primary" matTooltip="Enviar Email">
+            <mat-icon class="icon-option">mail</mat-icon>
+        </a>
+    </div>
+    <br>
     <div class="mat-elevation-z8">
     
         <mat-form-field>

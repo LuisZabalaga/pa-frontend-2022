@@ -277,3 +277,54 @@ table {
   border-radius: 5px;
   font-size: 10px;
 }
+
+
+
+@media screen and (min-width: 0px) {
+  .table-content {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .content-cash-register,
+  .content-advances-customers,
+  .content-expenses,
+  .content-advances,
+  .content-purchases,
+  .content-sales {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+}
+
+@media screen and (min-width: 576px) {
+
+}
+
+@media screen and (min-width: 768px) {
+  .table-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    box-sizing: border-box imo !important;
+  }
+
+  .content-cash-register,
+  .content-advances-customers,
+  .content-expenses,
+  .content-advances,
+  .content-purchases,
+  .content-sales {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media screen and (min-width: 992px) {
+
+}
+
+@media screen and (min-width: 1200px) {
+
+}

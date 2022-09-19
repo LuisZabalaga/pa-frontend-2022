@@ -275,9 +275,9 @@ mat-form-field {
   padding: 10px;
 }
 
-mat-dialog-actions .botones {
+/* mat-dialog-actions .botones {
     padding: 5px;
-}
+} */
 
 .form-content {
     display: flex;
@@ -313,7 +313,8 @@ mat-dialog-actions .botones {
 
 mat-card {
     box-sizing: border-box !important;
-  }
+}
+
 
 @media screen and (min-width: 0px) {
   .content-form {
@@ -336,6 +337,11 @@ mat-card {
     width: 100%;
     display: grid !important;
     grid-template-columns: 1fr !important;
+  }
+
+  .form__btn-add,
+  .form__btn-process {
+    width: 100% !important;
   }
 
 }
@@ -366,6 +372,13 @@ mat-card {
     grid-template-columns: 1fr 1fr !important;
   }
 
+  .form__btn-add {
+    width: 80px !important;
+  }
+  .form__btn-process {
+    width: 150px !important;
+  }
+
 }
 
 @media screen and (min-width: 768px) {
@@ -383,6 +396,13 @@ mat-card {
     width: 100%;
     display: grid !important;
     grid-template-columns: 1fr 1fr 1fr !important;
+  }
+
+  .form__btn-add {
+    width: 80px !important;
+  }
+  .form__btn-process {
+    width: 150px !important;
   }
 
 }
