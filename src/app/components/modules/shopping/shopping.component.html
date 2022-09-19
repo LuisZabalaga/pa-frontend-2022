@@ -24,7 +24,10 @@
     <mat-card-content>
         <form [formGroup]="temporaryPurchaseDetailForm">
 
-            <div class="content-input">
+            <div class="content-input1">
+
+                <!-- COMPRA ID -->
+                <input formControlName="pur_pu_ID" hidden="true" />
 
                 <!-- PRODUCTO -->
                 <mat-form-field>
@@ -35,13 +38,9 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-
-                <!-- COMPRA ID -->
-                <input formControlName="pur_pu_ID" hidden="true" />
-
             </div>
 
-            <div class="content-input">
+            <div class="content-input2">
 
                 <!-- PESO -->
                 <mat-form-field>
@@ -152,54 +151,57 @@
 
         </div>
 
-        <table mat-table [dataSource]="dataSource2" matSort class="tabla1">
+        <div class="content-table2">
+            <table mat-table [dataSource]="dataSource2" matSort class="tabla1">
 
-            <!-- Position Column -->
-            <ng-container matColumnDef="posicion">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> N°</th>
-                <td mat-cell *matCellDef="let i = index"> {{ i+1 }} </td>
-            </ng-container>
-
-            <!-- Producto Column -->
-            <ng-container matColumnDef="producto">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>MATERIAL</th>
-                <td mat-cell *matCellDef="let element"> {{ element.prod_nombre }} </td>
-            </ng-container>
-
-            <!-- Peso Column -->
-            <ng-container matColumnDef="peso">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>PESO (kg)</th>
-                <td mat-cell *matCellDef="let element"> {{ element.pur_peso+ ' Kg' }} </td>
-            </ng-container>
-
-            <!-- Precio Column -->
-            <ng-container matColumnDef="precio">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>P.U.(S/)</th>
-                <td mat-cell *matCellDef="let element"> {{ 'S/ '+element.pur_precio }} </td>
-            </ng-container>
-
-            <!-- Subtotal Column -->
-            <ng-container matColumnDef="subtotal">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> IMPORTE </th>
-                <td mat-cell *matCellDef="let element"> {{ 'S/ '+ element.pur_subtotal }} </td>
-            </ng-container>
-
-            <!-- Actions Column -->
-            <ng-container matColumnDef="acciones">
-                <th mat-header-cell *matHeaderCellDef style="text-align: right;">
-                    <mat-icon class="pointere">delete</mat-icon>
-                </th>
-                <td mat-cell *matCellDef="let element; let i = index" style="text-align: right;">
-                    <a class="pointere" (click)="deleteOneTemporaryPurchaseDetail(element.pur_ID, element.pur_peso, element.pur_prod_ID)"
-                        matTooltip="Quitar Material">
-                        <mat-icon>delete</mat-icon>
-                    </a>
-                </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns2;" class="example"></tr>
-        </table>
+                <!-- Position Column -->
+                <ng-container matColumnDef="posicion">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> N°</th>
+                    <td mat-cell *matCellDef="let i = index"> {{ i+1 }} </td>
+                </ng-container>
+    
+                <!-- Producto Column -->
+                <ng-container matColumnDef="producto">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>MATERIAL</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.prod_nombre }} </td>
+                </ng-container>
+    
+                <!-- Peso Column -->
+                <ng-container matColumnDef="peso">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>PESO (kg)</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.pur_peso+ ' Kg' }} </td>
+                </ng-container>
+    
+                <!-- Precio Column -->
+                <ng-container matColumnDef="precio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>P.U.(S/)</th>
+                    <td mat-cell *matCellDef="let element"> {{ 'S/ '+element.pur_precio }} </td>
+                </ng-container>
+    
+                <!-- Subtotal Column -->
+                <ng-container matColumnDef="subtotal">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> IMPORTE </th>
+                    <td mat-cell *matCellDef="let element"> {{ 'S/ '+ element.pur_subtotal }} </td>
+                </ng-container>
+    
+                <!-- Actions Column -->
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: right;">
+                        <mat-icon class="pointere">delete</mat-icon>
+                    </th>
+                    <td mat-cell *matCellDef="let element; let i = index" style="text-align: right;">
+                        <a class="pointere" (click)="deleteOneTemporaryPurchaseDetail(element.pur_ID, element.pur_peso, element.pur_prod_ID)"
+                            matTooltip="Quitar Material">
+                            <mat-icon>delete</mat-icon>
+                        </a>
+                    </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns2;" class="example"></tr>
+            </table>
+        </div>
+        
 
         <!-- Tabla de Calculos Totales -->
         <table style="padding: 0; margin: 0; border-spacing: 0;">
@@ -369,10 +371,6 @@
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 </div>
-<br>
-<br>
 
 <!-- </div> -->
 <!-- <h2 *ngIf="listPurchases.length == 0">No hay Compras para mostrar</h2>  -->
-
-<br>

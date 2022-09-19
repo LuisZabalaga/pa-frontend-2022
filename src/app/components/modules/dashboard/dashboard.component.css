@@ -50,3 +50,32 @@ table {
     overflow: hidden;
     gap: 0px 15px;
   }
+
+  
+@media screen and (max-width: 768px) {
+  .stats-cards {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    gap: 0 15px;
+  }
+
+  .stats-pie {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0px 15px;
+  }
+
+}
+
+@media screen and (max-width: 992px) {
+  .stats-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 15px;
+  }
+
+}
+
+@media screen and (max-width: 1200px) {
+
+}

@@ -24,6 +24,15 @@
     /* border: 2px solid #4680FF; */
 }
 
+.list-item-active {
+    background-color: #E0F3FF;
+    color: #411BAB !important;
+}
+
+.list-item-active mat-icon {
+    color: #263A6E;
+}
+
 mat-nav-list {
     background-color: white;
 }
@@ -55,8 +64,8 @@ mat-nav-list a:hover {
 } */
 
 mat-nav-list a:active {
-    background-color: #F0F0F0;
-    color: #1A93DC;
+    background-color: #E0F3FF;
+    color: #411BAB; 
 }
 
 

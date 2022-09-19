@@ -3,21 +3,23 @@
         <button mat-icon-button (click)="toggleSideBar()">
             <mat-icon>menu</mat-icon>
         </button>
-        <span class="company-name">C&C PROYECTOS AMBIENTALES</span>
+        <span class="company-img"><img src="../../../../../assets/img/logo_letra.png" alt="Logo"></span>
+        <span class="company-name">PROYECTOS AMBIENTALES C&C</span>
+        <span class="company-name2">PA C&C</span>
         <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
-            <ul fxLayout="row" fxLayoutGap="20px">
+            <ul fxLayout="row" fxLayoutGap="0px">
+                <!-- <li>
+                    <button mat-icon-button>
+                        <mat-icon>help_outline</mat-icon>
+                    </button>
+                </li> -->
                 <li>
                     <button mat-icon-button>
                         <mat-icon>settings</mat-icon>
                     </button>
                 </li>
                 <li>
-                    <button mat-icon-button>
-                        <mat-icon>help_outline</mat-icon>
-                    </button>
-                </li>
-                <li>
-                    <button mat-button [matMenuTriggerFor]="menu">
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
                         <mat-icon>person_outline</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+import { CommonModule, LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { LOCALE_ID, NgModule } from '@angular/core';
 
 import localeEs from '@angular/common/locales/es';
@@ -68,7 +68,8 @@ PdfMakeWrapper.setFonts(pdfFonts);
     SalesService,
     PurchasesService,
     ToastService,
-    { provide: LOCALE_ID, useValue: 'es' }
+    { provide: LOCALE_ID, useValue: 'es' },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

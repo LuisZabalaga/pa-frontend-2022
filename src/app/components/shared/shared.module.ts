@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { LayoutModule } from '@angular/cdk/layout';
 
 //Components Modules
 import { HeaderComponent } from './components/header/header.component';
@@ -111,7 +112,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     RouterModule,
     HighchartsChartModule,
     MatDialogModule,
-    MatTabsModule
+    MatTabsModule,
+    LayoutModule
   ],
   exports: [
     HeaderComponent, 
@@ -153,7 +155,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     HighchartsChartModule,
     MatDialogModule,
     // NgxMatFileInputModule
-    MatTabsModule
+    MatTabsModule,
+    LayoutModule
   ]
 })
 

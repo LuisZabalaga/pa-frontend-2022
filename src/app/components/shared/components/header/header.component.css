@@ -8,10 +8,36 @@ ul li {
    background-color: #411BAB !important;
 }
 
-.company-name {
+.company-img {
     margin-left: 20px;
-    margin-top: 3px;
-    font-size: 14px;
-    color: #38BAD8;
-    font-weight: 600;
+    display: flex;
+    align-items: center;
 }
+
+.company-img img {
+    width: 27px;
+} 
+
+.company-name,
+.company-name2 {
+    margin-left: 10px;
+    font-size: 20px;
+    color: #38BAD8;
+    font-weight: 500;
+}
+
+.company-name2 {
+    display: none;
+}
+
+@media all and (max-width: 575px) {
+    .company-name {
+        display: none;
+    }
+    .company-name2 {
+        display: flex;
+        font-size: 25px;
+    }
+  
+  }
+

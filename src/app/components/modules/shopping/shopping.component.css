@@ -84,6 +84,10 @@ table td, table th {
   font-size: 13px;
 }
 
+.content-table2 {
+  overflow-x: hidden;
+}
+
 .tabla1 th {
   background-color: #B2DAF2;
 }
@@ -263,6 +267,7 @@ table th .pointere {
 
 .content-input {
   display: flex;
+  box-sizing: border-box !important;
 }
 
 mat-form-field {
@@ -295,7 +300,7 @@ mat-dialog-actions .botones {
 
 .content-date {
   /* background-color: #01A2FD; */
-  width: 305px;
+  /* width: 305px; */
   margin-top: 10px;
 }
 
@@ -306,42 +311,116 @@ mat-dialog-actions .botones {
   text-transform: uppercase;
 }
 
+mat-card {
+    box-sizing: border-box !important;
+  }
 
-@media all and (max-width: 768px) {
+@media screen and (min-width: 0px) {
   .content-form {
-    width: 93% !important;
+    width: 100% !important;
     overflow: hidden;
   }
 
   .content-input {
-    display: flex !important;
-    flex-wrap: wrap !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    overflow: hidden;
+  }
+
+  .content-input1,
+  .content-input2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .content-date {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
   }
 
 }
 
-@media all and (max-width: 992px) {
+@media screen and (min-width: 576px) {
   .content-form {
-    width: 70%;
+    width: 100% !important;
+    overflow: hidden;
+  }
+
+  .content-input1 {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+  .content-input2 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .content-input {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .content-date {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+}
+
+@media screen and (min-width: 768px) {
+  .content-form {
+    width: 80% !important;
+    overflow: hidden;
+  }
+
+  .content-input {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+  }
+
+  .content-date {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+  }
+
+}
+
+@media screen and (min-width: 992px) {
+  .content-form {
+    width: 60% !important;
     overflow: hidden;
   }
 
   .content-input {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    /* flex-wrap: wrap !important; */
+    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+  }
+
+  .content-date {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr 1fr !important;
   }
 
 }
 
-@media all and (max-width: 1200px) {
+@media screen and (min-width: 1200px) {
   .content-form {
+    width: 50% !important;
     overflow: hidden;
   }
 
   .content-input {
-    display: flex;
-    flex-wrap: none !important;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+  }
+
+  .content-date {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr 1fr !important;
   }
 
 }
