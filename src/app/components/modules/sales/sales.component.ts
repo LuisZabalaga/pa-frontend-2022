@@ -331,7 +331,6 @@ export class SalesComponent implements OnInit {
   }
 
   getAllSalesForDate() {
-
     this.dates = this.ranges.value;
     const dateStart = new Date(this.dates.start); // Replace event.value with your date value
     const dateEnd = new Date(this.dates.end);
@@ -346,17 +345,6 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  addSalesDetail () {
-    this.salesDetailService.createData(this.dataSource2.filteredData)
-    .subscribe({
-      next: (res) => {
-      },
-      error: (e) => {
-        console.log(e);
-      }
-    })
-  }
-
   deleteAllTemporarySalesDetail () {
     this.salesDetailService.deleteData().subscribe({
       next: (res) => {
@@ -369,8 +357,19 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  changeStateOFAdvanceCustomer () {
+  addSalesDetail () {
+    this.salesDetailService.createData(this.dataSource2.filteredData)
+    .subscribe({
+      next: (res) => {
+        this.deleteAllTemporarySalesDetail();
+      },
+      error: (e) => {
+        console.log(e);
+      }
+    })
+  }
 
+  changeStateOFAdvanceCustomer () {
     let montoCobrar = this.getTotalSales-this.amountCustomer;
     console.log("OTROS CALCULOS ", this.getTotalSales, this.amountCustomer);
     console.log("TOTAL ", montoCobrar);
@@ -384,7 +383,6 @@ export class SalesComponent implements OnInit {
       })
 
       if (this.listAvancesForCustomer?.length) {
-
           //Cambia el estado del Adelanto del Proveedor
           this.advancesStateService.changeStateForAdvanceToCustomer(1, this.stateCustomerId)
           .subscribe({
@@ -430,7 +428,6 @@ export class SalesComponent implements OnInit {
 
       //VALORES POSITIVOS INGRESAN AQUI
     } else {
-
       this.advancesCustomerService.getAdvanceForCustomerAndState(this.stateCustomerId).subscribe(res => {
         this.listAvancesForCustomer = res[0];
 
@@ -452,14 +449,13 @@ export class SalesComponent implements OnInit {
           console.log("No hay adelanto ",this.listAvancesForCustomer);
         }
   
-      })
+      });
 
     }
 
   }
 
   addNewSales() {
-    
     if (this.listSalesForm.valid) {
       this.salesService.createData(this.listSalesForm.value)
         .subscribe({
@@ -470,7 +466,7 @@ export class SalesComponent implements OnInit {
             this.getAllTemporarySalesDetail();
             this.getTotalSalesDetail();
             this.getAllSalesForDate();
-            this.deleteAllTemporarySalesDetail();
+            // this.deleteAllTemporarySalesDetail();
             this.getAdvanceForCustomer();
             this.changeStateOFAdvanceCustomer();
 
@@ -556,7 +552,6 @@ export class SalesComponent implements OnInit {
       error: () => {
         this._toastService.error('Error!!! No se puede Eliminar Venta!!!');
       }
-
     });
 
   }

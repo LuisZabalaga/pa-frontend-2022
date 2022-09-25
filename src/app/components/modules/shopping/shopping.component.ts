@@ -359,17 +359,6 @@ export class ShoppingComponent implements OnInit {
     });
   }
 
-  addPurchasesDetail () {
-    this.purchaseDetailService.createData(this.dataSource2.filteredData)
-    .subscribe({
-      next: (res) => {
-      },
-      error: (e) => {
-        console.log(e);
-      }
-    })
-  }
-
   deleteAllTemporaryPurchasesDetail () {
     this.purchaseDetailService.deleteData().subscribe({
       next: (res) => {
@@ -380,6 +369,19 @@ export class ShoppingComponent implements OnInit {
         console.log(e);
       }
     });
+  }
+
+  addPurchasesDetail () {
+    // console.log("DATOS TABLA", this.dataSource2.filteredData);
+    this.purchaseDetailService.createData(this.dataSource2.filteredData)
+    .subscribe({
+      next: (res) => {
+        this.deleteAllTemporaryPurchasesDetail();
+      },
+      error: (e) => {
+        console.log(e);
+      }
+    })
   }
 
   changeStateOFAdvanceProvider () {
@@ -486,7 +488,7 @@ export class ShoppingComponent implements OnInit {
             this.getAllTemporaryPurchaseDetail();
             this.getTotalPurchaseDetail();
             this.getAllPurchasesForDate();
-            this.deleteAllTemporaryPurchasesDetail();            
+            // this.deleteAllTemporaryPurchasesDetail();
             this.getAdvanceForProvider();
             this.changeStateOFAdvanceProvider();
 
@@ -561,6 +563,7 @@ export class ShoppingComponent implements OnInit {
           }
         })
     }
+    // this.deleteAllTemporaryPurchasesDetail();
 
   }
 
