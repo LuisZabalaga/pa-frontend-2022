@@ -1,14 +1,13 @@
 <mat-card>
-    <div class="title">
+    <div class="reports__title">
         <mat-icon>poll</mat-icon>
         <h3>REPORTES</h3>
     </div>
 </mat-card>
 <br>
 
-<div class="form-content">
-    <mat-card class="content-form">
-
+<div class="reports__contents">
+    <mat-card class="reports__contents-purchases">
         <mat-card-header>
             <h3 style="
             text-align :center; 
@@ -18,18 +17,150 @@
             font-weight: 400;
             color: #1A93DC;
             ">
-                LISTADO DE COMPRAS
+                REPORTE DE COMPRAS
             </h3>
         </mat-card-header>
         <mat-divider></mat-divider>
+        <br />
         <mat-card-content>
-            CUERPO
+            <table class="reports__table">
+                <tr>
+                    <th>CATEGORIA</th>
+                    <th>MATERIAL</th>
+                    <th>PESO COMPRA</th>
+                    <th>PESO VENTA</th>
+                    <th>TOTAL</th>
+                    <th>PESO AREQUIPA</th>
+                    <th>PESO LIMA</th>
+                </tr>
+                <tr *ngFor="let prod of listCategory1">
+                    <td>Aluminio</td>
+                    <td>{{prod.prod_nombre}}</td>
+                    <td>{{prod.prod_peso_total}}</td>
+                    <td>{{prod.prod_peso_aqp}}</td>
+                    <td>{{prod.prod_peso_aqp}}</td>
+                    <td>{{prod.prod_peso_local}}</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Total Peso (Kg):</td>
+                    <td>{{listCompraAluminio}}</td>
+                    <td>{{listVentaAluminio}}</td>
+                    <td>{{listCompraAluminio + listVentaAluminio}}</td>
+                    <td>{{listPesoAqpAluminio}}</td>
+                    <td>0.00</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Total Inversión (S/.):</td>
+                    <td>0.00</td>
+                </tr>
+            
+                <tr *ngFor="let prod2 of listCategory2">
+                    <td>Bronce</td>
+                    <td>{{prod2.prod_nombre}}</td>
+                    <td>{{prod2.prod_peso_aqp}}</td>
+                    <td>{{prod2.prod_peso_local}}</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Total Peso (Kg):</td>
+                    <td>0.00</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Total Inversión (S/.):</td>
+                    <td>0.00</td>
+                </tr>
+            
+                <tr *ngFor="let prod3 of listCategory3">
+                    <td>Cobre</td>
+                    <td>{{prod3.prod_nombre}}</td>
+                    <td>{{prod3.prod_peso_aqp}}</td>
+                    <td>{{prod3.prod_peso_local}}</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Total Peso (Kg):</td>
+                    <td>0.00</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Total Inversión (S/.):</td>
+                    <td>0.00</td>
+                </tr>
+            
+                <tr *ngFor="let prod4 of listCategory4">
+                    <td>Otros</td>
+                    <td>{{prod4.prod_nombre}}</td>
+                    <td>{{prod4.prod_peso_aqp}}</td>
+                    <td>{{prod4.prod_peso_local}}</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Total Peso (Kg):</td>
+                    <td>0.00</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Total Inversión (S/.):</td>
+                    <td>0.00</td>
+                </tr>
+           
+                <tr *ngFor="let prod5 of listCategory5">
+                    <td>Fierro Fundido</td>
+                    <td>{{prod5.prod_nombre}}</td>
+                    <td>{{prod5.prod_peso_aqp}}</td>
+                    <td>{{prod5.prod_peso_local}}</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Total Peso (Kg):</td>
+                    <td>0.00</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Total Inversión (S/.):</td>
+                    <td>0.00</td>
+                </tr>
+            
+                <tr *ngFor="let prod6 of listCategory6">
+                    <td>Baterias</td>
+                    <td>{{prod6.prod_nombre}}</td>
+                    <td>{{prod6.prod_peso_aqp}}</td>
+                    <td>{{prod6.prod_peso_local}}</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Total Peso (Kg):</td>
+                    <td>0.00</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Total Inversión (S/.):</td>
+                    <td>0.00</td>
+                </tr>
+            </table>
         </mat-card-content>
-    
     </mat-card>
-    &nbsp;
-    <mat-card class="content-form">
     
+    <mat-card class="content-form">
         <mat-card-header>
             <h3 style="
             text-align :center; 
@@ -39,14 +170,13 @@
             font-weight: 400;
             color: #1A93DC;
             ">
-                LISTADO DE VENTAS
+                REPORTE DE VENTAS
             </h3>
         </mat-card-header>
         <mat-divider></mat-divider>
         <mat-card-content>
             CUERPO
         </mat-card-content>
-    
     </mat-card>
 
 </div>

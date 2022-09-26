@@ -56,13 +56,13 @@ table {
   .stats-cards {
     display: grid;
     grid-template-columns: 1fr !important;
-    gap: 0 15px;
+    gap: 15px 15px !important;
   }
 
   .stats-pie {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0px 15px;
+    gap: 15px 15px;
   }
 
 }

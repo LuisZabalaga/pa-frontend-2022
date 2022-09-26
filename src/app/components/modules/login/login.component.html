@@ -15,26 +15,28 @@
         </mat-card-header>
         <br/><br/>
         <mat-card-content>
-            <mat-form-field>
-                <mat-label>Usuario</mat-label>
-                <input matInput placeholder="Usuario" />
-                <button mat-icon-button matSuffix>
-                    <mat-icon>person</mat-icon>
-                </button>
-            </mat-form-field>
-            <br />
-            <mat-form-field>
-                <mat-label>Contraseña</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-            </mat-form-field>
+            <form [formGroup]="usersForm">
+                <mat-form-field>
+                    <mat-label>Usuario</mat-label>
+                    <input matInput placeholder="Usuario" formControlName="emp_usuario" />
+                    <button mat-icon-button matSuffix>
+                        <mat-icon>person</mat-icon>
+                    </button>
+                </mat-form-field>
+                <br />
+                <mat-form-field>
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="emp_contraseña">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+            </form>
         </mat-card-content>
         <!-- <br/> -->
         <mat-card-footer>
             <div mat-dialog-actions [align]="'center'">
-                <button mat-raised-button color="accent" matTooltip="">Iniciar Sesión</button>
+                <button mat-raised-button color="accent" matTooltip="" (click)="UserLogIn()">Iniciar Sesión</button>
                 <!-- <button mat-raised-button color="warn" matTooltip="Cancelar" mat-dialog-close>Cancelar</button> -->
             </div>
         </mat-card-footer>

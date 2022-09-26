@@ -36,8 +36,6 @@ export class ProvidersComponent implements OnInit {
   getAllProviders(){
     this.providersService.getAllData().subscribe(res => {
     this.listProviders = res;
-    console.log("hello");
-    console.log(res);
     this.dataSource = new MatTableDataSource(this.listProviders);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

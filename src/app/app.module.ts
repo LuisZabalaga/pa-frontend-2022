@@ -8,7 +8,7 @@ import { registerLocaleData } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastService, AngularToastifyModule } from 'angular-toastify'; 
 
 //Services
@@ -26,6 +26,10 @@ import { PurchasesService } from './services/purchases.service';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { PdfMakeWrapper } from 'pdfmake-wrapper';
 
+//Providers
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { TokenInterceptorService } from './services/token-interceptor.service';
+
 //Modules
 import { DefaultModule } from './components/layout/default.module';
 import { SharedModule } from './components/shared/shared.module';
@@ -33,6 +37,7 @@ import { AdvancesComponent } from './components/modules/advances/advances.compon
 import { AdvancesDialogComponent } from './components/modules/advances/advances-dialog/advances-dialog.component';
 import { ReportsComponent } from './components/modules/reports/reports.component';
 import { AdvancesCustomersDialogComponent } from './components/modules/advances/advances-customers-dialog/advances-customers-dialog.component';
+
 
 registerLocaleData(localeEs, 'Es');
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -69,7 +74,12 @@ PdfMakeWrapper.setFonts(pdfFonts);
     PurchasesService,
     ToastService,
     { provide: LOCALE_ID, useValue: 'es' },
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    //JWT
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService,
+    //Token Interceptors
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
   ],
   bootstrap: [AppComponent]
 })

@@ -80,6 +80,12 @@ mat-card-content {
     flex-direction: column;
 }
 
+mat-form-field {
+    box-sizing: border-box;
+    padding: 5px;
+    width: 100%;
+}
+
 mat-card-footer {
     display: flex;
     flex-direction: column;

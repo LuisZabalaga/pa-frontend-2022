@@ -14,6 +14,8 @@ import { ProvidersComponent } from './components/modules/providers/providers.com
 import { ReportsComponent } from './components/modules/reports/reports.component';
 import { SalesComponent } from './components/modules/sales/sales.component';
 import { ShoppingComponent } from './components/modules/shopping/shopping.component';
+import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 
 const routes: Routes = [
@@ -23,45 +25,47 @@ const routes: Routes = [
   },
   {
     path: '', 
-    component: DefaultComponent, 
+    component: DefaultComponent, canActivate: [AuthGuard], 
     children: [
       { 
         path: '',
-        component: DashboardComponent
+        component: DashboardComponent, canActivate: [AuthGuard], 
       }, {
         path: 'customers',
-        component: CustomersComponent
+        component: CustomersComponent, canActivate: [AuthGuard]
       }, {
         path: 'providers',
-        component: ProvidersComponent
+        component: ProvidersComponent, canActivate: [AuthGuard]
       }, {
         path: 'products',
-        component: ProductsComponent
+        component: ProductsComponent, canActivate: [AuthGuard]
       }, {
         path: 'categories',
-        component: CategoriesComponent
+        component: CategoriesComponent, canActivate: [AuthGuard]
       }, {
         path: 'expenses',
-        component: ExpensesComponent
+        component: ExpensesComponent, canActivate: [AuthGuard]
       }, {
         path: 'employees',
-        component: EmployeesComponent
+        component: EmployeesComponent, canActivate: [AuthGuard]
       }, {
         path: 'cash-register',
-        component: CashRegisterComponent
+        component: CashRegisterComponent, canActivate: [AuthGuard]
       }, {
         path: 'sales',
-        component: SalesComponent
+        component: SalesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 1 }
       }, {
         path: 'shopping',
-        component: ShoppingComponent
+        component: ShoppingComponent, canActivate: [AuthGuard]
       }, {
         path: 'advances',
-        component: AdvancesComponent
+        component: AdvancesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 1 }
       }, {
         path: 'reports',
-        component: ReportsComponent
-      },
+        component: ReportsComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 1 }
+      }, {
+        path: '**', redirectTo: ''
+      }
     ]
     
   }
