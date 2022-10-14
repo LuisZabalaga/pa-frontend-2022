@@ -4,6 +4,10 @@
   gap: 0 15px;
 }
 
+app-widget-card {
+  /* background-color: red; */
+}
+
 .stats-cards .mat-card {
   overflow: hidden;
 }

@@ -13,10 +13,18 @@ export class ReportsService {
   // connect frontend to backend
   private apiUrl = environment.url+'reports';
 
-  //Get Products for Category
-  getProductsForCategory(category: any):Observable<any> {
+  //Get Weight of Products for Category
+  getWeightOfProductsForCategory(category: any):Observable<any> {
     let categ = category;
     return this._httpClient.get(`${this.apiUrl}/${categ}`);
+  }
+
+  //Get Total for Categories
+  getTotalPurchaseForCategorieAndDate(category:any, initial:any, final:any):Observable<any> {
+    let categ = category;
+    let init = initial;
+    let fin = final;
+    return this._httpClient.get(`${this.apiUrl}/${categ}/${init}/${fin}`);
   }
 
 }

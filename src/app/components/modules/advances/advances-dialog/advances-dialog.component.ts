@@ -25,6 +25,8 @@ export class AdvancesDialogComponent implements OnInit {
 
   listDataAdvance: any;
 
+  cambioValor: any = false;
+
   constructor(
     private advancesService: AdvancesService,
     private providersService: ProvidersService,
@@ -37,7 +39,7 @@ export class AdvancesDialogComponent implements OnInit {
   ngOnInit(): void {
 
     const date: Date = new Date();
-    console.log("Date = " + date);
+    // console.log("Date = " + date);
 
     this.getAllProviders();
     this.getAllCustomer();
@@ -56,35 +58,37 @@ export class AdvancesDialogComponent implements OnInit {
     if(this.editAdvance) {
       // console.log(this.editAdvance);
       this.actionBtn = "Actualizar";
+
+      this.activateState = this.editAdvance.ad_dest_adv;
+
       this.advanceForm.controls['ad_ID'].setValue(this.editAdvance.ad_ID);
       this.advanceForm.controls['ad_fecha'].setValue(this.editAdvance.ad_fecha);
       this.advanceForm.controls['ad_cantidad'].setValue(this.editAdvance.ad_cantidad);
-      this.advanceForm.controls['ad_dest_adv'].setValue(this.editAdvance.ad_dest_adv);   
+      this.advanceForm.controls['ad_dest_adv'].setValue(this.editAdvance.ad_dest_adv);
       this.advanceForm.controls['ad_prov_cus_ID'].setValue(this.editAdvance.ad_prov_cus_ID);
+      // console.log(this.editAdvance.ad_dest_adv);
+      // console.log(this.editAdvance.ad_prov_cus_ID);
+      this.cambioValor=true;
       this.advanceForm.controls['ad_estado'].setValue(this.editAdvance.ad_estado);
     }
-    
   }
 
   getAllProviders() {
     this.providersService.getAllData().subscribe(res => {
       this.listProviders = res;
-      // console.log(res);
     });
   }
 
   getAllCustomer() {
     this.customerService.getAllData().subscribe(res => {
       this.listCustomers = res;
-      // console.log(res);
     });
   }  
 
   getProvidersOrCustomersForState(event: any) {
-
+    console.log("Se ejecuto")
     this.activateState = event.value;
-    if (this.activateState === '0') {
-      // console.log(this.listProviders);
+    if (this.activateState === 0) {
       this.listDataAdvance = this.listProviders.map(obj => {
         return {
             ad_ID: obj.prov_ID,
@@ -92,7 +96,6 @@ export class AdvancesDialogComponent implements OnInit {
             ad_apellidos: obj.prov_apellidos 
         }
       })
-      // console.log(this.listDataAdvance);
     } else {
       this.listDataAdvance = this.listCustomers.map(obj => {
         return {
@@ -101,7 +104,6 @@ export class AdvancesDialogComponent implements OnInit {
             ad_apellidos: obj.cus_apellidos 
         }
       })
-      // console.log(this.listDataAdvance);
     }
   }
 

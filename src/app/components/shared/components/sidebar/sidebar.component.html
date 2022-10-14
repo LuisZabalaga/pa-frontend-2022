@@ -10,7 +10,7 @@
     <mat-divider></mat-divider>
 
     <!-- <h3 matSubheader>Pages</h3> -->
-    <a routerLinkActive="list-item-active" routerLink="/">
+    <a routerLinkActive="list-item-active" [routerLinkActiveOptions]="{exact: true}" routerLink="/">
         <mat-icon>pie_chart</mat-icon>
         Dashboard
     </a>

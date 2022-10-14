@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { LayoutModule } from '@angular/cdk/layout';
 
+
 //Components Modules
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -113,7 +114,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     HighchartsChartModule,
     MatDialogModule,
     MatTabsModule,
-    LayoutModule
+    LayoutModule,
+    
   ],
   exports: [
     HeaderComponent, 

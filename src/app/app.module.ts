@@ -38,6 +38,7 @@ import { AdvancesDialogComponent } from './components/modules/advances/advances-
 import { ReportsComponent } from './components/modules/reports/reports.component';
 import { AdvancesCustomersDialogComponent } from './components/modules/advances/advances-customers-dialog/advances-customers-dialog.component';
 
+import { HotTableModule } from '@handsontable/angular';
 
 registerLocaleData(localeEs, 'Es');
 PdfMakeWrapper.setFonts(pdfFonts);
@@ -59,7 +60,9 @@ PdfMakeWrapper.setFonts(pdfFonts);
     HttpClientModule,
     AngularToastifyModule,
     SharedModule,
-    DefaultModule
+    DefaultModule,
+    
+    HotTableModule.forRoot()
   ],
   providers: [
     ApiserviceService,

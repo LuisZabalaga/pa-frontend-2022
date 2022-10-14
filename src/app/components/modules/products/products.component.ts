@@ -38,8 +38,6 @@ export class ProductsComponent implements OnInit {
   getAllProducts(){
     this.productsService.getAllData().subscribe(res => {
     this.listProducts = res;
-    console.log("Productos");
-    console.log(res);
     this.dataSource = new MatTableDataSource(this.listProducts);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -47,7 +45,6 @@ export class ProductsComponent implements OnInit {
   }
 
   deleteOneProduct(id:any) {
-    console.log(id, 'deleteid ==>');
     this.productsService.deleteData(id).subscribe({
       next: (res) => {
         this._toastService.warn('Producto Eliminado Satisfactoriamente!!!');

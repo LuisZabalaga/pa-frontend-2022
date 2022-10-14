@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { ProductsService } from '../../../../services/products.service';
 import { CategoriesService } from '../../../../services/categories.service';
 import { ToastService } from 'angular-toastify';  
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import * as moment from 'moment';
@@ -18,6 +18,9 @@ export class ProductDialogComponent implements OnInit {
   productForm !: FormGroup;
   listCategories: any;
   actionBtn: string = "Agregar";
+  selectedEdit: any;
+
+  selected = new FormControl('valid', [Validators.required, Validators.pattern('valid')]);
 
   constructor(
     private productsService: ProductsService,
@@ -32,7 +35,7 @@ export class ProductDialogComponent implements OnInit {
     this.getAllCategories();
 
     const date: Date = new Date();
-    console.log("Date = " + date);
+    // console.log("Date = " + date);
 
     this.productForm = this.formBuilder.group({
       prod_ID: [''],
@@ -64,6 +67,7 @@ export class ProductDialogComponent implements OnInit {
       this.productForm.controls['prod_imagen'].setValue(this.editProduct.prod_imagen);
       this.productForm.controls['prod_cat_ID'].setValue(this.editProduct.prod_cat_ID);
       // this.productForm.controls['cat_nombre'].setValue(this.editProduct.cat_nombre);
+      this.selectedEdit = this.editProduct.prod_cat_ID;
     }
     
   }
@@ -71,7 +75,6 @@ export class ProductDialogComponent implements OnInit {
   getAllCategories() {
     this.categoriesService.getAllData().subscribe(res => {
       this.listCategories = res 
-      console.log(res);
     });
   } 
 

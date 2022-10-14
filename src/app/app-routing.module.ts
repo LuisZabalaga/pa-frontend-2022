@@ -30,7 +30,8 @@ const routes: Routes = [
       { 
         path: '',
         component: DashboardComponent, canActivate: [AuthGuard], 
-      }, {
+      }, 
+      {
         path: 'customers',
         component: CustomersComponent, canActivate: [AuthGuard]
       }, {

@@ -81,7 +81,7 @@ export class AdvancesComponent implements OnInit {
 
     this.advancesService.getAdvancesForProvidersAndDate(forDateStart, forDateEnd).subscribe(res => {
     this.listAdvancesProviders = res[0];
-    console.log(res);
+    // console.log(res);
     this.dataSource = new MatTableDataSource(this.listAdvancesProviders);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -99,7 +99,7 @@ export class AdvancesComponent implements OnInit {
     this.final = forDateEnd;
     this.advancesService.getTotalAdvancesForCustomerAndDateAndState(1, 0,forDateStart, forDateEnd).subscribe(res => {
     this.listAdvancesCustomers = res[0];
-    console.log(res);
+    // console.log(res);
     this.dataSourceCustomers = new MatTableDataSource(this.listAdvancesCustomers);
     this.dataSourceCustomers.paginator = this.paginator;
     this.dataSourceCustomers.sort = this.sort;
@@ -117,7 +117,7 @@ export class AdvancesComponent implements OnInit {
     this.final = forDateEnd;
     this.advancesService.getTotalAdvancesForCustomerAndDateAndState(1, 1, forDateStart, forDateEnd).subscribe(res => {
     this.listAdvancesCustomersBalance = res[0];
-    console.log(res);
+    // console.log(res);
     this.dataSourceCustomersBalance = new MatTableDataSource(this.listAdvancesCustomersBalance);
     this.dataSourceCustomersBalance.paginator = this.paginator;
     this.dataSourceCustomersBalance.sort = this.sort;
@@ -125,7 +125,7 @@ export class AdvancesComponent implements OnInit {
   }
 
   deleteOneAdvance(id:any) {
-    console.log(id, 'deleteid ==>');
+    // console.log(id, 'deleteid ==>');
     this.advancesService.deleteData(id).subscribe({
       next: (res) => {
         this._toastService.warn('Adelanto Eliminado Satisfactoriamente!!!');

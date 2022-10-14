@@ -15,7 +15,7 @@
             padding-bottom: 10px; 
             margin: auto;
             font-weight: 400;
-            color: #1A93DC;
+            color: #263A6E;
             ">
                 REPORTE DE COMPRAS
             </h3>
@@ -23,7 +23,7 @@
         <mat-divider></mat-divider>
         <br />
         <mat-card-content>
-            <table class="reports__table">
+            <table class="reports__table mat-elevation-z8">
                 <tr>
                     <th>CATEGORIA</th>
                     <th>MATERIAL</th>
@@ -33,16 +33,16 @@
                     <th>PESO AREQUIPA</th>
                     <th>PESO LIMA</th>
                 </tr>
-                <tr *ngFor="let prod of listCategory1">
+                <tr *ngFor="let prod of listCategoryAluminum">
                     <td>Aluminio</td>
                     <td>{{prod.prod_nombre}}</td>
                     <td>{{prod.prod_peso_total}}</td>
                     <td>{{prod.prod_peso_aqp}}</td>
                     <td>{{prod.prod_peso_aqp}}</td>
                     <td>{{prod.prod_peso_local}}</td>
-                    <td>0</td>
+                    <td>0.00</td>
                 </tr>
-                <tr>
+                <tr class="calc__totales">
                     <td></td>
                     <td>Total Peso (Kg):</td>
                     <td>{{listCompraAluminio}}</td>
@@ -51,9 +51,13 @@
                     <td>{{listPesoAqpAluminio}}</td>
                     <td>0.00</td>
                 </tr>
-                <tr>
+                <tr class="calc__totales" >
                     <td></td>
                     <td>Total Inversión (S/.):</td>
+                    <td>{{totalAluminum}}</td>
+                    <td>0.00</td>
+                    <td>0.00</td>
+                    <td>0.00</td>
                     <td>0.00</td>
                 </tr>
             
@@ -66,12 +70,12 @@
                     <td>0</td>
                     <td>0</td>
                 </tr>
-                <tr>
+                <tr class="calc__totales">
                     <td></td>
                     <td>Total Peso (Kg):</td>
                     <td>0.00</td>
                 </tr>
-                <tr>
+                <tr class="calc__totales">
                     <td></td>
                     <td>Total Inversión (S/.):</td>
                     <td>0.00</td>
@@ -86,12 +90,12 @@
                     <td>0</td>
                     <td>0</td>
                 </tr>
-                <tr>
+                <tr class="calc__totales">
                     <td></td>
                     <td>Total Peso (Kg):</td>
                     <td>0.00</td>
                 </tr>
-                <tr>
+                <tr class="calc__totales">
                     <td></td>
                     <td>Total Inversión (S/.):</td>
                     <td>0.00</td>
@@ -106,12 +110,12 @@
                     <td>0</td>
                     <td>0</td>
                 </tr>
-                <tr>
+                <tr class="calc__totales">
                     <td></td>
                     <td>Total Peso (Kg):</td>
                     <td>0.00</td>
                 </tr>
-                <tr>
+                <tr class="calc__totales">
                     <td></td>
                     <td>Total Inversión (S/.):</td>
                     <td>0.00</td>
@@ -126,12 +130,12 @@
                     <td>0</td>
                     <td>0</td>
                 </tr>
-                <tr>
+                <tr class="calc__totales">
                     <td></td>
                     <td>Total Peso (Kg):</td>
                     <td>0.00</td>
                 </tr>
-                <tr>
+                <tr class="calc__totales">
                     <td></td>
                     <td>Total Inversión (S/.):</td>
                     <td>0.00</td>
@@ -146,12 +150,12 @@
                     <td>0</td>
                     <td>0</td>
                 </tr>
-                <tr>
+                <tr class="calc__totales">
                     <td></td>
                     <td>Total Peso (Kg):</td>
                     <td>0.00</td>
                 </tr>
-                <tr>
+                <tr class="calc__totales">
                     <td></td>
                     <td>Total Inversión (S/.):</td>
                     <td>0.00</td>
@@ -175,7 +179,7 @@
         </mat-card-header>
         <mat-divider></mat-divider>
         <mat-card-content>
-            CUERPO
+            <hot-table [data]="data" [colHeaders]="true" [rowHeaders]="true" [width]="600" [height]="300"></hot-table>
         </mat-card-content>
     </mat-card>
 

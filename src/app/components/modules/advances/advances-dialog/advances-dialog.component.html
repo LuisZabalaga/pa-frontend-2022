@@ -27,9 +27,12 @@
             <!-- CLIENTE O PROVEEDOR -->
             <mat-form-field>
                 <mat-label>SELECCIONE</mat-label>
-                <mat-select formControlName="ad_dest_adv" (selectionChange)="getProvidersOrCustomersForState($event)" >
-                    <mat-option value='0'>PROVEEDOR</mat-option>
-                    <mat-option value='1'>CLIENTE</mat-option>
+                <mat-select 
+                    formControlName="ad_dest_adv"
+                    (selectionChange)="getProvidersOrCustomersForState($event)"                 
+                >
+                    <mat-option [value]=0>PROVEEDOR</mat-option>
+                    <mat-option [value]=1>CLIENTE</mat-option>
                 </mat-select>
             </mat-form-field>
 
@@ -37,7 +40,7 @@
             <mat-form-field>
                 <mat-label>SELECCIONE</mat-label>
                 <mat-select formControlName="ad_prov_cus_ID" placeholder="">
-                    <mat-option *ngFor="let dat of listDataAdvance" value={{dat.ad_ID}} >
+                    <mat-option *ngFor="let dat of listDataAdvance" [value]="dat['ad_ID']" >
                         {{dat.ad_nombres + ' ' + dat.ad_apellidos}}
                     </mat-option>
                 </mat-select>
@@ -60,7 +63,7 @@
 </div>
 
 <div mat-dialog-actions [align]="'end'">
-    <button mat-raised-button color="primary" matTooltip="Agregar" (click)="addAdvance()">{{actionBtn}}</button>
+    <button mat-raised-button color="primary" matTooltip="Agregar" [disabled]="advanceForm.invalid" (click)="addAdvance()">{{actionBtn}}</button>
     <button mat-raised-button color="warn" matTooltip="Cancelar" mat-dialog-close>Cancelar</button>
 </div>
 
