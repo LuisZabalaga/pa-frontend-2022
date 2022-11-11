@@ -24,14 +24,26 @@
   color: white;
   background-color: rgba(26, 147, 220, 0.8);
   border-radius: 3px;
-  margin-right: 1px;
+  margin-right: 2px;
 }
 
 .icon-content .icon-option:hover {
   background-color: #1A93DC;
+  cursor: pointer;
 }
 
-.icon-content .icon-option:hover  {
+.btn-group-icon {
+  font-size: 20px;
+  padding: 6px;
+  color: white;
+  background-color: rgba(26, 147, 220, 0.8);
+  border-radius: 3px;
+  margin-right: 2px;
+  width: 25px;
+}
+
+.btn-group-icon:hover {
+  background-color: #1A93DC;
   cursor: pointer;
 }
 

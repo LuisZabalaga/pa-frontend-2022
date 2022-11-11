@@ -33,12 +33,13 @@
 
 mat-card-content {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
 .reports__table th {
   /* background-color: #E0F3FF; */
-  background-color: #1A93DC;
+  background-color: #411BAB;
   color: white;
   /* color: #1A93DC; */
   /* color: #263A6E; */
@@ -66,4 +67,36 @@ mat-card-content {
   background-color: #f5f5f5;
   color: red;
   font-weight: 500;
+}
+
+.reports__contents-purchases {
+  
+}
+
+.content-date {
+  /* background-color: #01A2FD; */
+  width: 305px;
+  padding-top: 10px;
+  padding-bottom: 0px;
+}
+.content-date mat-label {
+  /* font-weight: bold; */
+  text-shadow: none;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+.content-date input {
+  text-shadow: none;
+  font-size: 12px;
+}
+
+.btn-group {
+  cursor: pointer;
+  margin: 4px;
+}
+
+.btn-group .btn-group-icon {
+  color: white;
+  font-size: 23px;
+  /* padding: 10px 0px; */
 }

@@ -23,148 +23,202 @@
         <mat-divider></mat-divider>
         <br />
         <mat-card-content>
-            <table class="reports__table mat-elevation-z8">
-                <tr>
-                    <th>CATEGORIA</th>
-                    <th>MATERIAL</th>
-                    <th>PESO COMPRA</th>
-                    <th>PESO VENTA</th>
-                    <th>TOTAL</th>
-                    <th>PESO AREQUIPA</th>
-                    <th>PESO LIMA</th>
-                </tr>
-                <tr *ngFor="let prod of listCategoryAluminum">
-                    <td>Aluminio</td>
-                    <td>{{prod.prod_nombre}}</td>
-                    <td>{{prod.prod_peso_total}}</td>
-                    <td>{{prod.prod_peso_aqp}}</td>
-                    <td>{{prod.prod_peso_aqp}}</td>
-                    <td>{{prod.prod_peso_local}}</td>
-                    <td>0.00</td>
-                </tr>
-                <tr class="calc__totales">
-                    <td></td>
-                    <td>Total Peso (Kg):</td>
-                    <td>{{listCompraAluminio}}</td>
-                    <td>{{listVentaAluminio}}</td>
-                    <td>{{listCompraAluminio + listVentaAluminio}}</td>
-                    <td>{{listPesoAqpAluminio}}</td>
-                    <td>0.00</td>
-                </tr>
-                <tr class="calc__totales" >
-                    <td></td>
-                    <td>Total Inversión (S/.):</td>
-                    <td>{{totalAluminum}}</td>
-                    <td>0.00</td>
-                    <td>0.00</td>
-                    <td>0.00</td>
-                    <td>0.00</td>
-                </tr>
+            <div>
+                <button mat-raised-button matTooltip="Exportar Excel" class="btn-group" style="background-color: #217346;" (click)="exportTableReportToExcel()">
+                    <i class="fa-solid fa-file-csv btn-group-icon"></i>
+                </button>
+                <button mat-raised-button matTooltip="Exportar PDF" class="btn-group" style="background-color: red;" (click)="exportTableReportToPdf()">
+                    <i class="fa-solid fa-file-pdf btn-group-icon"></i>
+                </button>
+                <button mat-raised-button matTooltip="Enviar por Correo" class="btn-group" style="background-color: #1A93DC;" (click)="exportTableReportToExcel()">
+                    <i class="fa-solid fa-envelopes-bulk btn-group-icon"></i>
+                </button>                
+            </div>
+            <mat-form-field class="content-date">
+                <mat-label>Selecciona el Rango de Fechas</mat-label>
+                <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                  <input matStartDate formControlName="start" placeholder="Fecha Inicial" (dateChange)="executeAllFuntionsForCategories()">
+                  <input matEndDate formControlName="end" placeholder="Fecha Final" (dateChange)="executeAllFuntionsForCategories()">
+                </mat-date-range-input>
+                <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              
+                <!-- <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error> -->
+                <!-- <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error> -->
+            </mat-form-field>
+            <div id="table_content_report" #table_content_report >
+                <table class="reports__table mat-elevation-z8" id="table-report">
+                    <tr>
+                        <th>CATEGORIA</th>
+                        <th>MATERIAL</th>
+                        <th>PESO COMPRA</th>
+                        <th>PESO VENTA</th>
+                        <th>TOTAL</th>
+                        <th>PESO AREQUIPA</th>
+                        <th>PESO LIMA</th>
+                    </tr>
+                    <tr *ngFor="let alum of listCategoryAluminum">
+                        <td>Aluminio</td>
+                        <td>{{alum.prod_nombre}}</td>
+                        <td>{{alum.prod_peso_total}}</td>
+                        <td>0.00</td>
+                        <td>{{alum.prod_peso_total}}</td>
+                        <td>{{alum.prod_peso_aqp}}</td>
+                        <td>0.00</td>
+                    </tr>
+                    <tr class="calc__totales">
+                        <td [colSpan]="2">Total Peso (Kg):</td>
+                        <td>{{weightAluminumPurchase}}</td>
+                        <td>{{0.00}}</td>
+                        <td>{{weightAluminumPurchase}}</td>
+                        <td>{{aqpWeightAluminum}}</td>
+                        <td>{{0.00}}</td>
+                    </tr>
+                    <tr class="calc__totales" >                    
+                        <td [colSpan]="2">Total Inversión (S/.):</td>
+                        <td>S/ {{totalInvestmentAluminum | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                        <td>S/ {{totalInvestmentAluminum | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                    </tr>
+                
+                    <tr *ngFor="let bron of listCategoryBronze">
+                        <td>Bronce</td>
+                        <td>{{bron.prod_nombre}}</td>
+                        <td>{{bron.prod_peso_total}}</td>
+                        <td>0.00</td>
+                        <td>{{bron.prod_peso_total}}</td>
+                        <td>{{bron.prod_peso_aqp}}</td>
+                        <td>0.00</td>
+                    </tr>
+                    <tr class="calc__totales">
+                        <td [colSpan]="2">Total Peso (Kg):</td>
+                        <td>{{weightBronzePurchase}}</td>
+                        <td>{{0.00}}</td>
+                        <td>{{weightBronzePurchase}}</td>
+                        <td>{{aqpWeightBronze}}</td>
+                        <td>{{0.00}}</td>
+                    </tr>
+                    <tr class="calc__totales">
+                        <td [colSpan]="2">Total Inversión (S/.):</td>
+                        <td>S/ {{totalInvestmentBronze | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                        <td>S/ {{totalInvestmentBronze | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                    </tr>
+                
+                    <tr *ngFor="let copp of listCategoryCopper">
+                        <td>Cobre</td>
+                        <td>{{copp.prod_nombre}}</td>
+                        <td>{{copp.prod_peso_total}}</td>
+                        <td>0.00</td>
+                        <td>{{copp.prod_peso_total}}</td>
+                        <td>{{copp.prod_peso_aqp}}</td>
+                        <td>0.00</td>
+                    </tr>
+                    <tr class="calc__totales">
+                        <td [colSpan]="2">Total Peso (Kg):</td>
+                        <td>{{weightCopperPurchase}}</td>
+                        <td>{{0.00}}</td>
+                        <td>{{weightCopperPurchase}}</td>
+                        <td>{{aqpWeightCopper}}</td>
+                        <td>{{0.00}}</td>
+                    </tr>
+                    <tr class="calc__totales">
+                        <td [colSpan]="2">Total Inversión (S/.):</td>
+                        <td>S/ {{totalInvestmentCopper | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                        <td>S/ {{totalInvestmentCopper | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                    </tr>
+                
+                    <tr *ngFor="let othe of listCategoryOthers">
+                        <td>Otros</td>
+                        <td>{{othe.prod_nombre}}</td>
+                        <td>{{othe.prod_peso_total}}</td>
+                        <td>0.00</td>
+                        <td>{{othe.prod_peso_total}}</td>
+                        <td>{{othe.prod_peso_aqp}}</td>
+                        <td>0.00</td>
+                    </tr>
+                    <tr class="calc__totales">
+                        <td [colSpan]="2">Total Peso (Kg):</td>
+                        <td>{{weightOthersPurchase}}</td>
+                        <td>{{0.00}}</td>
+                        <td>{{weightOthersPurchase}}</td>
+                        <td>{{aqpWeightOthers}}</td>
+                        <td>{{0.00}}</td>
+                    </tr>
+                    <tr class="calc__totales">
+                        <td [colSpan]="2">Total Inversión (S/.):</td>
+                        <td>S/ {{totalInvestmentOthers | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                        <td>S/ {{totalInvestmentOthers | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                    </tr>
             
-                <tr *ngFor="let prod2 of listCategory2">
-                    <td>Bronce</td>
-                    <td>{{prod2.prod_nombre}}</td>
-                    <td>{{prod2.prod_peso_aqp}}</td>
-                    <td>{{prod2.prod_peso_local}}</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-                <tr class="calc__totales">
-                    <td></td>
-                    <td>Total Peso (Kg):</td>
-                    <td>0.00</td>
-                </tr>
-                <tr class="calc__totales">
-                    <td></td>
-                    <td>Total Inversión (S/.):</td>
-                    <td>0.00</td>
-                </tr>
-            
-                <tr *ngFor="let prod3 of listCategory3">
-                    <td>Cobre</td>
-                    <td>{{prod3.prod_nombre}}</td>
-                    <td>{{prod3.prod_peso_aqp}}</td>
-                    <td>{{prod3.prod_peso_local}}</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-                <tr class="calc__totales">
-                    <td></td>
-                    <td>Total Peso (Kg):</td>
-                    <td>0.00</td>
-                </tr>
-                <tr class="calc__totales">
-                    <td></td>
-                    <td>Total Inversión (S/.):</td>
-                    <td>0.00</td>
-                </tr>
-            
-                <tr *ngFor="let prod4 of listCategory4">
-                    <td>Otros</td>
-                    <td>{{prod4.prod_nombre}}</td>
-                    <td>{{prod4.prod_peso_aqp}}</td>
-                    <td>{{prod4.prod_peso_local}}</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-                <tr class="calc__totales">
-                    <td></td>
-                    <td>Total Peso (Kg):</td>
-                    <td>0.00</td>
-                </tr>
-                <tr class="calc__totales">
-                    <td></td>
-                    <td>Total Inversión (S/.):</td>
-                    <td>0.00</td>
-                </tr>
-           
-                <tr *ngFor="let prod5 of listCategory5">
-                    <td>Fierro Fundido</td>
-                    <td>{{prod5.prod_nombre}}</td>
-                    <td>{{prod5.prod_peso_aqp}}</td>
-                    <td>{{prod5.prod_peso_local}}</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-                <tr class="calc__totales">
-                    <td></td>
-                    <td>Total Peso (Kg):</td>
-                    <td>0.00</td>
-                </tr>
-                <tr class="calc__totales">
-                    <td></td>
-                    <td>Total Inversión (S/.):</td>
-                    <td>0.00</td>
-                </tr>
-            
-                <tr *ngFor="let prod6 of listCategory6">
-                    <td>Baterias</td>
-                    <td>{{prod6.prod_nombre}}</td>
-                    <td>{{prod6.prod_peso_aqp}}</td>
-                    <td>{{prod6.prod_peso_local}}</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                </tr>
-                <tr class="calc__totales">
-                    <td></td>
-                    <td>Total Peso (Kg):</td>
-                    <td>0.00</td>
-                </tr>
-                <tr class="calc__totales">
-                    <td></td>
-                    <td>Total Inversión (S/.):</td>
-                    <td>0.00</td>
-                </tr>
-            </table>
+                    <tr *ngFor="let iron of listCategoryCastIron">
+                        <td>Fierro Fundido</td>
+                        <td>{{iron.prod_nombre}}</td>
+                        <td>{{iron.prod_peso_total}}</td>
+                        <td>0.00</td>
+                        <td>{{iron.prod_peso_total}}</td>
+                        <td>{{iron.prod_peso_aqp}}</td>
+                        <td>0.00</td>
+                    </tr>
+                    <tr class="calc__totales">
+                        <td [colSpan]="2">Total Peso (Kg):</td>
+                        <td>{{weightCastIronPurchase}}</td>
+                        <td>{{0.00}}</td>
+                        <td>{{weightCastIronPurchase}}</td>
+                        <td>{{aqpWeightCastIron}}</td>
+                        <td>{{0.00}}</td>
+                    </tr>
+                    <tr class="calc__totales">
+                        <td [colSpan]="2">Total Inversión (S/.):</td>
+                        <td>S/ {{totalInvestmentCastIron | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                        <td>S/ {{totalInvestmentCastIron | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                    </tr>
+                
+                    <tr *ngFor="let iron of listCategoryBatteries">
+                        <td>Baterias</td>
+                        <td>{{iron.prod_nombre}}</td>
+                        <td>{{iron.prod_peso_total}}</td>
+                        <td>0.00</td>
+                        <td>{{iron.prod_peso_total}}</td>
+                        <td>{{iron.prod_peso_aqp}}</td>
+                        <td>0.00</td>
+                    </tr>
+                    <tr class="calc__totales">
+                        <td [colSpan]="2">Total Peso (Kg):</td>
+                        <td>{{weightBatteriesPurchase}}</td>
+                        <td>{{0.00}}</td>
+                        <td>{{weightBatteriesPurchase}}</td>
+                        <td>{{aqpWeightBatteries}}</td>
+                        <td>{{0.00}}</td>
+                    </tr>
+                    <tr class="calc__totales">
+                        <td [colSpan]="2">Total Inversión (S/.):</td>
+                        <td>S/ {{totalInvestmentBatteries | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                        <td>S/ {{totalInvestmentBatteries | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                        <td>S/ {{0.00 | currency:'':'' }}</td>
+                    </tr>
+                </table>
+            </div>
         </mat-card-content>
     </mat-card>
     
-    <mat-card class="content-form">
+    <!-- <mat-card class="content-form">
         <mat-card-header>
             <h3 style="
             text-align :center; 
@@ -181,6 +235,6 @@
         <mat-card-content>
             <hot-table [data]="data" [colHeaders]="true" [rowHeaders]="true" [width]="600" [height]="300"></hot-table>
         </mat-card-content>
-    </mat-card>
+    </mat-card> -->
 
 </div>
