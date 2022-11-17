@@ -5,8 +5,251 @@
     </div>
 </mat-card>
 <br>
+<div class="content-saldos">
+    <mat-card class="content-saldos-parts" style="background-color: #411BAB;">
+        <i class="fa-solid fa-sack-dollar icon-saldos"></i>
+        <div class="content-saldos-text">
+            <h4>Ingresos Hoy:</h4>
+            <p>S/ {{currentIncomes | currency:'':''}}</p>
+        </div>        
+    </mat-card>
+    <mat-card class="content-saldos-parts" style="background-color: red;">
+        <i class="fa-solid fa-sack-dollar icon-saldos"></i>
+        <div class="content-saldos-text">
+            <h4>Egresos Hoy:</h4>
+            <p>S/ {{currentExpenses | currency:'':''}}</p>
+        </div>        
+    </mat-card>
+    <mat-card class="content-saldos-parts" style="background-color: #38BAD8;">
+        <i class="fa-solid fa-sack-dollar icon-saldos"></i>
+        <div class="content-saldos-text">
+            <h4>Diferencia Hoy:</h4>
+            <p>S/ {{currentIncomes - currentExpenses | currency:'':''}}</p>
+        </div>        
+    </mat-card>
+    <mat-card class="content-saldos-parts" style="background-color: #FF4081;">
+        <i class="fa-solid fa-sack-dollar icon-saldos"></i>
+        <div class="content-saldos-text">
+            <h4>Saldo Anterior Caja:</h4>
+            <p>S/ {{ balanceLocalStorage | currency:'':''}}</p>
+        </div>        
+    </mat-card>
+</div>
+<br />
+<div class="content-btn-actions">
+    <button mat-raised-button color="secondary" matTooltip="Abrir Caja" class="cash__btn" (click)="getLastCashRegisterBalance()">
+        Abrir Caja
+    </button>
 
+    <button mat-raised-button color="accent" matTooltip="Cerrar Caja" class="cash__btn" (click)="addDataToCashRegiterBalance()" >
+        Cerrar Caja
+    </button>
+</div>
+
+<br />
+
+<div class="mat-elevation-z8">
+    <h3 style="
+        text-align :center; 
+        padding-top: 15px; 
+        padding-bottom: 10px; 
+        margin: auto;
+        font-weight: 400;
+        color: #1A93DC;
+        ">
+        HISTORIAL DE SALDOS EN CAJA
+    </h3>
+    <mat-divider></mat-divider>
+
+    <!-- <mat-card> -->
+    <mat-form-field class="content-date" style="margin-top: 15px; padding-bottom: 0;">
+        <mat-label>Seleccione el Rango de Fechas</mat-label>
+        <mat-date-range-input [formGroup]="rangesCashRegister" [rangePicker]="pickeres">
+            <input matStartDate formControlName="started" placeholder="Fecha Inicial"
+                (dateChange)="getAllCashRegisterBalanceByDate()">
+            <input matEndDate formControlName="ended" placeholder="Fecha Final"
+                (dateChange)="getAllCashRegisterBalanceByDate()">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="pickeres"></mat-datepicker-toggle>
+        <mat-date-range-picker #pickeres></mat-date-range-picker>
+    </mat-form-field>
+    <!-- </mat-card> -->
+    <br />
+
+    <mat-form-field style="margin-top: 0; padding-top: 0;">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input autocomplete="off">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSourceCashRegister" matSort>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="posicion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> N°</th>
+            <td mat-cell *matCellDef="let element"> {{ element.bal_ID }} </td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA</th>
+            <td mat-cell *matCellDef="let element"> {{element.bal_fecha | date:'fullDate' }} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="ingresos">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>INGRESOS</th>
+            <td mat-cell *matCellDef="let element"> {{ element.bal_incomes | currency }} </td>
+        </ng-container>        
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="gastos">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>GASTOS</th>
+            <td mat-cell *matCellDef="let element"> {{ element.bal_expenses | currency }} </td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="saldo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>BALANCE</th>
+            <td mat-cell *matCellDef="let element">{{ element.bal_balance | currency }}</td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="encargado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ENCARGADO</th>
+            <td mat-cell *matCellDef="let element"> {{element.emp_nombres + ' ' +element.emp_apellidos}} </td>
+            <!-- <td mat-cell *matCellDef="let element"> {{ element.bal_emp_ID }} </td> -->
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <!-- <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <a class="pointer" matTooltip="Ver Caja">
+                    <mat-icon>remove_red_eye</mat-icon>
+                </a>
+                <a class="pointer" (click)="openDialogEditCashRegister (element)" matTooltip="Editar Caja">
+                    <mat-icon>edit</mat-icon>
+                </a>
+                <a class="pointer" (click)="deleteOneCashRegister(element.cas_ID)" matTooltip="Eliminar Caja">
+                    <mat-icon>delete</mat-icon>
+                </a>
+            </td>
+        </ng-container> -->
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsCashRegister"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsCashRegister;" class="example"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
+
+<br />
+
+<div class="mat-elevation-z8">
+    <h3 style="
+        text-align :center; 
+        padding-top: 15px; 
+        padding-bottom: 10px; 
+        margin: auto;
+        font-weight: 400;
+        color: #1A93DC;
+        ">
+        MOVIMIENTOS DE CAJA
+    </h3>
+    <mat-divider></mat-divider>
+
+    <mat-form-field class="content-date" style="margin-top: 15px; padding-bottom: 0;">
+        <mat-label>Seleccione el Rango de Fechas</mat-label>
+        <mat-date-range-input [formGroup]="rangesIncomes" [rangePicker]="picker_history">
+            <input matStartDate formControlName="start" placeholder="Fecha Inicial"
+                (dateChange)="getAllCashRegisterMaintenanceForDate()">
+            <input matEndDate formControlName="end" placeholder="Fecha Final"
+                (dateChange)="getAllCashRegisterMaintenanceForDate()">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker_history"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker_history></mat-date-range-picker>
+    </mat-form-field>
+    <br />
+
+    <mat-form-field style="margin-top: 0; padding-top: 0;">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input autocomplete="off">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="posicion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> N°</th>
+            <td mat-cell *matCellDef="let element"> {{ element.cas_ID }} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="monto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>MONTO</th>
+            <td mat-cell *matCellDef="let element"> {{element.cas_monto | currency }} </td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA</th>
+            <td mat-cell *matCellDef="let element"> {{element.cas_fecha | date:'fullDate' }} </td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="concepto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>CONCEPTO</th>
+            <td mat-cell *matCellDef="let element"> {{element.cas_concepto}} </td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TIPO</th>
+            <td mat-cell *matCellDef="let element"><span class='{{element.cas_estado == 1 ? "ingreso" : "retiro" }}'>
+                    {{element.cas_estado == 1 ? "INGRESO" : "EGRESO" }} </span></td>
+        </ng-container>
+
+        <!-- Dni Column -->
+        <ng-container matColumnDef="encargado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ENCARGADO</th>
+            <td mat-cell *matCellDef="let element"> {{element.emp_nombres + ' ' +element.emp_apellidos}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <!-- <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <a class="pointer" matTooltip="Ver Caja">
+                    <mat-icon>remove_red_eye</mat-icon>
+                </a>
+                <a class="pointer" (click)="openDialogEditCashRegister (element)" matTooltip="Editar Caja">
+                    <mat-icon>edit</mat-icon>
+                </a>
+                <a class="pointer" (click)="deleteOneCashRegister(element.cas_ID)" matTooltip="Eliminar Caja">
+                    <mat-icon>delete</mat-icon>
+                </a>
+            </td>
+        </ng-container> -->
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
+<br />
 <mat-card>
+    <h3 style="
+        text-align :center; 
+        padding-top: 15px; 
+        padding-bottom: 10px; 
+        margin: auto;
+        font-weight: 400;
+        color: #1A93DC;
+        ">
+        DETALLE DE MOVIMIENTOS EN CAJA
+    </h3>
+    <mat-divider></mat-divider>
     <mat-form-field class="content-date" style="margin: 0; padding-bottom: 0;">
         <mat-label>Seleccione el Rango de Fechas</mat-label>
         <mat-date-range-input [formGroup]="ranges" [rangePicker]="pickere">
@@ -282,131 +525,35 @@
 </div>
 
 <br>
-<mat-divider></mat-divider>
-<br>
+
 <!-- <div *ngIf="listUsuarios.length > 0"> -->
-<a class="icon-content" color="primary" matTooltip="Agregar Deposito" (click)="openDialogAddCashRegister ()">
-    <!-- <mat-icon class="fa-solid fa-cowbell-circle-plus icon-option">queue</mat-icon> -->
-    <i class="fa-solid fa-circle-plus btn-group-icon" style="background-color: #FF4081"></i>
-</a>
-<!-- <a class="icon-content" color="primary" matTooltip="Agregar Retiro" (click)="openDialogAddCashRegister ()">
-    <mat-icon class="icon-option">remove_circle</mat-icon>
-</a> -->
-<a class="icon-content" color="primary" matTooltip="Descargar Excel">
-    <!-- <mat-icon class="icon-option">explicit</mat-icon> -->
-    <i class="fa-solid fa-file-csv btn-group-icon" style="background-color: #217346"></i>
-</a>
-<a class="icon-content" color="primary" matTooltip="Descargar PDF">
-    <!-- <mat-icon class="icon-option">picture_as_pdf</mat-icon> -->
-    <i class="fa-solid fa-file-pdf btn-group-icon" style="background-color: red"></i>
-</a>
-<a class="icon-content" color="primary" matTooltip="Imprimir Lista">
-    <!-- <mat-icon class="icon-option">local_print_shop</mat-icon> -->
-    <i class="fa-solid fa-print btn-group-icon" style="background-color: #404E67"></i>
-</a>
-<a class="icon-content" color="primary" matTooltip="Enviar Email">
-    <!-- <mat-icon class="icon-option">mail</mat-icon> -->
-    <i class="fa-solid fa-envelopes-bulk btn-group-icon"></i>
-</a>
-
-<br><br>
-<div class="mat-elevation-z8">
-    <h3 style="
-        text-align :center; 
-        padding-top: 15px; 
-        padding-bottom: 10px; 
-        margin: auto;
-        font-weight: 400;
-        color: #1A93DC;
-        ">
-        LISTADO DE INGRESOS A CAJA
-    </h3>
-    <mat-divider></mat-divider>
-
-    <!-- <mat-card> -->
-    <mat-form-field class="content-date" style="margin-top: 15px; padding-bottom: 0;">
-        <mat-label>Seleccione el Rango de Fechas</mat-label>
-        <mat-date-range-input [formGroup]="rangesIncomes" [rangePicker]="pickeres">
-            <input matStartDate formControlName="start" placeholder="Fecha Inicial"
-                (dateChange)="getAllCashRegisterMaintenanceForDate()">
-            <input matEndDate formControlName="end" placeholder="Fecha Final"
-                (dateChange)="getAllCashRegisterMaintenanceForDate()">
-        </mat-date-range-input>
-        <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
-        <mat-datepicker-toggle matSuffix [for]="pickeres"></mat-datepicker-toggle>
-        <mat-date-range-picker #pickeres></mat-date-range-picker>
-    </mat-form-field>
-    <!-- </mat-card> -->
-    <br />
-
-    <mat-form-field style="margin-top: 0; padding-top: 0;">
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input autocomplete="off">
-    </mat-form-field>
-
-    <table mat-table [dataSource]="dataSource" matSort>
-
-        <!-- Position Column -->
-        <ng-container matColumnDef="posicion">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> N°</th>
-            <td mat-cell *matCellDef="let element"> {{ element.cas_ID }} </td>
-        </ng-container>
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="monto">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>MONTO</th>
-            <td mat-cell *matCellDef="let element"> {{element.cas_monto | currency }} </td>
-        </ng-container>
-
-        <!-- Dni Column -->
-        <ng-container matColumnDef="fecha">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA</th>
-            <td mat-cell *matCellDef="let element"> {{element.cas_fecha | date:'fullDate' }} </td>
-        </ng-container>
-
-        <!-- Dni Column -->
-        <ng-container matColumnDef="concepto">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>CONCEPTO</th>
-            <td mat-cell *matCellDef="let element"> {{element.cas_concepto}} </td>
-        </ng-container>
-
-        <!-- Dni Column -->
-        <ng-container matColumnDef="estado">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>INGRESO</th>
-            <td mat-cell *matCellDef="let element"><span class='{{element.cas_estado == 1 ? "ingreso" : "retiro" }}'>
-                    {{element.cas_estado == 1 ? "INGRESO" : "EGRESO" }} </span></td>
-        </ng-container>
-
-        <!-- Dni Column -->
-        <ng-container matColumnDef="encargado">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>ENCARGADO</th>
-            <td mat-cell *matCellDef="let element"> {{element.emp_nombres + ' ' +element.emp_apellidos}} </td>
-        </ng-container>
-
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="acciones">
-            <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
-            <td mat-cell *matCellDef="let element; let i = index">
-                <a class="pointer" matTooltip="Ver Caja">
-                    <mat-icon>remove_red_eye</mat-icon>
-                </a>
-                <a class="pointer" (click)="openDialogEditCashRegister (element)" matTooltip="Editar Caja">
-                    <mat-icon>edit</mat-icon>
-                </a>
-                <a class="pointer" (click)="deleteOneCashRegister(element.cas_ID)" matTooltip="Eliminar Caja">
-                    <mat-icon>delete</mat-icon>
-                </a>
-            </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example"></tr>
-    </table>
-
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+<div style="display: none">
+    <a class="icon-content" color="primary" matTooltip="Agregar Deposito" (click)="openDialogAddCashRegister ()">
+        <!-- <mat-icon class="fa-solid fa-cowbell-circle-plus icon-option">queue</mat-icon> -->
+        <i class="fa-solid fa-circle-plus btn-group-icon" style="background-color: #FF4081"></i>
+    </a>
+    <!-- <a class="icon-content" color="primary" matTooltip="Agregar Retiro" (click)="openDialogAddCashRegister ()">
+        <mat-icon class="icon-option">remove_circle</mat-icon>
+    </a> -->
+    <a class="icon-content" color="primary" matTooltip="Descargar Excel">
+        <!-- <mat-icon class="icon-option">explicit</mat-icon> -->
+        <i class="fa-solid fa-file-csv btn-group-icon" style="background-color: #217346"></i>
+    </a>
+    <a class="icon-content" color="primary" matTooltip="Descargar PDF">
+        <!-- <mat-icon class="icon-option">picture_as_pdf</mat-icon> -->
+        <i class="fa-solid fa-file-pdf btn-group-icon" style="background-color: red"></i>
+    </a>
+    <a class="icon-content" color="primary" matTooltip="Imprimir Lista">
+        <!-- <mat-icon class="icon-option">local_print_shop</mat-icon> -->
+        <i class="fa-solid fa-print btn-group-icon" style="background-color: #404E67"></i>
+    </a>
+    <a class="icon-content" color="primary" matTooltip="Enviar Email">
+        <!-- <mat-icon class="icon-option">mail</mat-icon> -->
+        <i class="fa-solid fa-envelopes-bulk btn-group-icon"></i>
+    </a>
 </div>
-<br>
-<br>
+
+<br />
 <!-- </div> -->
 
 <!-- <h2 *ngIf="listUsuarios.length == 0">No hay Usuarios para mostrar</h2>  -->

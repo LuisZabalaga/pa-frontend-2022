@@ -9,21 +9,23 @@
 <div class="reports__contents">
     <mat-card class="reports__contents-purchases">
         <mat-card-header>
-            <h3 style="
+            <h3 style="            
             text-align :center; 
             padding-top: 5px; 
             padding-bottom: 10px; 
             margin: auto;
             font-weight: 400;
-            color: #263A6E;
+            color: #1A93DC;
             ">
                 REPORTE DE COMPRAS
             </h3>
         </mat-card-header>
-        <mat-divider></mat-divider>
-        <br />
+        <!-- <hr style="display: flex; border: 1px solid blue; width: 100%; ">
+        <mat-divider style="width: 100%; border:10px solid red"></mat-divider> -->
         <mat-card-content>
             <div>
+                <mat-divider style="width: 100%;"></mat-divider>
+                <br />
                 <button mat-raised-button matTooltip="Exportar Excel" class="btn-group" style="background-color: #217346;" (click)="exportTableReportToExcel()">
                     <i class="fa-solid fa-file-csv btn-group-icon"></i>
                 </button>
@@ -40,14 +42,12 @@
                   <input matStartDate formControlName="start" placeholder="Fecha Inicial" (dateChange)="executeAllFuntionsForCategories()">
                   <input matEndDate formControlName="end" placeholder="Fecha Final" (dateChange)="executeAllFuntionsForCategories()">
                 </mat-date-range-input>
-                <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
+                
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
-              
-                <!-- <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error> -->
-                <!-- <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error> -->
+                             
             </mat-form-field>
-            <div id="table_content_report" #table_content_report >
+            <div class="table_content_reports" id="table_content_report" #table_content_report >
                 <table class="reports__table mat-elevation-z8" id="table-report">
                     <tr>
                         <th>CATEGORIA</th>
@@ -216,6 +216,7 @@
                 </table>
             </div>
         </mat-card-content>
+        <br />
     </mat-card>
     
     <!-- <mat-card class="content-form">

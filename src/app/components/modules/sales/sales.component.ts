@@ -15,6 +15,7 @@ import { TicketSaleService } from 'src/app/services/ticket-sale.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SalesDialogComponent } from './sales-dialog/sales-dialog.component';
 import { SaleIdService } from 'src/app/services/sale-id.service';
+import { CashRegisterService } from 'src/app/services/cash-register.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import * as moment from 'moment';
@@ -30,6 +31,7 @@ export class SalesComponent implements OnInit {
 
   advanceForm !: FormGroup;
   ticketSaleForm !: FormGroup;
+  cashRegisterForm !: FormGroup;
 
   date: Date = new Date();
   dates: any;
@@ -64,6 +66,7 @@ export class SalesComponent implements OnInit {
   acumulado: number;
   totalAcumulado: number;
   listSales: any;
+
 
   displayedColumns: string[] = ['posicion', 'fecha_sa', 'boleta', 'cliente', 'encargado', 'total', 'acciones'];
   dataSource!: MatTableDataSource<any>;
@@ -149,6 +152,7 @@ export class SalesComponent implements OnInit {
     private advancesStateService: AdvancesStateService,
     private ticketSaleService: TicketSaleService,
     private saleIdService: SaleIdService,
+    private cashRegisterService: CashRegisterService,
     private _toastService: ToastService,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -186,6 +190,17 @@ export class SalesComponent implements OnInit {
       sa_adelanto: ['', Validators.required],
       sa_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
       sa_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
+    });
+
+    this.cashRegisterForm = this.formBuilder.group({
+      cas_monto: [''],
+      cas_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+      cas_pur_sal_ID: [''],
+      cas_estado: ['1'],
+      cas_concepto: [''],
+      cas_emp_ID: ['',],
+      cas_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+      cas_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
     });
 
   }
@@ -416,8 +431,41 @@ export class SalesComponent implements OnInit {
             .subscribe({
               next: (res) => {
                 this._toastService.info('Nuevo Adelanto Agregado');
-                console.log(this.advanceForm.value);
+
+                //Agregando Adelanto Sobrante a Caja
+                this.advancesStateService.getLastAdvanceId()
+                .subscribe({
+                  next: (res) => {
+                    let lastAdvanceId = res[0].ad_ID;
+
+                    this.cashRegisterForm = this.formBuilder.group({
+                      cas_monto: [montoAdelanto],
+                      cas_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+                      cas_pur_sal_ID: [lastAdvanceId],
+                      cas_des: ["AC"],
+                      cas_estado: ['1'],
+                      cas_concepto: ['Adelanto Cliente'],
+                      cas_emp_ID: ['1'],
+                      cas_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+                      cas_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
+                    });
+        
+                    this.cashRegisterService.createData(this.cashRegisterForm.value)
+                    .subscribe({
+                      next: (res) => {
+                        console.log("Adelanto Proveedor Agregado a Caja");
+                        this.cashRegisterForm.reset();
+                      },
+                      error: (e) => {
+                        console.log("Error", e)
+                      }
+                    })
+
+                  }
+                })  
+
                 this.advanceForm.reset();
+
               },
               error: (e) => {
                 console.log(e)
@@ -469,6 +517,41 @@ export class SalesComponent implements OnInit {
             // this.deleteAllTemporarySalesDetail();
             this.getAdvanceForCustomer();
             this.changeStateOFAdvanceCustomer();
+
+            //Agregando Venta a Caja
+            let salesTotal;
+            if (this.amountCustomer === undefined) {
+              salesTotal = this.getTotalSales;            
+            } else {
+              salesTotal = this.getTotalSales-this.amountCustomer;
+            }
+
+            if (salesTotal < 0) {
+              salesTotal = 0;              
+            }
+
+            this.cashRegisterForm = this.formBuilder.group({
+              cas_monto: [salesTotal],
+              cas_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+              cas_pur_sal_ID: [this.saleIdNumber],
+              cas_des: ["VT"],
+              cas_estado: ['1'],
+              cas_concepto: ['Venta Material'],
+              cas_emp_ID: ['1'],
+              cas_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+              cas_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
+            });
+
+            this.cashRegisterService.createData(this.cashRegisterForm.value)
+            .subscribe({
+              next: (res) => {
+                console.log("Venta Agregada a Caja");
+                this.cashRegisterForm.reset();
+              },
+              error: (e) => {
+                console.log("Error", e)
+              }
+            })
 
             this.temporarySalesDetailForm = this.formBuilder.group({
               sal_ID: [''],

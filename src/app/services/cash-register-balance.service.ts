@@ -6,54 +6,39 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class CashRegisterService {
+export class CashRegisterBalanceService {
 
   constructor(private _httpClient: HttpClient) { }
 
   // connect frontend to backend
-  private apiUrl = environment.url+'cash-register';
+  private apiUrl = environment.url+'cash-register-balance';
 
   //Get cash register for date
-  getCashRegisterForDate(inicial:any, final:any) {
+  getAllCashRegisterBalanceByDate(inicial:any, final:any) {
     let inicials = inicial;
     let finals = final;
     return this._httpClient.get(`${this.apiUrl}/${inicials}/${finals}`);
   }
 
   //Get all cash register for state
-  getTotalCashRegisterForState(estado:any, inicial:any, final:any) {
-    let inicials = inicial;
-    let finals = final;
-    let estados = estado;
-    return this._httpClient.get(`${this.apiUrl}/${estados}/${inicials}/${finals}`);
-  }
-
-  //Get all cash register
-  getAllData():Observable<any> {
+  getLastCashRegisterBalance() {
     return this._httpClient.get(`${this.apiUrl}`);
   }
 
   //Add new cash register
-  createData(data:any):Observable<any> {
+  addNewCashRegisterBalance(data:any):Observable<any> {
     return this._httpClient.post(`${this.apiUrl}`, data);
   }
 
   //Update cash register for ID
-  updateData(data:any, id:any):Observable<any> {
+  editOneCashRegisterBalance(data:any, id:any):Observable<any> {
     let ids = id;
     return this._httpClient.put(`${this.apiUrl}/${ids}`, data);
   }
 
-  //Get single data
-  // getSingleData(id:any):Observable<any> {
-  //   let ids = id;
-  //   return this._httpClient.get(`${this.apiUrl}/${ids}`);
-  // }
-
   //Delete cash register for ID
-  deleteData(id:any):Observable<any> {
+  deleteOneCashRegisterBalance(id:any):Observable<any> {
     let ids = id;
     return this._httpClient.delete(`${this.apiUrl}/${ids}`);
   }
-
 }

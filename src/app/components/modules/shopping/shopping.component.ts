@@ -15,6 +15,7 @@ import { AdvancesService } from 'src/app/services/advances.service';
 import { AdvancesStateService } from 'src/app/services/advances-state.service';
 import { TicketService } from 'src/app/services/ticket.service';
 import { PurchaseIdService } from 'src/app/services/purchase-id.service';
+import { CashRegisterService } from 'src/app/services/cash-register.service';
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
 
@@ -52,6 +53,8 @@ export class ShoppingComponent implements OnInit {
   temporaryPurchaseDetailForm !: FormGroup;
   listPurchasesForm!: FormGroup;
 
+  cashRegisterForm !: FormGroup;
+
   listTemporaryPurchaseDetail: any;
   listTotalPurchaseDetail: any;
   listProviders: any;
@@ -63,6 +66,8 @@ export class ShoppingComponent implements OnInit {
 
   purchaseId: any;
   purchaseIdNumber: any;
+
+  lastAdvanceId: any;
 
   displayedColumns: string[] = ['posicion', 'fecha_pu', 'boleta', 'proveedor', 'encargado', 'total', 'acciones'];
   dataSource!: MatTableDataSource<any>;
@@ -151,6 +156,7 @@ export class ShoppingComponent implements OnInit {
     private advancesStateService: AdvancesStateService,
     private ticketService: TicketService,
     private purchaseIdService: PurchaseIdService,
+    private cashRegisterService: CashRegisterService,
     private _toastService: ToastService,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -167,6 +173,7 @@ export class ShoppingComponent implements OnInit {
     this.getAllPurchasesForDate();
     this.getAllProviders();
     this.getAllProducts();
+    
 
     this.temporaryPurchaseDetailForm = this.formBuilder.group({
       pur_ID: [''],
@@ -174,8 +181,8 @@ export class ShoppingComponent implements OnInit {
       pur_peso: ['', Validators.required],
       pur_precio: ['', Validators.required],
       pur_pu_ID: [this.purchaseIdNumber, Validators.required],
-      pur_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
-      pur_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
+      pur_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+      pur_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
     });
 
     this.listPurchasesForm = this.formBuilder.group({
@@ -188,8 +195,29 @@ export class ShoppingComponent implements OnInit {
       pu_adelanto: ['', Validators.required],
       pu_flete: [{value: '', disabled: true}],
       // pu_total: [Validators.required],
-      pu_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
-      pu_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
+      pu_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+      pu_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
+    });
+
+    this.temporaryPurchaseDetailForm = this.formBuilder.group({
+      pur_ID: [''],
+      pur_prod_ID: ['', Validators.required],
+      pur_peso: ['', Validators.required],
+      pur_precio: ['', Validators.required],
+      pur_pu_ID: [this.purchaseIdNumber, Validators.required],
+      pur_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+      pur_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
+    });
+
+    this.cashRegisterForm = this.formBuilder.group({
+      cas_monto: [''],
+      cas_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+      cas_pur_sal_ID: [''],
+      cas_estado: ['1'],
+      cas_concepto: [''],
+      cas_emp_ID: ['',],
+      cas_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+      cas_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
     });
 
   }
@@ -217,8 +245,8 @@ export class ShoppingComponent implements OnInit {
         pu_adelanto: ['', Validators.required],
         pu_flete: [{value: '', disabled: true}],
         // pu_total: [this.totalPurchaseDetail, Validators.required],
-        pu_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
-        pu_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
+        pu_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+        pu_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
       });
 
     })
@@ -292,8 +320,8 @@ export class ShoppingComponent implements OnInit {
               pur_pu_ID: [this.purchaseIdNumber, Validators.required],
               pur_peso: ['', Validators.required],
               pur_precio: ['', Validators.required],              
-              pur_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
-              pur_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
+              pur_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+              pur_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
             });
 
             this.listPurchasesForm.get('pu_flete').setValue(0);
@@ -414,18 +442,52 @@ export class ShoppingComponent implements OnInit {
                         ad_dest_adv: [0, Validators.required],
                         ad_prov_cus_ID: [this.stateProviderId, Validators.required],
                         ad_estado: [0, Validators.required],
-                        ad_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
-                        ad_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
+                        ad_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+                        ad_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
                       });
             
-                      console.log("Ingreso monto negativo");
+                      // console.log("Ingreso monto negativo");
             
                       this.advancesService.createData(this.advanceForm.value)
                           .subscribe({
                             next: (res) => {
                               this._toastService.info('Nuevo Adelanto Agregado');
-                              console.log(this.advanceForm.value);
+                              // console.log(this.advanceForm.value);
+                              
+                              //Agregando Adelanto Sobrante a Caja
+                              this.advancesStateService.getLastAdvanceId()
+                                .subscribe({
+                                  next: (res) => {
+                                    this.lastAdvanceId = res[0].ad_ID;
+
+                                    this.cashRegisterForm = this.formBuilder.group({
+                                      cas_monto: [montoAdelanto],
+                                      cas_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+                                      cas_pur_sal_ID: [this.lastAdvanceId],
+                                      cas_des: ["AP"],
+                                      cas_estado: ['0'],
+                                      cas_concepto: ['Adelanto Proveedor'],
+                                      cas_emp_ID: ['1'],
+                                      cas_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+                                      cas_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
+                                    });
+                        
+                                    this.cashRegisterService.createData(this.cashRegisterForm.value)
+                                    .subscribe({
+                                      next: (res) => {
+                                        console.log("Adelanto Proveedor Agregado a Caja");
+                                        this.cashRegisterForm.reset();
+                                      },
+                                      error: (e) => {
+                                        console.log("Error", e)
+                                      }
+                                    })
+
+                                  }
+                                })                     
+
                               this.advanceForm.reset();
+
                             },
                             error: (e) => {
                               console.log(e)
@@ -439,7 +501,7 @@ export class ShoppingComponent implements OnInit {
                    }
              })
              
-          console.log("Si hay adelanto ",this.listAvancesForProvider);
+          // console.log("Si hay adelanto ",this.listAvancesForProvider);
 
         }
 
@@ -452,7 +514,7 @@ export class ShoppingComponent implements OnInit {
         this.listAvancesForProvider = res[0];
 
         if (this.listAvancesForProvider?.length) {
-          console.log(this.listAvancesForProvider);
+          // console.log(this.listAvancesForProvider);
 
           //Cambia el estado del Adelanto del Proveedor
           this.advancesStateService.changeStateForAdvanceToProvider(this.stateProviderId)
@@ -466,7 +528,7 @@ export class ShoppingComponent implements OnInit {
             })
 
         } else {
-          console.log("No hay adelanto ",this.listAvancesForProvider);
+          // console.log("No hay adelanto ",this.listAvancesForProvider);
         }
   
       })
@@ -475,7 +537,7 @@ export class ShoppingComponent implements OnInit {
 
   }
 
-  addPurchases() {
+  addPurchases () {
     
     if (this.listPurchasesForm.valid) {
       this.purchasesService.createData(this.listPurchasesForm.value)
@@ -492,14 +554,57 @@ export class ShoppingComponent implements OnInit {
             this.getAdvanceForProvider();
             this.changeStateOFAdvanceProvider();
 
+            //Agregando Compra a Caja
+            let purchaseTotal;
+            if (this.amountProvider === undefined) {
+              if (this.fleteMonto === undefined) {
+                purchaseTotal = this.totalPurchaseDetail;
+              } else {
+                purchaseTotal = this.totalPurchaseDetail-this.fleteMonto;
+              }
+            } else {
+              if (this.fleteMonto === undefined) {
+                purchaseTotal = this.totalPurchaseDetail-this.amountProvider;
+              } else {
+                purchaseTotal = this.totalPurchaseDetail-this.fleteMonto-this.amountProvider;
+              }
+            }
+
+            if (purchaseTotal < 0) {
+              purchaseTotal = 0;              
+            }
+
+            this.cashRegisterForm = this.formBuilder.group({
+              cas_monto: [purchaseTotal],
+              cas_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+              cas_pur_sal_ID: [this.purchaseIdNumber],
+              cas_des: ["CP"],
+              cas_estado: ['0'],
+              cas_concepto: ['Compra Material'],
+              cas_emp_ID: ['1'],
+              cas_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+              cas_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
+            });
+
+            this.cashRegisterService.createData(this.cashRegisterForm.value)
+            .subscribe({
+              next: (res) => {
+                console.log("Compra Agregada a Caja");
+                this.cashRegisterForm.reset();
+              },
+              error: (e) => {
+                console.log("Error", e)
+              }
+            })
+
             this.temporaryPurchaseDetailForm = this.formBuilder.group({
               pur_ID: [''],
               pur_prod_ID: ['', Validators.required],
               pur_peso: ['', Validators.required],
               pur_precio: ['', Validators.required],
               pur_pu_ID: [this.purchaseIdNumber, Validators.required],
-              pur_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
-              pur_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
+              pur_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+              pur_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
             });
 
             this.listPurchasesForm.reset();
@@ -544,7 +649,7 @@ export class ShoppingComponent implements OnInit {
 
             this.ticketService.createData(this.ticketForm.value).subscribe({
               next: (res) => {
-                console.log("Boleta Agregada");
+                // console.log("Boleta Agregada");
                 this.getLastPurchaseId();
                 this.getGenerateTicketNumber();
               },
@@ -568,7 +673,7 @@ export class ShoppingComponent implements OnInit {
   }
 
   deleteOnePurchase(id: any) {
-    console.log(id, 'deleteid ==>');
+    // console.log(id, 'deleteid ==>');
     this.purchasesService.deleteData(id).subscribe({
       next: (res) => {
         this._toastService.warn('Compra Eliminada Satisfactoriamente!!!');

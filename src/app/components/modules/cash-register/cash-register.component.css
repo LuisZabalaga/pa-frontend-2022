@@ -19,6 +19,12 @@
     text-align: center; */
 }
 
+/* .icon-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
 .icon-content .icon-option {
   padding: 4px;
   color: white;
@@ -38,8 +44,9 @@
   color: white;
   background-color: rgba(26, 147, 220, 0.8);
   border-radius: 3px;
-  margin-right: 2px;
+  margin-right: 3px;
   width: 25px;
+  text-align: center;
 }
 
 .btn-group-icon:hover {
@@ -290,6 +297,42 @@ table {
   font-size: 10px;
 }
 
+.content-saldos {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.content-saldos-parts {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.icon-saldos {
+  font-size: 50px;
+  /* color: #E0F3FF; */
+  color: white;
+}
+
+.content-saldos-text {
+  color: white;
+  display: block;
+}
+
+.content-saldos-text p {
+  padding: 0px;
+  margin: 0px;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.cash__btn {
+  margin: 5px;
+}
+
 
 
 @media screen and (min-width: 0px) {
@@ -308,6 +351,11 @@ table {
     box-sizing: border-box !important;
   }
 
+  .content-saldos {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
 }
 
 @media screen and (min-width: 576px) {
@@ -319,7 +367,7 @@ table {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    box-sizing: border-box imo !important;
+    box-sizing: border-box !important;
   }
 
   .content-cash-register,
@@ -331,12 +379,28 @@ table {
     width: 100% !important;
     box-sizing: border-box !important;
   }
+
+  .content-saldos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
 }
 
 @media screen and (min-width: 992px) {
-
+  .content-saldos {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    box-sizing: border-box !important;
+    gap: 20px;
+  }
 }
 
 @media screen and (min-width: 1200px) {
-
+  .content-saldos {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    box-sizing: border-box !important;
+    gap: 20px;
+  }
 }

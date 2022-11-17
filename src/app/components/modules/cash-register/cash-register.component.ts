@@ -1,18 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, resolveForwardRef, ViewChild } from '@angular/core';
 import { CashRegisterService } from '../../../services/cash-register.service';
 import { ExpensesService } from '../../../services/expenses.service';
 import { SalesService } from '../../../services/sales.service';
 import { PurchasesService } from '../../../services/purchases.service';
 import { AdvancesService } from 'src/app/services/advances.service';
+import { CashRegisterBalanceService } from 'src/app/services/cash-register-balance.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ToastService } from 'angular-toastify';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CashRegisterDialogComponent } from './cash-register-dialog/cash-register-dialog.component';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
+
 
 @Component({
   selector: 'app-cash-register',
@@ -21,6 +23,7 @@ import 'moment/locale/pt-br';
 })
 export class CashRegisterComponent implements OnInit {
 
+  cashRegisterForm !: FormGroup;
   date: Date = new Date()
 
   ranges = new FormGroup({
@@ -31,6 +34,11 @@ export class CashRegisterComponent implements OnInit {
   rangesIncomes = new FormGroup({
     start: new FormControl(this.date),
     end: new FormControl(this.date),
+  });
+
+  rangesCashRegister = new FormGroup({
+    started: new FormControl(this.date),
+    ended: new FormControl(this.date),
   });
 
   dates: any;
@@ -57,15 +65,27 @@ export class CashRegisterComponent implements OnInit {
   incomes: any;
   expenses: any;
 
-  incomesTotal: number;
-  expensesTotal: number;
+  currentIncomes: any;
+  currentExpenses: any;
+  currentDifference: any;
+
   expensesTotal2: number;
   purchasesTotal: number;
   salesTotal: number;
 
+  currentDate: any;
 
-  displayedColumns: string[] = ['posicion', 'monto', 'fecha', 'concepto', 'estado', 'encargado', 'acciones'];
+  listCashRegisterBalance: any;
+  lastCashRegister: any;
+
+  balanceLocalStorage: any;
+
+
+  displayedColumns: string[] = ['posicion', 'monto', 'fecha', 'concepto', 'estado', 'encargado'];
   dataSource!: MatTableDataSource<any>;
+
+  displayedColumnsCashRegister: string[] = ['posicion', 'fecha', 'ingresos', 'gastos', 'saldo', 'encargado'];
+  dataSourceCashRegister!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -76,37 +96,62 @@ export class CashRegisterComponent implements OnInit {
     private advancesService: AdvancesService,
     private salesService: SalesService,
     private purchasesService: PurchasesService,
+    private cashRegisterBalanceService: CashRegisterBalanceService,
+    private formBuilder: FormBuilder,
     private _toastService: ToastService,
     private dialog: MatDialog
     
-    ) { }
+  ) { }
 
   ngOnInit(): void {
 
     this.getAllDataForDate();
     this.getAllCashRegisterMaintenanceForDate();
-    
-    // this.getAllCashRegisterForDate();
-    // this.getAllExpensesForDate();
-    // this.getAllAdvacesForDate();
-    // this.getAllPurchasesForDate();
 
-
-
-
-    // this.getAllCashRegisterIncomes();
-    // this.getAllCashRegisterExpenses();
-
+    this.getTotalCashRegisterForState();
     this.getTotalExpenses();
-    // this.getTotalPurchases();
     this.getTotalSales();
+
+    this.getAllCashRegisterBalanceByDate();
+
+    this.getBalanceCashRegisterOfLocalStorage();
+
+    // this.cashRegisterForm = this.formBuilder.group({
+    //   bal_ID: [''],
+    //   bal_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+    //   bal_incomes: [this.currentIncomes, Validators.required],
+    //   bal_expenses: [this.currentExpenses, Validators.required],
+    //   bal_balance: [this.currentIncomes - this.currentExpenses, Validators.required],
+    //   bal_emp_ID: ['1', Validators.required],
+    // });
+
+    this.cashRegisterForm = this.formBuilder.group({
+      bal_ID: [''],
+      bal_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+      bal_incomes: [3000, Validators.required],
+      bal_expenses: [1000, Validators.required],
+      bal_balance: [2000, Validators.required],
+      bal_emp_ID: ['1', Validators.required],
+    });
+
+    
+    
+
+  } 
+
+  getBalanceCashRegisterOfLocalStorage () {
+    if (window.localStorage.getItem("saldoCaja") === null) {
+      this.balanceLocalStorage = 0;
+    } else {
+      this.balanceLocalStorage = window.localStorage.getItem("saldoCaja");
+    }
   }
 
   getAllCashRegisterForDate(i: any, f:any){
     this.cashRegisterService.getCashRegisterForDate(i, f).subscribe(res => {
     this.listCashRegister = res[0];
-    console.log("hello");
-    console.log(res);
+    // console.log("hello");
+    // console.log(res);
     // this.dataSource = new MatTableDataSource(this.listCashRegister);
     // this.dataSource.paginator = this.paginator;
     // this.dataSource.sort = this.sort;
@@ -117,11 +162,52 @@ export class CashRegisterComponent implements OnInit {
     });
   }
 
+  // getAllCashRegisterBalanceByDate (i: any, f:any) {
+  //   this.cashRegisterBalanceService.getAllCashRegisterBalanceByDate(i, f).subscribe(res => {
+  //     this.listCashRegisterBalance = res; 
+  //   });
+  // }
+
+  getAllCashRegisterBalanceByDate() { 
+    let currentDate = this.rangesCashRegister.value;    
+    // currentDate = this.rangesIncomes.value;
+    let dateStarted = new Date(currentDate.started); // Replace event.value with your date value
+    let dateEnded = new Date(currentDate.ended);
+    let forDateStart = moment(dateStarted).format("YYYY-MM-DD");
+    let forDateEnd = moment(dateEnded).format("YYYY-MM-DD");
+
+    this.cashRegisterBalanceService.getAllCashRegisterBalanceByDate(forDateStart, forDateEnd).subscribe(res => {
+      this.listCashRegisterBalance = res[0];
+
+      this.dataSourceCashRegister = new MatTableDataSource(this.listCashRegisterBalance);
+      this.dataSourceCashRegister.paginator = this.paginator;
+      this.dataSourceCashRegister.sort = this.sort;
+    });
+  }
+
+  getLastCashRegisterBalance () {
+    this.cashRegisterBalanceService.getLastCashRegisterBalance().subscribe(res => {
+      this.lastCashRegister = res[0];
+      window.localStorage.setItem("saldoCaja", this.lastCashRegister.bal_balance);
+      console.log(this.lastCashRegister);
+      this.balanceLocalStorage = window.localStorage.getItem("saldoCaja");
+      this.getBalanceCashRegisterOfLocalStorage();
+    });
+  }
+
+  addDataToCashRegiterBalance () {
+    console.log(this.cashRegisterForm.value);
+    this.cashRegisterBalanceService.addNewCashRegisterBalance(this.cashRegisterForm.value).subscribe(res => {
+      console.log("DATA AGREGADA CASH")
+      this.getAllCashRegisterBalanceByDate();
+      window.localStorage.removeItem("saldoCaja");
+      this.getBalanceCashRegisterOfLocalStorage();
+    });
+  }
+
   getTotalAdvacesForCustomerAndDate(code: any, i: any, f:any){
     this.advancesService.getTotalAdvancesForCustomerAndDate(code, i, f).subscribe(res => {
     this.listAdvancesCustomers = res[0];
-    console.log("hello");
-    console.log(res);
     
     this.totalAdvancesCustomers = this.listAdvancesCustomers.map(item => parseInt(item.ad_total)).reduce(
       (prev, curr) => prev + curr, 0);
@@ -131,8 +217,6 @@ export class CashRegisterComponent implements OnInit {
   getAllExpensesForDate(i: any, f:any){
     this.expensesService.getAllExpensesForDate(i, f).subscribe(res => {
     this.listExpenses = res[0];
-    console.log("hello");
-    console.log(res);
     
     this.totalExpensesForDate = this.listExpenses.map(item => parseInt(item.exp_cantidad)).reduce(
       (prev, curr) => prev + curr, 0);
@@ -143,8 +227,6 @@ export class CashRegisterComponent implements OnInit {
   getAllAdvacesForDate(i: any, f:any){
     this.advancesService.getAdvancesForProvidersAndDate(i, f).subscribe(res => {
     this.listAdvances = res[0];
-    console.log("hello");
-    console.log(res);
     
     this.totalAdvances = this.listAdvances.map(item => parseInt(item.ad_cantidad)).reduce(
       (prev, curr) => prev + curr, 0);
@@ -154,8 +236,6 @@ export class CashRegisterComponent implements OnInit {
   getAllPurchasesForDate(i: any, f: any) {
     this.purchasesService.getAllData(i, f).subscribe(res => {
       this.listPurchases = res;
-      console.log("hello");
-      console.log(res);
 
       this.totalPurchasesForDate = this.listPurchases.map(item => parseInt(item.pu_total)).reduce(
         (prev, curr) => prev + curr, 0);
@@ -165,8 +245,6 @@ export class CashRegisterComponent implements OnInit {
   getAllSalesForDate(i: any, f: any) {
     this.salesService.getAllData(i, f).subscribe(res => {
       this.listSales = res;
-      console.log("hello");
-      console.log(res);
 
       this.totalSalesForDate = this.listSales.map(item => parseInt(item.sa_total)).reduce(
         (prev, curr) => prev + curr, 0);
@@ -207,36 +285,53 @@ export class CashRegisterComponent implements OnInit {
 
     this.cashRegisterService.getCashRegisterForDate(forDateStart, forDateEnd).subscribe(res => {
       this.listMantenanceCashRegister = res[0];
-      console.log("hello");
-      console.log(res);
+      // console.log("hello");
+      // console.log(res);
       this.dataSource = new MatTableDataSource(this.listMantenanceCashRegister);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
 
+  getTotalCashRegisterForState(){
+    const currentDate = moment(this.date).format("YYYY-MM-DD");
+    // console.log(currentDate);
+    this.cashRegisterService.getTotalCashRegisterForState(1, currentDate, 'CA').subscribe(res => {
+      let incomes = res;
+      this.currentIncomes = incomes[0].cas_total;
+      if (this.currentIncomes === null) {
+        this.currentIncomes = 0;
+      }
 
-
-  // getAllCashRegisterIncomes(){
-  //   this.cashRegisterService.getAllDataIncomes().subscribe(res => {
-  //     this.incomes = res[0].ingresos;
-  //     this.incomesTotal = parseInt(this.incomes)
-  //     console.log("Total Ingresos: "+this.incomesTotal);
-  //   });
-  // }
-
-  // getAllCashRegisterExpenses(){
-  //   this.cashRegisterService.getAllDataExpenses().subscribe(res => {
-  //     this.expenses = res[0].egresos;
-  //     this.expensesTotal = parseInt(this.expenses)
-  //     console.log("Total Expenses: "+this.expensesTotal);
-  //   });
-  // }  
-
+      this.cashRegisterForm = this.formBuilder.group({
+        bal_ID: [''],
+        bal_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+        bal_incomes: [this.currentIncomes, Validators.required],
+        bal_expenses: [this.currentExpenses, Validators.required],
+        bal_balance: ['', Validators.required],
+        bal_emp_ID: ['1', Validators.required],
+      });
+    });
+    this.cashRegisterService.getTotalCashRegisterForState(0, currentDate, 'CA').subscribe(res => {
+      let expenses = res;
+      this.currentExpenses = expenses[0].cas_total;
+      if (this.currentExpenses === null) {
+        this.currentExpenses = 0;
+      }
+      this.cashRegisterForm = this.formBuilder.group({
+        bal_ID: [''],
+        bal_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+        bal_incomes: [this.currentIncomes, Validators.required],
+        bal_expenses: [this.currentExpenses, Validators.required],
+        bal_balance: ['', Validators.required],
+        bal_emp_ID: ['1', Validators.required],
+      });
+    });
+    // this.currentDifference = this.currentIncomes - this.currentExpenses;
+  }  
   
-
   deleteOneCashRegister(id:any) {
-    console.log(id, 'deleteid ==>');
+    // console.log(id, 'deleteid ==>');
     this.cashRegisterService.deleteData(id).subscribe({
       next: (res) => {
         this._toastService.warn('Caja Eliminada Satisfactoriamente!!!');
@@ -303,7 +398,7 @@ export class CashRegisterComponent implements OnInit {
       this.expensesTotal2 = this.totalExpenses.map(item =>  parseInt(item.exp_cantidad)).reduce((prev, curr) => prev + curr, 0);
       
       // console.log(this.totalExpenses);
-      console.log("Total Gastos: "+this.expensesTotal2);
+      // console.log("Total Gastos: "+this.expensesTotal2);
     });
   }
 
@@ -313,7 +408,7 @@ export class CashRegisterComponent implements OnInit {
       this.purchasesTotal = this.totalPurchases.map(item =>  parseInt(item.pu_total)).reduce((prev, curr) => prev + curr, 0);
       
       // console.log(this.totalPurchases);
-      console.log("Total Compras: "+this.purchasesTotal);
+      // console.log("Total Compras: "+this.purchasesTotal);
     });
   }
 
@@ -323,7 +418,7 @@ export class CashRegisterComponent implements OnInit {
       this.salesTotal = this.totalSales.map(item =>  parseInt(item.sa_total)).reduce((prev, curr) => prev + curr, 0);
       
       // console.log(this.totalSales);
-      console.log("Total Ventas: "+this.salesTotal);
+      // console.log("Total Ventas: "+this.salesTotal);
     });
   }
 

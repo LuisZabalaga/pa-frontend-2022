@@ -26,4 +26,9 @@ export class AdvancesStateService {
     return this._httpClient.get(`${this.apiUrl}/${states}/${customers}`);
   }
 
+  //Get last advance Id
+  getLastAdvanceId() {
+    return this._httpClient.get(`${this.apiUrl}`);
+  }
+
 }
