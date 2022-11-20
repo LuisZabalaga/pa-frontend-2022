@@ -68,6 +68,7 @@ export class CashRegisterComponent implements OnInit {
   currentIncomes: any;
   currentExpenses: any;
   currentDifference: any;
+  currentJump: any;
 
   expensesTotal2: number;
   purchasesTotal: number;
@@ -84,7 +85,7 @@ export class CashRegisterComponent implements OnInit {
   displayedColumns: string[] = ['posicion', 'monto', 'fecha', 'concepto', 'estado', 'encargado'];
   dataSource!: MatTableDataSource<any>;
 
-  displayedColumnsCashRegister: string[] = ['posicion', 'fecha', 'ingresos', 'gastos', 'saldo', 'encargado'];
+  displayedColumnsCashRegister: string[] = ['posicion', 'fecha', 'ingresos', 'gastos', 'diferencia', 'saldo_anterior', 'encargado'];
   dataSourceCashRegister!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -128,13 +129,12 @@ export class CashRegisterComponent implements OnInit {
     this.cashRegisterForm = this.formBuilder.group({
       bal_ID: [''],
       bal_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
-      bal_incomes: [3000, Validators.required],
-      bal_expenses: [1000, Validators.required],
-      bal_balance: [2000, Validators.required],
+      bal_incomes: ['', Validators.required],
+      bal_expenses: ['', Validators.required],
+      bal_balance: ['', Validators.required],
+      bal_previous_balance: ['', Validators.required],
       bal_emp_ID: ['1', Validators.required],
-    });
-
-    
+    });   
     
 
   } 
@@ -188,15 +188,15 @@ export class CashRegisterComponent implements OnInit {
   getLastCashRegisterBalance () {
     this.cashRegisterBalanceService.getLastCashRegisterBalance().subscribe(res => {
       this.lastCashRegister = res[0];
-      window.localStorage.setItem("saldoCaja", this.lastCashRegister.bal_balance);
       console.log(this.lastCashRegister);
+      window.localStorage.setItem("saldoCaja", this.lastCashRegister.bal_previous_balance);
       this.balanceLocalStorage = window.localStorage.getItem("saldoCaja");
       this.getBalanceCashRegisterOfLocalStorage();
     });
   }
 
   addDataToCashRegiterBalance () {
-    console.log(this.cashRegisterForm.value);
+    // console.log(this.cashRegisterForm.value);
     this.cashRegisterBalanceService.addNewCashRegisterBalance(this.cashRegisterForm.value).subscribe(res => {
       console.log("DATA AGREGADA CASH")
       this.getAllCashRegisterBalanceByDate();
@@ -285,8 +285,6 @@ export class CashRegisterComponent implements OnInit {
 
     this.cashRegisterService.getCashRegisterForDate(forDateStart, forDateEnd).subscribe(res => {
       this.listMantenanceCashRegister = res[0];
-      // console.log("hello");
-      // console.log(res);
       this.dataSource = new MatTableDataSource(this.listMantenanceCashRegister);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -309,8 +307,20 @@ export class CashRegisterComponent implements OnInit {
         bal_incomes: [this.currentIncomes, Validators.required],
         bal_expenses: [this.currentExpenses, Validators.required],
         bal_balance: ['', Validators.required],
+        bal_previous_balance: [parseInt(this.balanceLocalStorage), Validators.required],
         bal_emp_ID: ['1', Validators.required],
       });
+
+      if (this.currentExpenses === undefined) {
+        this.currentExpenses = 0;
+      }
+
+      console.log(this.currentIncomes, this.currentExpenses);
+      this.currentDifference = this.currentIncomes - this.currentExpenses;
+      console.log(this.currentDifference, parseInt(this.balanceLocalStorage));
+      this.currentJump = this.currentDifference + parseInt(this.balanceLocalStorage);
+      console.log(this.currentJump)
+      // this.getCalculeDifferenceByDay();
     });
     this.cashRegisterService.getTotalCashRegisterForState(0, currentDate, 'CA').subscribe(res => {
       let expenses = res;
@@ -324,11 +334,20 @@ export class CashRegisterComponent implements OnInit {
         bal_incomes: [this.currentIncomes, Validators.required],
         bal_expenses: [this.currentExpenses, Validators.required],
         bal_balance: ['', Validators.required],
+        bal_previous_balance: [parseInt(this.balanceLocalStorage), Validators.required],
         bal_emp_ID: ['1', Validators.required],
       });
+      if (this.currentIncomes === undefined) {
+        this.currentIncomes = 0;
+      }
+      this.currentDifference = this.currentIncomes - this.currentExpenses;
+      console.log(this.currentIncomes, this.currentExpenses);
+      console.log(this.currentDifference, parseInt(this.balanceLocalStorage));
+      this.currentJump = this.currentDifference + parseInt(this.balanceLocalStorage);
+      // this.getCalculeDifferenceByDay();
     });
     // this.currentDifference = this.currentIncomes - this.currentExpenses;
-  }  
+  }
   
   deleteOneCashRegister(id:any) {
     // console.log(id, 'deleteid ==>');

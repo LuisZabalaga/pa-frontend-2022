@@ -329,8 +329,48 @@ table {
   font-weight: 500;
 }
 
+.content-btn-actions {
+  display: flex;
+}
+
 .cash__btn {
   margin: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-icon {
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.incomes, 
+.expenses,
+.balance,
+.previous_balance {
+  color: white;
+  padding: 2px 4px;
+  border-radius: 5px;
+  font-size: 11px;
+}
+
+.incomes {
+  background-color: rgba(65, 27, 171, 0.7)
+}
+
+.expenses {
+  background-color: rgba(255, 0, 0, 0.7);
+}
+
+.balance {
+  background-color: rgba(56, 186, 216, 0.7);
+}
+
+.previous_balance {
+  background-color: rgba(255, 64, 129, 0.7);
 }
 
 
