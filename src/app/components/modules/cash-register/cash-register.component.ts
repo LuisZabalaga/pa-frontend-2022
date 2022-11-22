@@ -192,6 +192,7 @@ export class CashRegisterComponent implements OnInit {
       window.localStorage.setItem("saldoCaja", this.lastCashRegister.bal_previous_balance);
       this.balanceLocalStorage = window.localStorage.getItem("saldoCaja");
       this.getBalanceCashRegisterOfLocalStorage();
+      this.getTotalCashRegisterForState();
     });
   }
 
@@ -304,8 +305,8 @@ export class CashRegisterComponent implements OnInit {
       this.cashRegisterForm = this.formBuilder.group({
         bal_ID: [''],
         bal_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
-        bal_incomes: [this.currentIncomes, Validators.required],
-        bal_expenses: [this.currentExpenses, Validators.required],
+        bal_incomes: [parseInt(this.currentIncomes), Validators.required],
+        bal_expenses: [parseInt(this.currentExpenses), Validators.required],
         bal_balance: ['', Validators.required],
         bal_previous_balance: [parseInt(this.balanceLocalStorage), Validators.required],
         bal_emp_ID: ['1', Validators.required],
@@ -318,7 +319,7 @@ export class CashRegisterComponent implements OnInit {
       console.log(this.currentIncomes, this.currentExpenses);
       this.currentDifference = this.currentIncomes - this.currentExpenses;
       console.log(this.currentDifference, parseInt(this.balanceLocalStorage));
-      this.currentJump = this.currentDifference + parseInt(this.balanceLocalStorage);
+      this.currentJump = parseInt(this.balanceLocalStorage) - parseInt(this.currentExpenses) + parseInt(this.currentIncomes);
       console.log(this.currentJump)
       // this.getCalculeDifferenceByDay();
     });
@@ -331,8 +332,8 @@ export class CashRegisterComponent implements OnInit {
       this.cashRegisterForm = this.formBuilder.group({
         bal_ID: [''],
         bal_fecha: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
-        bal_incomes: [this.currentIncomes, Validators.required],
-        bal_expenses: [this.currentExpenses, Validators.required],
+        bal_incomes: [parseInt(this.currentIncomes), Validators.required],
+        bal_expenses: [parseInt(this.currentExpenses), Validators.required],
         bal_balance: ['', Validators.required],
         bal_previous_balance: [parseInt(this.balanceLocalStorage), Validators.required],
         bal_emp_ID: ['1', Validators.required],
@@ -343,7 +344,7 @@ export class CashRegisterComponent implements OnInit {
       this.currentDifference = this.currentIncomes - this.currentExpenses;
       console.log(this.currentIncomes, this.currentExpenses);
       console.log(this.currentDifference, parseInt(this.balanceLocalStorage));
-      this.currentJump = this.currentDifference + parseInt(this.balanceLocalStorage);
+      this.currentJump = parseInt(this.balanceLocalStorage) - parseInt(this.currentExpenses) + parseInt(this.currentIncomes);
       // this.getCalculeDifferenceByDay();
     });
     // this.currentDifference = this.currentIncomes - this.currentExpenses;

@@ -46,12 +46,11 @@
 <div class="content-btn-actions">
     <button 
         mat-raised-button 
-        color="secondary" 
+        color="primary" 
         matTooltip="Abrir Caja" 
         class="cash__btn"
-        style="background-color: #1A93DC; color: white"
         (click)="getLastCashRegisterBalance()"
-        [disabled]="balanceLocalStorage!=0" 
+        [disabled]="balanceLocalStorage > 0" 
     >
         <i class="fa-solid fa-unlock btn-icon"></i>
         ABRIR CAJA
