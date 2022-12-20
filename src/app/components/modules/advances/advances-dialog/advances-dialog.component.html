@@ -7,7 +7,7 @@
             <input matInput formControlName="ad_ID" hidden="true" placeholder="ID" />
 
             <!-- FECHA -->
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>FECHA</mat-label>
                 <input matInput formControlName="ad_fecha" [matDatepicker]="picker" />
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -15,17 +15,17 @@
             </mat-form-field>
 
             <!-- CANTIDAD -->
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>CANTIDAD</mat-label>
                 <input matInput formControlName="ad_cantidad" placeholder="Cantidad" type="number" />
             </mat-form-field>
 
         </div>
     
-        <div class="form-content">
+        <div class="form-content-three">
 
             <!-- CLIENTE O PROVEEDOR -->
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>SELECCIONE</mat-label>
                 <mat-select 
                     formControlName="ad_dest_adv"
@@ -37,7 +37,7 @@
             </mat-form-field>
 
             <!-- CLIENTE O PROVEEDOR -->
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>SELECCIONE</mat-label>
                 <mat-select formControlName="ad_prov_cus_ID" placeholder="">
                     <mat-option *ngFor="let dat of listDataAdvance" [value]="dat['ad_ID']" >
@@ -47,7 +47,7 @@
             </mat-form-field>
 
             <!-- ESTADO -->
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>ESTADO</mat-label>
                 <mat-select formControlName="ad_estado" placeholder="Estado Adelanto">
                     <!-- <mat-option value="1">EN TRANSACCION</mat-option> -->

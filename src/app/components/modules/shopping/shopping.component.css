@@ -262,7 +262,7 @@ table th .pointere {
 
 .content-form {
   margin: auto;
-  width: 50%;
+  width: 100%;
 }
 
 .content-input {
@@ -272,7 +272,8 @@ table th .pointere {
 
 mat-form-field {
   width: 100%;
-  padding: 10px;
+  padding: 0px 10px !important;
+  margin: 0px !important;
 }
 
 /* mat-dialog-actions .botones {
@@ -313,6 +314,54 @@ mat-form-field {
 
 mat-card {
     box-sizing: border-box !important;
+}
+
+.card-content-prod {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  /* display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; */
+  width: 100%;
+}
+.card-prod {
+  background-color: #411BAB;
+  /* border: 3px solid #411BAB; */
+  color: white;
+  margin: 2px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.card-prod p {
+  font-size: 11px;
+  margin: 0;
+  padding: 0;
+}
+
+.card-prod span {
+  font-size: 11px;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+}
+
+.content-add-prod {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 10px;
+}
+
+.content-list-prod {
+  border-radius: 3px;
+  /* background-color: #B2DAF2; */
+  background-color: #411BAB;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 8px;
+  text-align: left !important;
+  margin-bottom: 5px !important;
 }
 
 
@@ -389,13 +438,13 @@ mat-card {
 
   .content-input {
     display: grid !important;
-    grid-template-columns: 1fr 1fr 1fr !important;
+    grid-template-columns: 1fr 1fr !important;
   }
 
   .content-date {
     width: 100%;
     display: grid !important;
-    grid-template-columns: 1fr 1fr 1fr !important;
+    grid-template-columns: 1fr 1fr !important;
   }
 
   .form__btn-add {
@@ -409,26 +458,29 @@ mat-card {
 
 @media screen and (min-width: 992px) {
   .content-form {
-    width: 60% !important;
+    width: 100% !important;
     overflow: hidden;
   }
 
   .content-input {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
   }
 
   .content-date {
     width: 100%;
     display: grid !important;
-    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    margin: 0 !important; 
+    padding-top: 20px; 
+    padding-bottom: 0 !important;
   }
 
 }
 
 @media screen and (min-width: 1200px) {
   .content-form {
-    width: 50% !important;
+    width: 100% !important;
     overflow: hidden;
   }
 

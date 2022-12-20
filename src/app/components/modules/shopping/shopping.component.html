@@ -6,67 +6,89 @@
 </mat-card>
 <br>
 
-<mat-card class="content-form">
+<!-- <mat-card class="card-content-prod">
+    <div class="card-prod" *ngFor="let prod of listProducts">
+        <p>{{prod.prod_nombre}}</p>
+        <span>{{prod.prod_peso_total}} Kg</span>
+    </div>
+</mat-card> -->
+<br>
 
-    <mat-card-header>
-        <h3 style="
-        text-align :center; 
-        padding-top: 5px; 
-        padding-bottom: 10px; 
-        margin: auto;
-        font-weight: 400;
-        color: #1A93DC;
-        ">
-            AGREGAR MATERIAL
-        </h3>
-    </mat-card-header>
-    <mat-divider></mat-divider>
-    <mat-card-content>
-        <form [formGroup]="temporaryPurchaseDetailForm">
+<div class="content-add-prod">
+    <mat-card class="content-form">
 
-            <div class="content-input1">
+        <mat-card-header>
+            <h3 style="
+            text-align :center; 
+            padding-top: 5px; 
+            padding-bottom: 10px; 
+            margin: auto;
+            font-weight: 400;
+            color: #1A93DC;
+            ">
+                AGREGAR MATERIAL
+            </h3>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <br />
+        <mat-card-content>
+            <form [formGroup]="temporaryPurchaseDetailForm">
 
-                <!-- COMPRA ID -->
-                <input formControlName="pur_pu_ID" hidden="true" />
-
-                <!-- PRODUCTO -->
-                <mat-form-field>
-                    <mat-label>MATERIAL</mat-label>
-                    <mat-select formControlName="pur_prod_ID" placeholder="Material">
-                        <mat-option *ngFor="let prod of listProducts" value={{prod.prod_ID}}>
-                            {{prod.prod_nombre}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <div class="content-input1">
+    
+                    <!-- COMPRA ID -->
+                    <input formControlName="pur_pu_ID" hidden="true" />
+    
+                    <!-- PRODUCTO -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>MATERIAL</mat-label>
+                        <mat-select formControlName="pur_prod_ID" placeholder="Material">
+                            <mat-option *ngFor="let prod of listProducts" value={{prod.prod_ID}}>
+                                {{prod.prod_nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                
+                <div class="content-input2">
+    
+                    <!-- PESO -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>PESO TOTAL</mat-label>
+                        <input matInput formControlName="pur_peso" placeholder="Peso Total" type="number" />
+                    </mat-form-field>
+    
+                    <!-- PRECIO -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>PRECIO COMPRA</mat-label>
+                        <input matInput formControlName="pur_precio" placeholder="Precio Compra" type="number" />
+                    </mat-form-field>
+    
+                </div>
+    
+                <div mat-dialog-actions [align]="'end'" style="padding-right: 9px">
+                    <button mat-raised-button color="primary" style="background-color: #411BAB;" matTooltip="Agregar Material" class="form__btn-add"
+                        (click)="addTemporaryPurchaseDetail()">
+                        <mat-icon>shopping_basket</mat-icon>
+                    </button>
+                </div>
+    
+            </form>
+        </mat-card-content>
+    
+    </mat-card>
+    <mat-card>
+        <!-- <mat-grid-list cols="1" rowHeight="20px" style="display:grid; grid-template-columns:1fr; gap:5px"> -->
+            <div
+                *ngFor="let prod of listTotalWeightProductById"
+                class="content-list-prod"
+            >
+                {{prod.prod_nombre+': '+prod.prod_peso_total+ ' Kg'}}
             </div>
+        <!-- </mat-grid-list> -->
+    </mat-card>
+</div>
 
-            <div class="content-input2">
-
-                <!-- PESO -->
-                <mat-form-field>
-                    <mat-label>PESO TOTAL</mat-label>
-                    <input matInput formControlName="pur_peso" placeholder="Peso Total" type="number" />
-                </mat-form-field>
-
-                <!-- PRECIO -->
-                <mat-form-field>
-                    <mat-label>PRECIO COMPRA</mat-label>
-                    <input matInput formControlName="pur_precio" placeholder="Precio Compra" type="number" />
-                </mat-form-field>
-
-            </div>
-
-            <div mat-dialog-actions [align]="'end'" style="padding-right: 9px">
-                <button mat-raised-button color="primary" style="background-color: #411BAB;" matTooltip="Agregar Material" class="form__btn-add"
-                    (click)="addTemporaryPurchaseDetail()">
-                    <mat-icon>shopping_basket</mat-icon>
-                </button>
-            </div>
-
-        </form>
-    </mat-card-content>
-
-</mat-card>
 
 <br />
 
@@ -97,14 +119,14 @@
                 </mat-checkbox>
             </section>
         </div>
-
+        <br />
         <div class="content-input">
 
             <!-- ID -->
             <input matInput formControlName="pu_ID" hidden="true" placeholder="ID" />
 
             <!-- FECHA -->
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>FECHA</mat-label>
                 <input matInput formControlName="pu_fecha" [matDatepicker]="picker" />
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -112,13 +134,13 @@
             </mat-form-field>
 
             <!-- NUMERO BOLETA -->
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>N° BOLETA</mat-label>
                 <input matInput formControlName="pu_boleta" placeholder="Numero Boleta" />
             </mat-form-field>
 
             <!-- PROVEEDOR -->
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>PROVEEDOR</mat-label>
                 <mat-select formControlName="pu_prov_ID" placeholder="Proveedor"
                     (ngModelChange)="getAdvanceForProvider()">
@@ -129,7 +151,7 @@
             </mat-form-field>
 
             <!-- FLETE -->
-            <mat-form-field >
+            <mat-form-field appearance="outline">
                 <mat-label>FLETE</mat-label>
                 <input matInput formControlName="pu_flete" placeholder="Costo Flete"
                     (ngModelChange)="addTotalFreight()" />
@@ -238,6 +260,7 @@
                 <td class="five" style="border: 5px solid #0073B7">
                     <label class="total-numero">
                         {{ fleteMonto === undefined ? 'S/ '+(totalPurchaseDetail-amountProvider) : 'S/ '+(totalPurchaseDetail-fleteMonto-amountProvider) }}
+                        <!-- {{ fleteMonto === undefined ? 'S/ '+(totalPurchaseDetail-amountProvider | currency:'':'') : 'S/ '+(totalPurchaseDetail-fleteMonto-amountProvider | currency:'':'') }} -->
                     </label>
                 </td>
             </tr>
@@ -281,8 +304,8 @@
         LISTADO DE COMPRAS
     </h3>
     <mat-divider></mat-divider>
-
-    <mat-form-field class="content-date" style="margin: 0; padding-top: 20px; padding-bottom: 0;">
+    <br />
+    <mat-form-field class="content-date" appearance="outline">
         <mat-label>Seleccione el Rango de Fechas</mat-label>
         <mat-date-range-input [formGroup]="ranges" [rangePicker]="pickerr">
           <input 
@@ -303,7 +326,7 @@
         <mat-date-range-picker #pickerr></mat-date-range-picker>
     </mat-form-field>
 
-    <mat-form-field style="margin: 0; padding-top: 0;">
+    <mat-form-field style="margin: 0; padding-top: 0;" >
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input autocomplete="off">
     </mat-form-field>

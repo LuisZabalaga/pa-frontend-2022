@@ -18,6 +18,12 @@ export class ProductsService {
     return this._httpClient.get(`${this.apiUrl}`);
   }
 
+  //Get Total Weight Products By Id
+  getTotalWeightProductsById(id:any):Observable<any> {
+    let ids = id;
+    return this._httpClient.get(`${this.apiUrl}/${ids}`);
+  }
+
   //Add new provider
   createData(data:any):Observable<any> {
     console.log(data, 'createapi=>');

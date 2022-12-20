@@ -34,7 +34,7 @@
                 <input formControlName="sal_sa_ID" hidden="true" />
 
                 <!-- PRODUCTO -->
-                <mat-form-field>
+                <mat-form-field appearance="outline">
                     <mat-label>MATERIAL</mat-label>
                     <mat-select formControlName="sal_prod_ID" placeholder="Materia">
                         <mat-option *ngFor="let prod of listProducts" value={{prod.prod_ID}}>
@@ -48,13 +48,13 @@
             <div class="content-input2">
     
                 <!-- PESO -->
-                <mat-form-field>
+                <mat-form-field appearance="outline">
                     <mat-label>PESO TOTAL</mat-label>
                     <input matInput formControlName="sal_peso" placeholder="Peso Total" type="number" />
                 </mat-form-field>
     
                 <!-- PRECIO -->
-                <mat-form-field>
+                <mat-form-field appearance="outline">
                     <mat-label>PRECIO COMPRA</mat-label>
                     <input matInput formControlName="sal_precio" placeholder="Precio Compra" type="number" />
                 </mat-form-field>
@@ -93,7 +93,7 @@
             <input matInput formControlName="sa_ID" hidden="true" placeholder="ID" />
 
             <!-- FECHA -->
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>FECHA</mat-label>
                 <input matInput formControlName="sa_fecha" [matDatepicker]="pickeress" />
                 <mat-datepicker-toggle matSuffix [for]="pickeress"></mat-datepicker-toggle>
@@ -101,13 +101,13 @@
             </mat-form-field>
 
             <!-- NUMERO BOLETA -->
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>N° BOLETA</mat-label>
                 <input matInput formControlName="sa_boleta" placeholder="Numero Boleta" />
             </mat-form-field>
 
             <!-- CLIENTE -->
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>CLIENTE</mat-label>
                 <mat-select formControlName="sa_cus_ID" placeholder="Proveedor"
                     (ngModelChange)="getAdvanceForCustomer()">
@@ -267,7 +267,7 @@
         LISTADO DE VENTAS
     </h3>
     <mat-divider></mat-divider>
-    <mat-form-field class="content-date" style="margin: 0; padding-top: 20px; padding-bottom: 0;">
+    <mat-form-field class="content-date" style="margin: 0; padding-top: 20px; padding-bottom: 0;" appearance="outline">
         <mat-label>Seleccione el Rango de Fechas</mat-label>
         <mat-date-range-input [formGroup]="ranges" [rangePicker]="pick">
           <input 

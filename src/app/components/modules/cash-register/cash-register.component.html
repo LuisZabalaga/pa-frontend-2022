@@ -85,7 +85,7 @@
     <mat-divider></mat-divider>
 
     <!-- <mat-card> -->
-    <mat-form-field class="content-date" style="margin-top: 15px; padding-bottom: 0;">
+    <mat-form-field class="content-date" style="margin-top: 15px; padding-bottom: 0;" appearance="outline">
         <mat-label>Seleccione el Rango de Fechas</mat-label>
         <mat-date-range-input [formGroup]="rangesCashRegister" [rangePicker]="pickeres">
             <input matStartDate formControlName="started" placeholder="Fecha Inicial"
@@ -187,7 +187,7 @@
     </h3>
     <mat-divider></mat-divider>
 
-    <mat-form-field class="content-date" style="margin-top: 15px; padding-bottom: 0;">
+    <mat-form-field class="content-date" style="margin-top: 15px; padding-bottom: 0;" appearance="outline">
         <mat-label>Seleccione el Rango de Fechas</mat-label>
         <mat-date-range-input [formGroup]="rangesIncomes" [rangePicker]="picker_history">
             <input matStartDate formControlName="start" placeholder="Fecha Inicial"
@@ -279,7 +279,7 @@
         DETALLE DE MOVIMIENTOS EN CAJA
     </h3>
     <mat-divider></mat-divider>
-    <mat-form-field class="content-date" style="margin: 0; padding-bottom: 0;">
+    <mat-form-field class="content-date" style="margin: 0; padding-bottom: 0;" appearance="outline">
         <mat-label>Seleccione el Rango de Fechas</mat-label>
         <mat-date-range-input [formGroup]="ranges" [rangePicker]="pickere">
             <input matStartDate formControlName="start" placeholder="Fecha Inicial" (dateChange)="getAllDataForDate()">

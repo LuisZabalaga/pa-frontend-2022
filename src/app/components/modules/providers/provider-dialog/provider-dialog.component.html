@@ -3,13 +3,13 @@
     <form [formGroup]="providerForm" >
         <div class="form-content">
             <input matInput formControlName="prov_ID" hidden="true" placeholder="ID" />
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Nombres<span class="requerido"> *</span></mat-label>
                 <input matInput formControlName="prov_nombres" placeholder="Nombres" />
                 <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Apellidos<span class="requerido"> *</span></mat-label>
                 <input matInput formControlName="prov_apellidos" placeholder="Apellidos" />
                 <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
@@ -18,13 +18,13 @@
         </div>
     
         <div class="form-content">
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Razon Social</mat-label>
                 <input matInput formControlName="prov_razon_social" placeholder="DNI" />
                 <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>RUC</mat-label>
                 <input matInput formControlName="prov_ruc" placeholder="RUC" type="number" />
                 <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
@@ -32,31 +32,31 @@
             </mat-form-field>
         </div>
         <div class="form-content">
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput formControlName="prov_email" placeholder="Email" />
                 <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Celular</mat-label>
                 <input matInput formControlName="prov_celular" placeholder="Celular" type="number" />
                 <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
         </div>
-        <div class="form-content">
-            <mat-form-field>
+        <div class="form-content-extend">
+            <mat-form-field appearance="outline">
                 <mat-label>Dirección</mat-label>
                 <input matInput formControlName="prov_direccion" placeholder="Dirección" />
             </mat-form-field>
         </div>
         <div class="form-content">
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Ciudad<span class="requerido"> *</span></mat-label>
                 <input matInput formControlName="prov_ciudad" placeholder="Ciudad" />
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Estado<span class="requerido"> *</span></mat-label>
                 <mat-select formControlName="prov_estado" >
                     <mat-option value=1>Activo</mat-option>

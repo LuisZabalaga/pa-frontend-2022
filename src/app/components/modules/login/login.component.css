@@ -82,7 +82,7 @@ mat-card-content {
 
 mat-form-field {
     box-sizing: border-box;
-    padding: 5px;
+    /* padding: 5px; */
     width: 100%;
 }
 
@@ -105,7 +105,8 @@ mat-card-footer {
 .mat-dialog-actions {
     display: flex;
     flex-direction: column;
-    padding: 5px 16px;
+    /* padding: 5px 16px; */
+    
 }
 
 mat-icon {

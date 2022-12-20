@@ -63,6 +63,7 @@ export class ShoppingComponent implements OnInit {
   acumulado: number;
   totalAcumulado: number;
   listPurchases: any;
+  listTotalWeightProductById: any;
 
   purchaseId: any;
   purchaseIdNumber: any;
@@ -225,8 +226,14 @@ export class ShoppingComponent implements OnInit {
   getAllTemporaryPurchaseDetail() {
     this.temporaryPurchaseDetailService.getAllData().subscribe(res => {
       this.listTemporaryPurchaseDetail = res;
-      this.dataSource2 = new MatTableDataSource(this.listTemporaryPurchaseDetail);     
+      this.dataSource2 = new MatTableDataSource(this.listTemporaryPurchaseDetail);
+    })
+  }
 
+  getTotalWeightForProductById (id: any) {
+    this.productsService.getTotalWeightProductsById(id).subscribe(res => {
+      this.listTotalWeightProductById = res;
+      console.log(res);
     })
   }
 
@@ -313,6 +320,7 @@ export class ShoppingComponent implements OnInit {
             this.getTotalPurchaseDetail();
             this.getAllTemporaryPurchaseDetail();
             this.addWeightPurchase();
+            this.getTotalWeightForProductById(this.temporaryPurchaseDetailForm.value.pur_prod_ID);
             
             this.temporaryPurchaseDetailForm = this.formBuilder.group({
               pur_ID: [''],

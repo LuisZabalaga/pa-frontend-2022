@@ -78,8 +78,10 @@ export class ProvidersComponent implements OnInit {
 
   openDialogEditProvider(element: any ) {
     this.dialog.open(ProviderDialogComponent, {
-      // width: '30%',
-      data: element
+      data: element,
+      // panelClass: 'fullscreen-dialog',
+      // height: '100vh',
+      // width: '100%'
     }).afterClosed().subscribe(value =>{
       if(value === 'update') {
         this.getAllProviders();

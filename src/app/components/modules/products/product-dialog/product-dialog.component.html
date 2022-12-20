@@ -3,13 +3,13 @@
     <form [formGroup]="productForm">
         <div class="form-content">
             <input matInput formControlName="prod_ID" hidden="true" placeholder="ID" />
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Material<span class="requerido"> *</span></mat-label>
                 <input matInput formControlName="prod_nombre" placeholder="Material" />
                 <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint> -->
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Categoria<span class="requerido"> *</span></mat-label>
                 <mat-select formControlName="prod_cat_ID" placeholder="Categoria" >
                     <mat-option *ngFor="let categ of listCategories" [value]="categ['cat_ID']" >
@@ -20,35 +20,33 @@
             
         </div>
 
-        <div class="form-content">
-            <mat-form-field>
+        <div class="form-content-three">
+            <mat-form-field appearance="outline">
                 <mat-label>Peso Referencial</mat-label>
                 <input matInput formControlName="prod_peso_total" placeholder="Peso Referencial" type="number" />
             </mat-form-field>
             
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Peso Arequipa</mat-label>
                 <input matInput formControlName="prod_peso_aqp" placeholder="Peso Arequipa" type="number" />
             </mat-form-field>
 
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Peso Local</mat-label>
                 <input matInput formControlName="prod_peso_local" placeholder="Peso Local" type="number" />
             </mat-form-field>            
         </div>
 
-        <div class="form-content">
-
-            <mat-form-field>
+        <div class="form-content-extend">
+            <mat-form-field appearance="outline">
                 <mat-label>Descripción</mat-label>
                 <input matInput formControlName="prod_descripcion" placeholder="Descripción" />
                 <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint> -->
-            </mat-form-field>
-            
+            </mat-form-field>            
         </div>
 
-        <div class="form-content">
+        <div class="form-content" appearance="outline">
             <input formControlName="prod_imagen" type="file" />
         </div>
     </form>
