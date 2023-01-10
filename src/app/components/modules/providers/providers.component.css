@@ -28,19 +28,29 @@
   display: flex;
 }
 
-.icon-content .icon-option {
-  padding: 5px; 
-  color: white;
-  background-color: rgba(26, 147, 220, 0.8);
-  border-radius: 3px;
-  display: flex;
-  margin-right: 1px;
+.btn__contents button {
+  margin-right: 4px;
 }
 
-.icon-content .icon-option:hover {
+.btn__icon-list {
+  color: white;
+  background-color: rgba(26, 147, 220, 0.8);
+}
+
+.btn-group-icon {
+  color: white;
+  font-size: 19px;
+}
+
+.btn-group-iconn {
+  color: white;
+  font-size: 26px;
+}
+
+/* .icon-content .icon-option:hover {
   background-color: #1A93DC;
   cursor: pointer;
-}
+} */
 
 .title {
   display: flex;
@@ -137,7 +147,6 @@ table {
     border-radius: 5px;
     font-size: 11px;
   }
-
 
   
 @media screen and (min-width: 0px) {

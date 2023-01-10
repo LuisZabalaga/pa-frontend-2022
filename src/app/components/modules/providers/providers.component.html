@@ -7,24 +7,25 @@
 <br>
 <!-- <div *ngIf="listUsuarios.length > 0"> -->
     <div class="btn__contents">
-        <a class="icon-content" color="primary" matTooltip="Agregar Proveedor" (click)="openDialogAddProvider()">
-            <mat-icon class="icon-option">queue</mat-icon>
-        </a>
-        <a class="icon-content" color="primary" matTooltip="Proveedores Eliminados">
-            <mat-icon class="icon-option">delete_sweep</mat-icon>
-        </a>
-        <a class="icon-content" color="primary" matTooltip="Imprimir Lista">
-            <mat-icon class="icon-option">local_print_shop</mat-icon>
-        </a>
-        <a class="icon-content" color="primary" matTooltip="Descargar PDF">
-            <mat-icon class="icon-option">picture_as_pdf</mat-icon>
-        </a>
-        <a class="icon-content" color="primary" matTooltip="Descargar Excel">
-            <mat-icon class="icon-option">explicit</mat-icon>
-        </a><!-- &nbsp; -->
-        <a class="icon-content" color="primary" matTooltip="Enviar Email">
-            <mat-icon class="icon-option">mail</mat-icon>
-        </a>
+        <button mat-mini-fab class="btn__icon-list" matTooltip="Agregar Proveedor" (click)="openDialogAddProvider()">
+            <mat-icon class="btn-group-iconn">control_point_duplicate</mat-icon>
+        </button>
+        <button mat-mini-fab class="btn__icon-list" matTooltip="Proveedores Eliminados">
+            <!-- <i class="fa-solid fa-trash-list btn-group-icon"></i> -->
+            <mat-icon class="btn-group-iconn">delete_sweep</mat-icon>
+        </button>
+        <button mat-mini-fab class="btn__icon-list" matTooltip="Imprimir Lista">
+            <mat-icon class="btn-group-iconn">local_print_shop</mat-icon>
+        </button>
+        <button mat-mini-fab class="btn__icon-list" matTooltip="Descargar PDF">
+            <i class="fa-solid fa-file-pdf btn-group-icon"></i>
+        </button>
+        <button mat-mini-fab class="btn__icon-list" matTooltip="Descargar Excel">
+            <i class="fa-solid fa-file-csv btn-group-icon"></i>
+        </button>
+        <button mat-mini-fab class="btn__icon-list" matTooltip="Enviar por Email">
+            <i class="fa-solid fa-envelopes-bulk btn-group-icon"></i>
+        </button>
     </div>
     <br>
     <div class="mat-elevation-z8">

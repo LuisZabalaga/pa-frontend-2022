@@ -19,20 +19,23 @@
     text-align: center; */
 }
 
-.icon-content .icon-option {
-  padding: 4px;
+.btn__contents {
+  display: flex;
+}
+.btn__contents button {
+  margin-right: 4px;
+}
+.btn__icon-list {
   color: white;
   background-color: rgba(26, 147, 220, 0.8);
-  border-radius: 3px;
-  margin-right: 1px;
 }
-
-.icon-content .icon-option:hover {
-  background-color: #1A93DC;
+.btn-group-icon {
+  color: white;
+  font-size: 19px;
 }
-
-.icon-content .icon-option:hover  {
-  cursor: pointer;
+.btn-group-iconn {
+  color: white;
+  font-size: 26px;
 }
 
 table {
@@ -101,8 +104,8 @@ table {
   }
 
   .mat-row .mat-cell {
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
+    /* border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent; */
     cursor: pointer;
   }
   

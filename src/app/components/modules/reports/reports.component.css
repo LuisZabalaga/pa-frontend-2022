@@ -101,11 +101,11 @@ mat-card-content {
 
 .btn-group {
   cursor: pointer;
-  margin: 4px;
+  margin-right: 3px;
 }
 
 .btn-group .btn-group-icon {
   color: white;
-  font-size: 23px;
+  font-size: 20px;
   /* padding: 10px 0px; */
 }

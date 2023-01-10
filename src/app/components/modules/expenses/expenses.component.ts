@@ -16,7 +16,7 @@ export class ExpensesComponent implements OnInit {
 
   listExpenses: any;
 
-  displayedColumns: string[] = ['posicion', 'cantidad', 'tipo', 'descripcion', 'beneficiado', 'usuario', 'fecha', 'acciones'];
+  displayedColumns: string[] = ['posicion', 'cantidad', 'tipo', 'descripcion', 'usuario', 'fecha', 'acciones'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

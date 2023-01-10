@@ -4,34 +4,14 @@
 }
 
 .content-form-compras {
-/* background-color: #DAE6FF; */
-background-color: #C1E2F4;
-padding: 10px;
+  /* background-color: #DAE6FF; */
+  background-color: #C1E2F4;
+  padding: 10px;
 }
 
 /* .filter {
   margin: 20px;
 } */
-
-/* button .icon-option {
-font-size: 18px;
-} */
-
-.icon-content .icon-option {
-padding: 4px;
-color: white;
-background-color: rgba(26, 147, 220, 0.8);
-border-radius: 3px;
-margin-right: 1px;
-}
-
-.icon-content .icon-option:hover {
-background-color: #1A93DC;
-}
-
-.icon-content .icon-option:hover  {
-cursor: pointer;
-}
 
 table {
 /* margin-top: 5px; */
@@ -348,7 +328,7 @@ mat-card {
 
 .content-add-prod {
   display: grid;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: 42% 58%;
   gap: 10px;
 }
 
@@ -393,6 +373,12 @@ mat-card {
     width: 100% !important;
   }
 
+  .content-add-prod {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
 }
 
 @media screen and (min-width: 576px) {
@@ -428,15 +414,30 @@ mat-card {
     width: 150px !important;
   }
 
+  .content-add-prod {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
 }
 
 @media screen and (min-width: 768px) {
   .content-form {
-    width: 80% !important;
+    width: 100% !important;
     overflow: hidden;
   }
 
   .content-input {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .content-input1 {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+  .content-input2 {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
   }
@@ -467,6 +468,15 @@ mat-card {
     grid-template-columns: 1fr 1fr 1fr !important;
   }
 
+  .content-input1 {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+  .content-input2 {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
   .content-date {
     width: 100%;
     display: grid !important;
@@ -474,6 +484,12 @@ mat-card {
     margin: 0 !important; 
     padding-top: 20px; 
     padding-bottom: 0 !important;
+  }
+
+  .content-add-prod {
+    display: grid;
+    grid-template-columns: 42% 58%;
+    gap: 10px;
   }
 
 }
@@ -489,10 +505,21 @@ mat-card {
     grid-template-columns: 1fr 1fr 1fr 1fr !important;
   }
 
+  .content-input2 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+  }
+
   .content-date {
     width: 100%;
     display: grid !important;
     grid-template-columns: 1fr 1fr 1fr 1fr !important;
+  }
+
+  .content-add-prod {
+    display: grid;
+    grid-template-columns: 42% 58%;
+    gap: 10px;
   }
 
 }

@@ -276,8 +276,9 @@ table {
   }
 
   mat-form-field {
-    width: 100%;
-    padding: 10px;
+      width: 100%;
+      padding: 0px 0px !important;
+      margin: 0px !important;
   }
 
   mat-dialog-actions .botones {
@@ -291,8 +292,8 @@ table {
 
   .content-date {
     /* background-color: #01A2FD; */
-    width: 305px;
-    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;  
   }
   
   .content-date mat-label {
@@ -304,6 +305,14 @@ table {
 
   mat-card {
     box-sizing: border-box !important;
+  }
+
+  .content-input2 {
+    gap: 0 10px !important;
+  }
+
+  mat-form-field-wrapper {
+    padding-bottom: 0px !important;
   }
   
 @media screen and (min-width: 0px) {
@@ -327,6 +336,7 @@ table {
     width: 100%;
     display: grid !important;
     grid-template-columns: 1fr !important;
+    gap: 0 10px !important;
   }
 
   .form__btn-add,
@@ -354,12 +364,14 @@ table {
   .content-input {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
+    gap: 0 10px !important;
   }
 
   .content-date {
     width: 100%;
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
+    gap: 0 10px !important;
   }
 
   .form__btn-add {
@@ -379,13 +391,15 @@ table {
 
   .content-input {
     display: grid !important;
-    grid-template-columns: 1fr 1fr 1fr !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0 10px !important;
   }
 
   .content-date {
     width: 100%;
     display: grid !important;
-    grid-template-columns: 1fr 1fr 1fr !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0 10px !important;
   }
 
   .form__btn-add {
@@ -405,13 +419,15 @@ table {
 
   .content-input {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0 10px !important;
   }
 
   .content-date {
     width: 100%;
     display: grid !important;
-    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0 10px !important;
   }
 
 }
@@ -424,13 +440,15 @@ table {
 
   .content-input {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    gap: 0 10px !important;
   }
 
   .content-date {
     width: 100%;
     display: grid !important;
-    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    gap: 0 10px !important;
   }
 
 }

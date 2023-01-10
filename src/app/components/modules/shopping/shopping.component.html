@@ -78,6 +78,21 @@
     
     </mat-card>
     <mat-card>
+        <mat-card-header>
+            <h3 style="
+            text-align :center; 
+            padding-top: 5px; 
+            padding-bottom: 10px; 
+            margin: auto;
+            font-weight: 400;
+            color: #1A93DC;
+            ">
+                PESOS TOTALES EN ALMACÉN
+            </h3>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <br />
+        <mat-card-content>
         <!-- <mat-grid-list cols="1" rowHeight="20px" style="display:grid; grid-template-columns:1fr; gap:5px"> -->
             <div
                 *ngFor="let prod of listTotalWeightProductById"
@@ -86,6 +101,7 @@
                 {{prod.prod_nombre+': '+prod.prod_peso_total+ ' Kg'}}
             </div>
         <!-- </mat-grid-list> -->
+        </mat-card-content>
     </mat-card>
 </div>
 
