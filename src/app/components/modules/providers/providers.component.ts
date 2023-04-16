@@ -28,9 +28,9 @@ export class ProvidersComponent implements OnInit {
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    
+
     this.getAllProviders();
-    
+
   }
 
   getAllProviders(){
@@ -52,7 +52,7 @@ export class ProvidersComponent implements OnInit {
       error: () => {
         this._toastService.error('Error!!! No se puede Eliminar Proveedor!!');
       }
-      
+
     });
 
   }
@@ -69,7 +69,7 @@ export class ProvidersComponent implements OnInit {
   openDialogAddProvider() {
     this.dialog.open(ProviderDialogComponent , {
       // width: '30%',
-    }).afterClosed().subscribe(value =>{
+    }).afterClosed().subscribe(value => {
       if(value === 'save') {
         this.getAllProviders();
       }
@@ -82,7 +82,7 @@ export class ProvidersComponent implements OnInit {
       // panelClass: 'fullscreen-dialog',
       // height: '100vh',
       // width: '100%'
-    }).afterClosed().subscribe(value =>{
+    }).afterClosed().subscribe(value => {
       if(value === 'update') {
         this.getAllProviders();
       }

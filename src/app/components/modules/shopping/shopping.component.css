@@ -52,10 +52,14 @@ tr.example:not(.example):active {
 .title h3 {
   padding-left: 10px;
   margin: 0;
+  /* font-weight: 600;
+  font-size: 14px; */
+  /* font-family: NoirPro, Arial; */
+  color: #673DE5;
 }
 
 .title mat-icon {
-  color: #1A93DC;
+  color: #673DE5;
 }
 
 table td, table th {
@@ -121,7 +125,7 @@ table td, table th {
 }
 
 .four {
-  text-align: right; 
+  text-align: right;
   font-size: 14px;
   border-left: 1px solid #AAC7D6;
   padding: 10px 10px;
@@ -332,6 +336,12 @@ mat-card {
   gap: 10px;
 }
 
+.content-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
+}
+
 .content-list-prod {
   border-radius: 3px;
   /* background-color: #B2DAF2; */
@@ -481,8 +491,8 @@ mat-card {
     width: 100%;
     display: grid !important;
     grid-template-columns: 1fr 1fr 1fr !important;
-    margin: 0 !important; 
-    padding-top: 20px; 
+    margin: 0 !important;
+    padding-top: 20px;
     padding-bottom: 0 !important;
   }
 

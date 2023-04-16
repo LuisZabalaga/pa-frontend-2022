@@ -12,11 +12,11 @@ export class CardComponent implements OnInit {
   @Input() label: string;
   @Input() total: string;
   @Input() percentage: string;
-  
+
   Highcharts = Highcharts;
   chartOptions = {};
 
-  @Input() data = []; 
+  @Input() data = [];
 
   constructor() { }
 
@@ -28,7 +28,7 @@ export class CardComponent implements OnInit {
           backgroundColor: null,
           borderWidth: 0,
           margin: [2, 2, 2, 2],
-          height: 60          
+          height: 60
       },
       title: {
           text: null
@@ -78,7 +78,7 @@ export class CardComponent implements OnInit {
 
     HC_exporting(Highcharts);
 
-    setTimeout(() => { 
+    setTimeout(() => {
       window.dispatchEvent(
         new Event('resize')
       );

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Menu } from 'src/app/interfaces/menu';
-import { MenuService } from 'src/app/services/menu.service';
 
 @Component({
   selector: 'app-root',
@@ -10,18 +8,8 @@ import { MenuService } from 'src/app/services/menu.service';
 export class AppComponent {
   title = 'PA-Frontend';
 
-  menu: Menu[] = [];
+  constructor() { }
 
-  constructor(private _menuService: MenuService) { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-    this.cargarMenu();
-  }
-
-  cargarMenu() {
-    this._menuService.getMenu().subscribe(data => {
-      this.menu = data;
-    });
-  }
-  
 }

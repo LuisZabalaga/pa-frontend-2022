@@ -5,23 +5,25 @@
 
 :host .profile-card {
     text-align: center;
-    padding: 0 20px 10px 20px;
+    padding: 0px 0px 18px 0px;
 }
 
 :host .profile-card .header h4 {
-    font-weight: 500;
-    font-size: 14px;
-    color: #1A93DC;
+    font-weight: 600;
+    font-family: NoirPro, Arial;
+    font-size: 13px;
+    color: #475259;
     margin-bottom: 0;
     text-transform: uppercase;
 }
 
 :host .profile-card .header h6 {
     font-weight: 400;
-    font-size: 12px;
-    color: #1A93DC;
+    font-family: NoirPro, Arial;
+    font-size: 13px;
+    color: #475259;
     margin-bottom: 2px;
-    /* text-transform: uppercase; */
+    font-weight: 500;
 }
 
 :host .profile-card img {
@@ -30,17 +32,29 @@
     object-fit: cover;
     border-radius: 50%;
     padding-top: 5px;
-    /* border: 2px solid #4680FF; */
 }
 
 .list-item-active {
-    background-color: #E0F3FF;
-    color: #263A6E !important;
+    background-color: #E8EBEE;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin-right: 10px;
+    color: #411BAB !important;
     font-weight: 500;
 }
 
-.list-item-active mat-icon { 
-    color: #263A6E !important;
+.list-item-active::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 4px;
+  background-color: #411BAB;
+  top: 0px;
+  left: 0px;
+}
+
+.list-item-active mat-icon {
+    color: #411BAB !important;
 }
 
 mat-nav-list {
@@ -48,35 +62,68 @@ mat-nav-list {
 }
 
 mat-nav-list a {
-    font-size: 12px;
+    position: relative;
+    font-size: 0.875rem;
+    font-family: Arial;
+    font-weight: 500;
     display: flex;
     align-items: center;
     padding: 5px 20px 5px 20px;
-    color: #1A93DC;
+    color: #475259;
 }
 
 mat-nav-list a mat-icon {
-    color: #1A93DC;
+    color: #475259;
 }
 
 mat-nav-list a:hover mat-icon {
-    color: #263A6E;
+    /* color: #263A6E; */
+    color: #411BAB;
 }
 
 mat-nav-list a:hover {
     /* background-color: #F0F0F0; */
-    background-color: #E0F3FF;
-    color: #411BAB;    
+    /* background-color: #E0F3FF; */
+    background-color: #E8EBEE;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin-right: 10px;
+    color: #411BAB;
+}
+
+mat-nav-list a:hover::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 4px;
+  background-color: #411BAB;
+  top: 0px;
+  left: 0px;
 }
 
 /* list-item-active {
     background-color: #F0F0F0;
 } */
 
-mat-nav-list a:active {
-    background-color: #E0F3FF;
-    color: #411BAB; 
+/* mat-nav-list a:active {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin-right: 10px;
+    background-color: #E8EBEE;
+    color: #7352C7;
+    position: relative;
 }
+
+mat-nav-list a:active::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 4px;
+  background-color: #7E57C2;
+  top: 0px;
+  left: 0px;
+} */
+
 
 /* .header__usuario {
     font-size: 14px;

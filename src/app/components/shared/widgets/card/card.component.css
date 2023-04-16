@@ -4,13 +4,13 @@ h4 {
 }
 
 .total {
-    font-size: 3em;
+    font-size: 2em;
 }
 
 .mat-icon,
 .description {
-    color: green;
-    font-size: 2em;
+    color: white;
+    font-size: 1.5em;
 }
 
 .mat-icon {
@@ -18,3 +18,4 @@ h4 {
     padding: 0 20px;
     top: 5px;
 }
+

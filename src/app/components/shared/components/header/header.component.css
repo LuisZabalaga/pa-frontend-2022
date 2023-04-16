@@ -6,23 +6,35 @@ ul li {
 .content-header {
    /* background-color: #00498D !important; */
    background-color: #411BAB !important;
+   /* background-color: #673DE5 !important; */
 }
 
 .company-img {
     margin-left: 20px;
     display: flex;
     align-items: center;
+    position: relative;
 }
 
+/* .company-img::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: white;
+} */
+
 .company-img img {
-    width: 27px;
-} 
+    width: 21px;
+}
 
 .company-name,
 .company-name2 {
     margin-left: 10px;
-    font-size: 20px;
-    color: #38BAD8;
+    font-size: 16px;
+    color: white;
     font-weight: 500;
 }
 
@@ -38,6 +50,6 @@ ul li {
         display: flex;
         font-size: 25px;
     }
-  
+
   }
 

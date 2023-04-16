@@ -10,12 +10,12 @@
 
     <mat-card-header>
         <h3 style="
-        text-align :center; 
-        padding-top: 5px; 
-        padding-bottom: 10px; 
+        text-align :center;
+        padding-top: 5px;
+        padding-bottom: 10px;
         margin: auto;
         font-weight: 400;
-        color: #1A93DC;
+        color: #673DE5;
         ">
             AGREGAR MATERIAL
         </h3>
@@ -26,10 +26,10 @@
         <form [formGroup]="temporarySalesDetailForm">
             <br>
             <div class="content-input1">
-    
+
                 <!-- ID VENTA -->
                 <input matInput formControlName="sal_ID" hidden="true" />
-    
+
                 <!-- VENTA ID -->
                 <input formControlName="sal_sa_ID" hidden="true" />
 
@@ -42,30 +42,30 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-    
+
             </div>
-    
+
             <div class="content-input2">
-    
+
                 <!-- PESO -->
                 <mat-form-field appearance="outline">
                     <mat-label>PESO TOTAL</mat-label>
                     <input matInput formControlName="sal_peso" placeholder="Peso Total" type="number" />
                 </mat-form-field>
-    
+
                 <!-- PRECIO -->
                 <mat-form-field appearance="outline">
                     <mat-label>PRECIO COMPRA</mat-label>
                     <input matInput formControlName="sal_precio" placeholder="Precio Compra" type="number" />
                 </mat-form-field>
             </div>
-    
+
             <div mat-dialog-actions [align]="'end'">
                 <button mat-raised-button color="primary" matTooltip="Agregar Material" style="background-color: #411BAB;" class="form__btn-add" (click)="addTemporarySalesDetail()">
                     <mat-icon>shopping_cart</mat-icon>
                 </button>
             </div>
-    
+
         </form>
     </mat-card-content>
 </mat-card>
@@ -74,12 +74,12 @@
 
 <div class="content-form-compras">
     <h3 style="
-        text-align :center; 
-        padding-top: 5px; 
-        padding-bottom: 10px; 
+        text-align :center;
+        padding-top: 5px;
+        padding-bottom: 10px;
         margin: auto;
         font-weight: 400;
-        color: #1A93DC;
+        color: #673DE5;
         ">
         DETALLES DE LA VENTA
     </h3>
@@ -257,29 +257,29 @@
 <!-- <div *ngIf="listSales.length > 0"> -->
 <div class="mat-elevation-z8">
     <h3 style="
-        text-align :center; 
-        padding-top: 15px; 
-        padding-bottom: 10px; 
+        text-align :center;
+        padding-top: 15px;
+        padding-bottom: 10px;
         margin: auto;
         font-weight: 400;
-        color: #1A93DC;
+        color: #673DE5;
         ">
         LISTADO DE VENTAS
     </h3>
     <mat-divider></mat-divider>
-    
+
     <mat-form-field class="content-date" style="margin: 0; padding: 10px !important; padding-top:20px !important; padding-bottom: 0 !important;" appearance="outline">
         <mat-label>Seleccione el Rango de Fechas</mat-label>
         <mat-date-range-input [formGroup]="ranges" [rangePicker]="pick">
-          <input 
-            matStartDate 
+          <input
+            matStartDate
             formControlName="start"
             placeholder="Fecha Inicial"
             (dateChange)="getAllSalesForDate()"
           >
-          <input 
-            matEndDate 
-            formControlName="end" 
+          <input
+            matEndDate
+            formControlName="end"
             placeholder="Fecha Final"
             (dateChange)="getAllSalesForDate()"
           >
@@ -289,8 +289,8 @@
         <mat-date-range-picker #pick></mat-date-range-picker>
     </mat-form-field>
 
-    <mat-form-field style="margin: 0; padding-top: 0; padding: 0px 10px !important;">
-        <mat-label>Filter</mat-label>
+    <mat-form-field style="margin: 0; padding-top: 0; padding: 0px 10px !important;" appearance="outline">
+        <mat-label>Buscar</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input autocomplete="off">
     </mat-form-field>
 

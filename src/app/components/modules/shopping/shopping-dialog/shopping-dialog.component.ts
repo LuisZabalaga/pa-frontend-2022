@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { PurchaseDetailService } from 'src/app/services/purchase-detail.service';
 import { PurchasesService } from 'src/app/services/purchases.service';
-import { PrintingService } from 'src/app/services/printing.service';
-import { ToastService } from 'angular-toastify';  
+import { ToastService } from 'angular-toastify';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as printJS from 'print-js';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -32,13 +31,12 @@ export class ShoppingDialogComponent implements OnInit {
   displayElementAdelanto: boolean = true;
 
   // isFlete: boolean = true;
-  // isSaldo: boolean; 
+  // isSaldo: boolean;
 
   constructor(
     private _toastService: ToastService,
     private purchaseDetailService: PurchaseDetailService,
     private purchaseService: PurchasesService,
-    private printingService: PrintingService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public purchaseDetailData: any,
     private dialogRef: MatDialogRef<ShoppingDialogComponent>) { }
@@ -86,11 +84,11 @@ export class ShoppingDialogComponent implements OnInit {
     if (this.adelanto == 0){
       this.displayElementAdelanto = false;
     }
-    
+
   }
 
   printPurchase() {
-    printJS({printable: this.listPurchaseDetail, properties: ['prod_ID', 'prod_nombre', 'purc_ID', 'purc_peso', 'purc_precio', 'purc_prod_ID', 'purc_pu_ID', 'purc_subtotal'], type: 'json' }); 
+    printJS({printable: this.listPurchaseDetail, properties: ['prod_ID', 'prod_nombre', 'purc_ID', 'purc_peso', 'purc_precio', 'purc_prod_ID', 'purc_pu_ID', 'purc_subtotal'], type: 'json' });
   }
 
   printPurchase2() {

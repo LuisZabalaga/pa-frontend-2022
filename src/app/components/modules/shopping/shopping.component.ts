@@ -16,8 +16,10 @@ import { AdvancesStateService } from 'src/app/services/advances-state.service';
 import { TicketService } from 'src/app/services/ticket.service';
 import { PurchaseIdService } from 'src/app/services/purchase-id.service';
 import { CashRegisterService } from 'src/app/services/cash-register.service';
+import { WeightProductsService } from 'src/app/services/weight-products.service';
 import * as moment from 'moment';
 import 'moment/locale/pt-br';
+import { finalize } from 'rxjs/operators';
 
 
 @Component({
@@ -83,7 +85,7 @@ export class ShoppingComponent implements OnInit {
     start: new FormControl(this.date),
     end: new FormControl(this.date),
   });
-  
+
   //GENERANDO BOLETA
   numberTicket: String;
   ticketData: any;
@@ -111,7 +113,7 @@ export class ShoppingComponent implements OnInit {
           pur_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
           pur_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
         });
-        
+
       }
     })
   }
@@ -135,14 +137,14 @@ export class ShoppingComponent implements OnInit {
           // pu_total: [Validators.required],
           pu_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
           pu_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")
-        }); 
+        });
 
       },
       error: (e) => {
         console.log(e);
       }
     })
-    
+
   }
 
   totalPurchaseDetail: any;
@@ -158,6 +160,7 @@ export class ShoppingComponent implements OnInit {
     private ticketService: TicketService,
     private purchaseIdService: PurchaseIdService,
     private cashRegisterService: CashRegisterService,
+    private weightProductsService: WeightProductsService,
     private _toastService: ToastService,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -174,7 +177,9 @@ export class ShoppingComponent implements OnInit {
     this.getAllPurchasesForDate();
     this.getAllProviders();
     this.getAllProducts();
-    
+
+    this.getAllWeightProducts ();
+
 
     this.temporaryPurchaseDetailForm = this.formBuilder.group({
       pur_ID: [''],
@@ -223,17 +228,42 @@ export class ShoppingComponent implements OnInit {
 
   }
 
-  getAllTemporaryPurchaseDetail() {
+  getAllTemporaryPurchaseDetail () {
     this.temporaryPurchaseDetailService.getAllData().subscribe(res => {
       this.listTemporaryPurchaseDetail = res;
       this.dataSource2 = new MatTableDataSource(this.listTemporaryPurchaseDetail);
     })
   }
 
-  getTotalWeightForProductById (id: any) {
-    this.productsService.getTotalWeightProductsById(id).subscribe(res => {
-      this.listTotalWeightProductById = res;
+  /**************** Pesos Totales en stock */
+  getAllWeightProducts () {
+    this.weightProductsService.getAllWeightProducts().subscribe(res => {
+        this.listTotalWeightProductById = res;
+    })
+  }
+
+  addWeightProductForId (id: any) {
+    this.weightProductsService.addWeightProductForId(id).subscribe(res => {
+        console.log(res);
+        console.log("Weight se ejecuto primero");
+        this.getAllWeightProducts();
+    })
+
+  }
+
+  deleteAllWeightProducts () {
+    this.weightProductsService.deleteAllWeightProducts().subscribe(res => {
+        console.log(res);
+        console.log("Table weight products deleted");
+        this.getAllWeightProducts();
+    })
+  }
+
+  deleteOneWeightProduct (id: any) {
+    this.weightProductsService.deleteOneWeightProduct(id).subscribe(res => {
       console.log(res);
+      console.log("One weight products deleted");
+      this.getAllWeightProducts();
     })
   }
 
@@ -289,13 +319,12 @@ export class ShoppingComponent implements OnInit {
       this.listPurchasesForm.get('pu_flete').disable();
       this.fleteMonto = 0;
     }
-    
+
   }
 
   addTotalFreight() {
     this.totalFlete = this.listPurchasesForm.value;
     this.fleteMonto = this.totalFlete.pu_flete;
-
   }
 
   addWeightPurchase(){
@@ -303,7 +332,7 @@ export class ShoppingComponent implements OnInit {
     this.temporaryPurchaseDetailService.addWeightPurchase(this.weightProductPurchase.pur_peso, this.weightProductPurchase.pur_prod_ID)
     .subscribe({
       next: (res) => {
-       
+
       },
       error: (e) => {
         console.log(e);
@@ -311,35 +340,73 @@ export class ShoppingComponent implements OnInit {
     })
   }
 
-  addTemporaryPurchaseDetail() {
+  addTemporaryPurchaseDetail () {
     if (this.temporaryPurchaseDetailForm.valid) {
+
+      let prodID = {
+        "pur_prod_ID": this.temporaryPurchaseDetailForm.value.pur_prod_ID
+      }
+
+      // this.temporaryPurchaseDetailService.createData(this.temporaryPurchaseDetailForm.value)
+      //   .subscribe({
+      //     next: (res) => {
+
+      //       this.getTotalPurchaseDetail();
+      //       this.getAllTemporaryPurchaseDetail();
+      //       this.addWeightPurchase();
+      //       console.log("Temporary Detail se ejecuto primero");
+
+      //       // this.getAllWeightProducts();
+
+      //       this.temporaryPurchaseDetailForm = this.formBuilder.group({
+      //         pur_ID: [''],
+      //         pur_prod_ID: ['', Validators.required],
+      //         pur_pu_ID: [this.purchaseIdNumber, Validators.required],
+      //         pur_peso: ['', Validators.required],
+      //         pur_precio: ['', Validators.required],
+      //         pur_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
+      //         pur_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
+      //       });
+
+      //       this.listPurchasesForm.get('pu_flete').setValue(0);
+
+      //     },
+      //     error: (e) => {
+      //       console.log(e);
+      //     },
+      //     complete: () => {
+      //       this.addWeightProductForId(prodID);
+      //       console.log("Complete Se ejecuta al final");
+      //     }
+      //   })
       this.temporaryPurchaseDetailService.createData(this.temporaryPurchaseDetailForm.value)
-        .subscribe({
-          next: (res) => {
+        .pipe(finalize(() => this.addWeightProductForId(prodID)))
+        .subscribe(res => {
 
             this.getTotalPurchaseDetail();
             this.getAllTemporaryPurchaseDetail();
             this.addWeightPurchase();
-            this.getTotalWeightForProductById(this.temporaryPurchaseDetailForm.value.pur_prod_ID);
-            
+            console.log("Temporary Detail se ejecuto primero");
+
+            // this.getAllWeightProducts();
+
             this.temporaryPurchaseDetailForm = this.formBuilder.group({
               pur_ID: [''],
               pur_prod_ID: ['', Validators.required],
               pur_pu_ID: [this.purchaseIdNumber, Validators.required],
               pur_peso: ['', Validators.required],
-              pur_precio: ['', Validators.required],              
+              pur_precio: ['', Validators.required],
               pur_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
               pur_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
             });
 
             this.listPurchasesForm.get('pu_flete').setValue(0);
 
-          },
-          error: (e) => {
-            console.log(e);
-          }
-        })
+          });
+        this.temporaryPurchaseDetailForm.reset();
+
     }
+
   }
 
   diminishWeightPurchase(peso: any, producto: any){
@@ -355,11 +422,13 @@ export class ShoppingComponent implements OnInit {
   }
 
   deleteOneTemporaryPurchaseDetail(id: any, peso: any, producto: any) {
+    console.log(producto);
     this.temporaryPurchaseDetailService.deleteData(id).subscribe({
       next: (res) => {
         this.getAllTemporaryPurchaseDetail();
         this.getTotalPurchaseDetail();
         this.diminishWeightPurchase(peso, producto);
+        this.deleteOneWeightProduct(producto);
       },
       error: (e) => {
         console.log(e);
@@ -380,7 +449,7 @@ export class ShoppingComponent implements OnInit {
     })
   }
 
-  getAllPurchasesForDate() {    
+  getAllPurchasesForDate() {
     this.dates = this.ranges.value;
     const dateStart = new Date(this.dates.start); // Replace event.value with your date value
     const dateEnd = new Date(this.dates.end);
@@ -427,7 +496,7 @@ export class ShoppingComponent implements OnInit {
     let montoCobrar = this.totalPurchaseDetail-this.fleteMonto-this.amountProvider;
     // console.log("OTROS CALCULOS ", this.totalPurchaseDetail, this.fleteMonto, this.amountProvider);
     // console.log("TOTAL ", montoCobrar);
-    
+
     if (montoCobrar < this.amountProvider) {
 
       this.advancesService.getAdvanceForProvider(this.stateProviderId).subscribe(res => {
@@ -453,15 +522,15 @@ export class ShoppingComponent implements OnInit {
                         ad_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
                         ad_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
                       });
-            
+
                       // console.log("Ingreso monto negativo");
-            
+
                       this.advancesService.createData(this.advanceForm.value)
                           .subscribe({
                             next: (res) => {
                               this._toastService.info('Nuevo Adelanto Agregado');
                               // console.log(this.advanceForm.value);
-                              
+
                               //Agregando Adelanto Sobrante a Caja
                               this.advancesStateService.getLastAdvanceId()
                                 .subscribe({
@@ -479,7 +548,7 @@ export class ShoppingComponent implements OnInit {
                                       cas_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
                                       cas_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
                                     });
-                        
+
                                     this.cashRegisterService.createData(this.cashRegisterForm.value)
                                     .subscribe({
                                       next: (res) => {
@@ -492,7 +561,7 @@ export class ShoppingComponent implements OnInit {
                                     })
 
                                   }
-                                })                     
+                                })
 
                               this.advanceForm.reset();
 
@@ -501,14 +570,14 @@ export class ShoppingComponent implements OnInit {
                               console.log(e)
                             }
                       });
-                    }     
+                    }
 
                    },
                    error: (e) => {
                      console.log(e);
                    }
              })
-             
+
           // console.log("Si hay adelanto ",this.listAvancesForProvider);
 
         }
@@ -538,7 +607,7 @@ export class ShoppingComponent implements OnInit {
         } else {
           // console.log("No hay adelanto ",this.listAvancesForProvider);
         }
-  
+
       })
 
     }
@@ -546,14 +615,14 @@ export class ShoppingComponent implements OnInit {
   }
 
   addPurchases () {
-    
+
     if (this.listPurchasesForm.valid) {
       this.purchasesService.createData(this.listPurchasesForm.value)
         .subscribe({
           next: (res) => {
-            
+
             this._toastService.success('Compra Agregada Satisfactoriamente!!!');
-            
+
             this.addPurchasesDetail();
             this.getAllTemporaryPurchaseDetail();
             this.getTotalPurchaseDetail();
@@ -561,6 +630,8 @@ export class ShoppingComponent implements OnInit {
             // this.deleteAllTemporaryPurchasesDetail();
             this.getAdvanceForProvider();
             this.changeStateOFAdvanceProvider();
+
+            this.deleteAllWeightProducts();
 
             //Agregando Compra a Caja
             let purchaseTotal;
@@ -579,7 +650,7 @@ export class ShoppingComponent implements OnInit {
             }
 
             if (purchaseTotal < 0) {
-              purchaseTotal = 0;              
+              purchaseTotal = 0;
             }
 
             this.cashRegisterForm = this.formBuilder.group({
@@ -667,7 +738,7 @@ export class ShoppingComponent implements OnInit {
             })
 
             // Reseteando las sumas de totales
-            this.fleteMonto = 0;            
+            this.fleteMonto = 0;
             this.ticketForm.reset();
 
           },

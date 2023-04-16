@@ -9,13 +9,13 @@
 <div class="reports__contents">
     <mat-card class="reports__contents-purchases">
         <mat-card-header>
-            <h3 style="            
-            text-align :center; 
-            padding-top: 5px; 
-            padding-bottom: 10px; 
+            <h3 style="
+            text-align :center;
+            padding-top: 5px;
+            padding-bottom: 10px;
             margin: auto;
             font-weight: 400;
-            color: #1A93DC;
+            color: #673DE5;
             ">
                 REPORTE DE COMPRAS
             </h3>
@@ -26,15 +26,20 @@
             <div>
                 <mat-divider style="width: 100%;"></mat-divider>
                 <br />
-                <button mat-mini-fab matTooltip="Exportar Excel" class="btn-group" style="background-color: #217346;" (click)="exportTableReportToExcel()">
+                <div class="content-buttons_option">
+                  <button mat-button matTooltip="Exportar Excel" class="btn-group" style="background-color: #3BD2A2;" (click)="exportTableReportToExcel()">
                     <i class="fa-solid fa-file-csv btn-group-icon"></i>
-                </button>
-                <button mat-mini-fab matTooltip="Exportar PDF" class="btn-group" style="background-color: red;" (click)="exportTableReportToPdf()">
+                    Excel
+                  </button>
+                  <button mat-button matTooltip="Exportar PDF" class="btn-group" style="background-color: #E73145;" (click)="exportTableReportToPdf()">
                     <i class="fa-solid fa-file-pdf btn-group-icon"></i>
-                </button>
-                <button mat-mini-fab matTooltip="Enviar por Correo" class="btn-group" style="background-color: #1A93DC;" (click)="exportTableReportToExcel()">
+                    PDF
+                  </button>
+                  <button mat-button matTooltip="Enviar por Correo" class="btn-group" style="background-color: #7352C7;" (click)="exportTableReportToExcel()">
                     <i class="fa-solid fa-envelopes-bulk btn-group-icon"></i>
-                </button>                
+                    Email
+                  </button>
+                </div>
             </div>
             <mat-form-field class="content-date" appearance="outline">
                 <mat-label>Selecciona el Rango de Fechas</mat-label>
@@ -42,10 +47,10 @@
                   <input matStartDate formControlName="start" placeholder="Fecha Inicial" (dateChange)="executeAllFuntionsForCategories()">
                   <input matEndDate formControlName="end" placeholder="Fecha Final" (dateChange)="executeAllFuntionsForCategories()">
                 </mat-date-range-input>
-                
+
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
-                             
+
             </mat-form-field>
             <div class="table_content_reports" id="table_content_report" #table_content_report >
                 <table class="reports__table mat-elevation-z8" id="table-report">
@@ -75,7 +80,7 @@
                         <td>{{aqpWeightAluminum}}</td>
                         <td>{{0.00}}</td>
                     </tr>
-                    <tr class="calc__totales" >                    
+                    <tr class="calc__totales" >
                         <td [colSpan]="2">Total Inversión (S/.):</td>
                         <td>S/ {{totalInvestmentAluminum | currency:'':'' }}</td>
                         <td>S/ {{0.00 | currency:'':'' }}</td>
@@ -83,7 +88,7 @@
                         <td>S/ {{0.00 | currency:'':'' }}</td>
                         <td>S/ {{0.00 | currency:'':'' }}</td>
                     </tr>
-                
+
                     <tr *ngFor="let bron of listCategoryBronze">
                         <td>Bronce</td>
                         <td>{{bron.prod_nombre}}</td>
@@ -109,7 +114,7 @@
                         <td>S/ {{0.00 | currency:'':'' }}</td>
                         <td>S/ {{0.00 | currency:'':'' }}</td>
                     </tr>
-                
+
                     <tr *ngFor="let copp of listCategoryCopper">
                         <td>Cobre</td>
                         <td>{{copp.prod_nombre}}</td>
@@ -135,7 +140,7 @@
                         <td>S/ {{0.00 | currency:'':'' }}</td>
                         <td>S/ {{0.00 | currency:'':'' }}</td>
                     </tr>
-                
+
                     <tr *ngFor="let othe of listCategoryOthers">
                         <td>Otros</td>
                         <td>{{othe.prod_nombre}}</td>
@@ -161,7 +166,7 @@
                         <td>S/ {{0.00 | currency:'':'' }}</td>
                         <td>S/ {{0.00 | currency:'':'' }}</td>
                     </tr>
-            
+
                     <tr *ngFor="let iron of listCategoryCastIron">
                         <td>Fierro Fundido</td>
                         <td>{{iron.prod_nombre}}</td>
@@ -187,7 +192,7 @@
                         <td>S/ {{0.00 | currency:'':'' }}</td>
                         <td>S/ {{0.00 | currency:'':'' }}</td>
                     </tr>
-                
+
                     <tr *ngFor="let iron of listCategoryBatteries">
                         <td>Baterias</td>
                         <td>{{iron.prod_nombre}}</td>
@@ -218,13 +223,13 @@
         </mat-card-content>
         <br />
     </mat-card>
-    
+
     <!-- <mat-card class="content-form">
         <mat-card-header>
             <h3 style="
-            text-align :center; 
-            padding-top: 5px; 
-            padding-bottom: 10px; 
+            text-align :center;
+            padding-top: 5px;
+            padding-bottom: 10px;
             margin: auto;
             font-weight: 400;
             color: #1A93DC;

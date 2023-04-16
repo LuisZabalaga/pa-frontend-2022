@@ -20,7 +20,7 @@
 }
 .btn__icon-list {
   color: white;
-  background-color: rgba(26, 147, 220, 0.8);
+  background-color: #673DE5;
 }
 .btn-group-icon {
   color: white;
@@ -39,10 +39,11 @@
 .title h3 {
   padding-left: 10px;
   margin: 0;
+  color: #673DE5;
 }
 
 .title mat-icon {
-  color: #1A93DC;
+  color: #673DE5;
 }
 
 
@@ -51,7 +52,7 @@ table {
   width: 100%;
   overflow-x: auto;
 }
-  
+
   .mat-form-field {
     font-size: 13px;
     width: 100%;
@@ -62,7 +63,7 @@ table {
   /* tr.example:not(.example):hover {
     background: whitesmoke;
   }
-  
+
   tr.example:not(.example):active {
     background: #efefef;
   } */
@@ -71,7 +72,7 @@ table {
     font-size: 12px;
     width: 100%;
   } */
-  
+
   table td, table th {
     /* padding: 0px 2px; */
     /* margin: 2px; */
@@ -102,11 +103,11 @@ table {
     /* border-top: 1px solid transparent; */
     cursor: pointer;
   }
-  
+
   .mat-row:hover .mat-cell {
     background-color: rgba(26, 147, 220, 0.4);
   }
-  
+
   .demo-row-is-clicked {
     background-color: rgba(26, 147, 220, 0.6);
   }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; 
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -51,9 +51,10 @@ export class CashRegisterService {
   // }
 
   //Delete cash register for ID
-  deleteData(id:any):Observable<any> {
+  deleteData(id:any, desc:any):Observable<any> {
     let ids = id;
-    return this._httpClient.delete(`${this.apiUrl}/${ids}`);
+    let descr = desc;
+    return this._httpClient.delete(`${this.apiUrl}/${ids}/${descr}`);
   }
 
 }

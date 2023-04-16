@@ -4,13 +4,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ToastService } from 'angular-toastify';
 import { AdvancesService } from 'src/app/services/advances.service';
+import { CashRegisterService } from 'src/app/services/cash-register.service';
 import { ProvidersService } from 'src/app/services/providers.service';
 import { AdvancesDialogComponent } from './advances-dialog/advances-dialog.component';
 import { AdvancesCustomersDialogComponent } from './advances-customers-dialog/advances-customers-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import * as moment from 'moment';
-import 'moment/locale/pt-br';
+import moment from 'moment';
+// import 'moment/locale/pt-br';
 
 @Component({
   selector: 'app-advances',
@@ -20,13 +21,13 @@ import 'moment/locale/pt-br';
 export class AdvancesComponent implements OnInit {
 
   // moment.locale("es");
-  
-  datee = moment();
+
+  date = moment();
   // let dateInFormat = datee.format('YYYY-MM-DD');
   // console.log(dateInFormat);
-        
-  
-  date: Date = new Date();
+
+
+  // date: Date = new Date();
 
   dates: any;
 
@@ -61,15 +62,16 @@ export class AdvancesComponent implements OnInit {
 
   constructor(
     private advancesService: AdvancesService,
+    private cashRegisterService: CashRegisterService,
     private _toastService: ToastService,
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    
+
     this.getAllAdvancesForProviderAndDate();
     this.getAllTotalAdvancesForCustomerAndDate();
     this.getAllTotalAdvancesForCustomerAndDateAndBalance();
-    
+
   }
 
   getAllAdvancesForProviderAndDate(){
@@ -124,18 +126,30 @@ export class AdvancesComponent implements OnInit {
     });
   }
 
+  deleteOneAdvanceCashRegister (id: any, desc: any) {
+    this.cashRegisterService.deleteData(id, desc).subscribe({
+      next: (res) => {
+        console.log("Adelanto Proveedor Cash Register Eliminado");
+      },
+      error: (e) => {
+        console.log("ERROR", e);
+      }
+    });
+  }
+
   deleteOneAdvance(id:any) {
     // console.log(id, 'deleteid ==>');
     this.advancesService.deleteData(id).subscribe({
       next: (res) => {
         this._toastService.warn('Adelanto Eliminado Satisfactoriamente!!!');
+        this.deleteOneAdvanceCashRegister(id, 'AP');
         this.getAllAdvancesForProviderAndDate();
         this.getAllTotalAdvancesForCustomerAndDate();
       },
       error: () => {
         this._toastService.error('Error!!! No se puede Eliminar Adelanto!!');
       }
-      
+
     });
 
   }

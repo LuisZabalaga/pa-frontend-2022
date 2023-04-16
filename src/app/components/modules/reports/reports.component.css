@@ -31,12 +31,13 @@ mat-card-content {
 .reports__title h3 {
   padding-left: 10px;
   margin: 0;
+  color: #673DE5;
 }
 
 .reports__title mat-icon {
-  color: #1A93DC;
+  color: #673DE5;
 }
-  
+
 .content-date {
   /* background-color: #01A2FD; */
   width: 305px;
@@ -99,13 +100,22 @@ mat-card-content {
   font-size: 12px;
 }
 
+.content-buttons_option {
+  display: flex;
+}
+
 .btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   margin-right: 3px;
+  color: white;
 }
 
 .btn-group .btn-group-icon {
   color: white;
-  font-size: 20px;
+  font-size: 18px;
+  margin-right: 3px;
   /* padding: 10px 0px; */
 }

@@ -9,60 +9,60 @@
     <mat-card class="content-saldos-parts" style="background-color: #411BAB;">
         <i class="fa-solid fa-sack-dollar icon-saldos"></i>
         <div class="content-saldos-text">
-            <h4>Ingresos Hoy:</h4>
+            <h4>Ingresos:</h4>
             <p>S/ {{currentIncomes | currency:'':''}}</p>
-        </div>        
+        </div>
     </mat-card>
     <mat-card class="content-saldos-parts" style="background-color: red;">
         <i class="fa-solid fa-sack-dollar icon-saldos"></i>
         <div class="content-saldos-text">
-            <h4>Egresos Hoy:</h4>
+            <h4>Egresos:</h4>
             <p>S/ {{ currentExpenses | currency:'':'' }}</p>
-        </div>        
+        </div>
     </mat-card>
     <mat-card class="content-saldos-parts" style="background-color: #38BAD8;">
         <i class="fa-solid fa-sack-dollar icon-saldos"></i>
         <div class="content-saldos-text">
-            <h4>Diferencia Hoy:</h4>
+            <h4>Diferencia:</h4>
             <p>S/ {{ currentDifference | currency:'':'' }}</p>
-        </div>        
+        </div>
     </mat-card>
     <mat-card class="content-saldos-parts" style="background-color: #FF4081;">
         <i class="fa-solid fa-sack-dollar icon-saldos"></i>
         <div class="content-saldos-text">
-            <h4>Saldo Anterior Caja:</h4>
+            <h4>Saldo Anterior:</h4>
             <p>S/ {{ balanceLocalStorage | currency:'':'' }}</p>
-        </div>        
+        </div>
     </mat-card>
-    <mat-card class="content-saldos-parts" style="background-color: #202124;">
+    <mat-card class="content-saldos-parts" style="background-color: #475259;">
         <i class="fa-solid fa-sack-dollar icon-saldos"></i>
         <div class="content-saldos-text">
-            <h4>Saldo Actual Caja:</h4>
+            <h4>Saldo Actual:</h4>
             <p>S/ {{ balanceLocalStorage === 0 ? '0.00' : currentJump | currency:'':'' }}</p>
-        </div>        
+        </div>
     </mat-card>
 </div>
 <br />
 <div class="content-btn-actions">
-    <button 
-        mat-raised-button 
-        color="primary" 
-        matTooltip="Abrir Caja" 
+    <button
+        mat-raised-button
+        color="primary"
+        matTooltip="Abrir Caja"
         class="cash__btn"
         (click)="getLastCashRegisterBalance()"
-        [disabled]="balanceLocalStorage > 0" 
+        [disabled]="balanceLocalStorage > 0"
     >
         <i class="fa-solid fa-unlock btn-icon"></i>
         ABRIR CAJA
     </button>
 
-    <button 
-        mat-raised-button 
-        color="accent" 
-        matTooltip="Cerrar Caja" 
-        class="cash__btn" 
-        (click)="addDataToCashRegiterBalance()" 
-        [disabled]="balanceLocalStorage===0" 
+    <button
+        mat-raised-button
+        color="accent"
+        matTooltip="Cerrar Caja"
+        class="cash__btn"
+        (click)="addDataToCashRegiterBalance()"
+        [disabled]="balanceLocalStorage===0"
     >
         <i class="fa-solid fa-lock btn-icon"></i>
         CERRAR CAJA
@@ -73,12 +73,12 @@
 
 <div class="mat-elevation-z8">
     <h3 style="
-        text-align :center; 
-        padding-top: 15px; 
-        padding-bottom: 10px; 
+        text-align :center;
+        padding-top: 15px;
+        padding-bottom: 10px;
         margin: auto;
         font-weight: 400;
-        color: #1A93DC;
+        color: #475259;
         ">
         HISTORIAL DE SALDOS EN CAJA
     </h3>
@@ -99,12 +99,12 @@
     <!-- </mat-card> -->
     <br />
 
-    <mat-form-field style="margin-top: 0; padding-top: 0;">
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input autocomplete="off">
+    <mat-form-field style="margin-top: 0; padding-top: 0; padding-bottom:0px !important" appearance="outline">
+        <mat-label>Buscar</mat-label>
+        <input matInput (keyup)="applyFilterHistory($event)" placeholder="Buscar..." #input autocomplete="off">
     </mat-form-field>
 
-    <table mat-table [dataSource]="dataSourceCashRegister" matSort>
+    <table mat-table [dataSource]="dataSourceCashRegisterHistory" #sortHistory matSort>
 
         <!-- Position Column -->
         <ng-container matColumnDef="posicion">
@@ -122,7 +122,7 @@
         <ng-container matColumnDef="ingresos">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>INGRESOS</th>
             <td mat-cell *matCellDef="let element"><span class="incomes">{{ element.bal_incomes | currency }}</span></td>
-        </ng-container>        
+        </ng-container>
 
         <!-- Dni Column -->
         <ng-container matColumnDef="gastos">
@@ -149,39 +149,23 @@
             <!-- <td mat-cell *matCellDef="let element"> {{ element.bal_emp_ID }} </td> -->
         </ng-container>
 
-        <!-- Symbol Column -->
-        <!-- <ng-container matColumnDef="acciones">
-            <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
-            <td mat-cell *matCellDef="let element; let i = index">
-                <a class="pointer" matTooltip="Ver Caja">
-                    <mat-icon>remove_red_eye</mat-icon>
-                </a>
-                <a class="pointer" (click)="openDialogEditCashRegister (element)" matTooltip="Editar Caja">
-                    <mat-icon>edit</mat-icon>
-                </a>
-                <a class="pointer" (click)="deleteOneCashRegister(element.cas_ID)" matTooltip="Eliminar Caja">
-                    <mat-icon>delete</mat-icon>
-                </a>
-            </td>
-        </ng-container> -->
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsCashRegister"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumnsCashRegister;" class="example"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsCashRegisterHistory"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsCashRegisterHistory;" class="example"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    <mat-paginator #paginatorHistory="matPaginator" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 </div>
 
 <br />
 
 <div class="mat-elevation-z8">
     <h3 style="
-        text-align :center; 
-        padding-top: 15px; 
-        padding-bottom: 10px; 
+        text-align :center;
+        padding-top: 15px;
+        padding-bottom: 10px;
         margin: auto;
         font-weight: 400;
-        color: #1A93DC;
+        color: #475259;
         ">
         MOVIMIENTOS DE CAJA
     </h3>
@@ -200,12 +184,12 @@
     </mat-form-field>
     <br />
 
-    <mat-form-field style="margin-top: 0; padding-top: 0;">
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar..." #input autocomplete="off">
+    <mat-form-field style="margin-top: 0; padding-top: 0; padding-bottom:0px !important" appearance="outline">
+        <mat-label>Buscar</mat-label>
+        <input matInput (keyup)="applyFilterMovements($event)" placeholder="Buscar..." #input autocomplete="off">
     </mat-form-field>
 
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table [dataSource]="dataSourceCashRegisterMovements" #secondTable #sortMovements="matSort" matSort>
 
         <!-- Position Column -->
         <ng-container matColumnDef="posicion">
@@ -244,37 +228,23 @@
             <td mat-cell *matCellDef="let element"> {{element.emp_nombres + ' ' +element.emp_apellidos}} </td>
         </ng-container>
 
-        <!-- Symbol Column -->
-        <!-- <ng-container matColumnDef="acciones">
-            <th mat-header-cell *matHeaderCellDef> ACCIONES </th>
-            <td mat-cell *matCellDef="let element; let i = index">
-                <a class="pointer" matTooltip="Ver Caja">
-                    <mat-icon>remove_red_eye</mat-icon>
-                </a>
-                <a class="pointer" (click)="openDialogEditCashRegister (element)" matTooltip="Editar Caja">
-                    <mat-icon>edit</mat-icon>
-                </a>
-                <a class="pointer" (click)="deleteOneCashRegister(element.cas_ID)" matTooltip="Eliminar Caja">
-                    <mat-icon>delete</mat-icon>
-                </a>
-            </td>
-        </ng-container> -->
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsCashRegisterMovements"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsCashRegisterMovements;" class="example"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    <mat-paginator #paginatorMovements="matPaginator" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 </div>
-<br />
-<mat-card>
+
+<!-- <br /> -->
+
+<mat-card style="display:none">
     <h3 style="
-        text-align :center; 
-        padding-top: 15px; 
-        padding-bottom: 10px; 
+        text-align :center;
+        padding-top: 15px;
+        padding-bottom: 10px;
         margin: auto;
         font-weight: 400;
-        color: #1A93DC;
+        color: #475259;
         ">
         DETALLE DE MOVIMIENTOS EN CAJA
     </h3>
@@ -290,8 +260,8 @@
         <mat-date-range-picker #pickere></mat-date-range-picker>
     </mat-form-field>
 </mat-card>
-<br />
-<div class="table-content">
+<!-- <br /> -->
+<div class="table-content" style="display:none">
 
     <mat-card class="content-cash-register">
         <div class="title">
@@ -352,18 +322,16 @@
                 <td class="total-title">Total: </td>
                 <td class="total">S/ {{ totalAdvancesCustomers | currency:'':'' }}</td>
             </tr>
-
-
         </table>
     </mat-card>
 
 </div>
 
-<br>
+<!-- <br>
 <mat-divider></mat-divider>
-<br>
+<br> -->
 
-<div class="table-content">
+<div class="table-content" style="display:none">
 
     <mat-card class="content-expenses">
         <div class="title">
@@ -398,7 +366,7 @@
 
         </table>
     </mat-card>
- 
+
     <mat-card class="content-advances">
         <div class="title">
             <h4>ADELANTOS PROVEEDORES</h4>
@@ -434,11 +402,11 @@
 
 </div>
 
-<br>
+<!-- <br>
 <mat-divider></mat-divider>
-<br>
+<br> -->
 
-<div class="table-content">
+<div class="table-content" style="display:none">
 
     <mat-card class="content-purchases">
         <div class="title">
@@ -473,7 +441,7 @@
 
         </table>
     </mat-card>
- 
+
     <mat-card class="content-sales">
         <div class="title">
             <h4>VENTAS</h4>
@@ -510,54 +478,10 @@
 
 </div>
 
-<div class="content-cash">
-    <!-- <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" class="stats-cards">
-        <mat-card fxFlex="25">
-            <app-widget-card label="Ingresos" total="" percentage="" *ngFor="let inc of incomes">{{inc.ingresos}}
-            </app-widget-card>
-        </mat-card>
-        <mat-card fxFlex="25">
-            <app-widget-card label="Egresos" total="" percentage="" *ngFor="let exp of expenses">{{exp.egresos}}
-            </app-widget-card>
-        </mat-card>
-        <mat-card fxFlex="25">
-              <app-widget-card label="Users Engagement" total="8K" percentage="30"></app-widget-card>
-            </mat-card>
-            <mat-card fxFlex="25">
-              <app-widget-card label="Referral" total="6K" percentage="20"></app-widget-card>
-            </mat-card>
-    </div> -->
-
-
-    <!-- <mat-card class="ingresos">
-        <h3>Ingresos:</h3>
-        <mat-card>
-            {{incomesTotal+salesTotal | currency}}
-        </mat-card>
-    </mat-card>
-    &nbsp;&nbsp;
-    <mat-card class="egresos">
-        <h3>Egresos:</h3>
-        <mat-card>
-            {{purchasesTotal-expensesTotal2-expensesTotal | currency}}
-        </mat-card>
-    </mat-card>
-    &nbsp;&nbsp;
-    <mat-card class="diferencia">
-        <h3>Diferencia:</h3>
-        <mat-card>
-            {{(incomesTotal+salesTotal)-(purchasesTotal-expensesTotal2-expensesTotal) | currency}}
-        </mat-card>
-    </mat-card> -->
-
-
-</div>
-
-<br>
 
 <!-- <div *ngIf="listUsuarios.length > 0"> -->
 <div style="display: none">
-    <a class="icon-content" color="primary" matTooltip="Agregar Deposito" (click)="openDialogAddCashRegister ()">
+    <a class="icon-content" color="primary" matTooltip="Agregar Deposito">
         <!-- <mat-icon class="fa-solid fa-cowbell-circle-plus icon-option">queue</mat-icon> -->
         <i class="fa-solid fa-circle-plus btn-group-icon" style="background-color: #FF4081"></i>
     </a>

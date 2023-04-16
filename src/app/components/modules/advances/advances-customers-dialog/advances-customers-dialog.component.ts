@@ -1,13 +1,15 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { AdvancesService } from 'src/app/services/advances.service';
 import { ProvidersService } from 'src/app/services/providers.service';
-import { ToastService } from 'angular-toastify';  
+import { CashRegisterService } from 'src/app/services/cash-register.service';
+import { ToastService } from 'angular-toastify';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AdvancesDialogComponent } from '../advances-dialog/advances-dialog.component';
+
 
 @Component({
   selector: 'app-advances-customers-dialog',
@@ -30,6 +32,7 @@ export class AdvancesCustomersDialogComponent implements OnInit {
   constructor(
     private advancesService: AdvancesService,
     private providersService: ProvidersService,
+    private cashRegisterService: CashRegisterService,
     private formBuilder: FormBuilder,
     private _toastService: ToastService,
     private dialog: MatDialog,
@@ -46,7 +49,7 @@ export class AdvancesCustomersDialogComponent implements OnInit {
     console.log(this.advanceForId);
     // console.log();
     this.advancesService.getAdvancesForIdCustomerAndDate(1, this.advanceForId.element.ad_prov_cus_ID, this.advanceForId.element.ad_estado, this.advanceForId.inicial, this.advanceForId.final).subscribe(res => {
-      this.listAdvancesIdCustomers = res[0] 
+      this.listAdvancesIdCustomers = res[0]
       // console.log(this.listAdvancesIdCustomers);
 
       this.dataSource = new MatTableDataSource(this.listAdvancesIdCustomers);
@@ -55,18 +58,29 @@ export class AdvancesCustomersDialogComponent implements OnInit {
     });
   }
 
-  deleteOneAdvance(id:any) {
-    console.log(id, 'deleteid ==>');
+  deleteOneAdvanceCashRegister (id: any, desc: any) {
+    this.cashRegisterService.deleteData(id, desc).subscribe({
+      next: (res) => {
+        console.log("Adelanto Cliente Cash Register Eliminado");
+      },
+      error: (e) => {
+        console.log("ERROR", e);
+      }
+    });
+  }
+
+  deleteOneAdvance(id: any) {
     this.advancesService.deleteData(id).subscribe({
       next: (res) => {
         this._toastService.success('Adelanto Eliminado Satisfactoriamente!!!');
         this.getAdvanceForIdCustomersAndDate();
+        this.deleteOneAdvanceCashRegister (id, 'AC');
         // this.dialogRef.close();
       },
       error: () => {
         this._toastService.error('Error!!! No se puede Eliminar Adelanto!!');
       }
-      
+
     });
 
   }
@@ -76,7 +90,7 @@ export class AdvancesCustomersDialogComponent implements OnInit {
       // width: '30%',
       data: element
     }).afterClosed().subscribe(value =>{
-      
+
       if(value === 'update') {
         this.dialogRef.close('update');
         // this.getAllAdvancesForProviderAndDate();

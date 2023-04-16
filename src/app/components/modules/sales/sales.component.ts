@@ -107,7 +107,7 @@ export class SalesComponent implements OnInit {
           sal_created_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
           sal_updated_at: moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss"),
         });
-        
+
       }
     })
   }
@@ -138,7 +138,7 @@ export class SalesComponent implements OnInit {
         console.log(e);
       }
     })
-    
+
   }
 
   constructor(
@@ -168,7 +168,7 @@ export class SalesComponent implements OnInit {
 
     this.getAllSalesForDate();
     this.getAllCustomers();
-    this.getAllProducts();    
+    this.getAllProducts();
 
     this.temporarySalesDetailForm = this.formBuilder.group({
       sal_ID: [''],
@@ -217,7 +217,7 @@ export class SalesComponent implements OnInit {
   getTotalSalesDetail() {
     this.temporarySalesDetailService.getTotalData().subscribe(res => {
       this.listTotalSalesDetail = res;
-      
+
       this.getTotalSales = this.listTotalSalesDetail[0].sal_total;
       console.log(this.getTotalSales);
 
@@ -449,11 +449,11 @@ export class SalesComponent implements OnInit {
                       cas_created_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")],
                       cas_updated_at: [moment(this.date).format("YYYY-MM-DDTHH:mm:ss.sss")]
                     });
-        
+
                     this.cashRegisterService.createData(this.cashRegisterForm.value)
                     .subscribe({
                       next: (res) => {
-                        console.log("Adelanto Proveedor Agregado a Caja");
+                        console.log("Adelanto Cliente Agregado a Caja");
                         this.cashRegisterForm.reset();
                       },
                       error: (e) => {
@@ -462,7 +462,7 @@ export class SalesComponent implements OnInit {
                     })
 
                   }
-                })  
+                })
 
                 this.advanceForm.reset();
 
@@ -472,7 +472,7 @@ export class SalesComponent implements OnInit {
               }
         });
 
-      }        
+      }
 
       //VALORES POSITIVOS INGRESAN AQUI
     } else {
@@ -496,7 +496,7 @@ export class SalesComponent implements OnInit {
         } else {
           console.log("No hay adelanto ",this.listAvancesForCustomer);
         }
-  
+
       });
 
     }
@@ -521,13 +521,13 @@ export class SalesComponent implements OnInit {
             //Agregando Venta a Caja
             let salesTotal;
             if (this.amountCustomer === undefined) {
-              salesTotal = this.getTotalSales;            
+              salesTotal = this.getTotalSales;
             } else {
               salesTotal = this.getTotalSales-this.amountCustomer;
             }
 
             if (salesTotal < 0) {
-              salesTotal = 0;              
+              salesTotal = 0;
             }
 
             this.cashRegisterForm = this.formBuilder.group({
@@ -566,7 +566,7 @@ export class SalesComponent implements OnInit {
             this.listSalesForm.reset();
 
             let boleta = [];
-        
+
             this.numLastTicket3 = this.numLastTicket2+1;
 
             for (let i=1; i<=this.numLastTicket3; i++) {
